@@ -2,6 +2,8 @@ package com.niit.collaborationproject.testcases;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +40,18 @@ public class BlogDAOTestCase {
 	
 	@Test
 	public void insertBlogTestCase(){
-		blog.setBlogid(1);
+		blog.setBlogid(2);
 		blog.setUserid(1);
 		blog.setLikes(10);
-		blog.setBlogname("Who am I?");
+		blog.setCreatedate(new Date());
+		blog.setBlogname("Who am I?!!");
 		blog.setBlogcontent("A true story about my journey");
 		
+		System.out.println(blog);
+		
 		boolean flag = blogDAO.insertBlog(blog);
+		
+		
 		
 		assertEquals("insertBlogTestCase", true, flag);
 		
