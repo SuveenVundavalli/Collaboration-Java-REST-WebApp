@@ -1,5 +1,7 @@
 package com.niit.collaborationproject.daoimpl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
@@ -34,6 +36,27 @@ public class BlogCommentDAOImpl implements BlogCommentDAO {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public boolean deleteBlogComment(int id) {
+		try {
+			getCurrentSession().delete(getBlogCommentById(id));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public BlogComment getBlogCommentById(int id) {
+		return (BlogComment) getCurrentSession().get(BlogComment.class, id);
+	}
+
+	@Override
+	public List<BlogComment> list() {
+		return getCurrentSession().createQuery("from BlogComment").list();
 	}
 
 }

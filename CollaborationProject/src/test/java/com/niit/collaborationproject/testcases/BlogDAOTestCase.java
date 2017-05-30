@@ -57,5 +57,17 @@ public class BlogDAOTestCase {
 		
 		
 	}
+	
+	@Test
+	public void deteleBlogTestCase(){
+		boolean flag = blogDAO.deleteBlog(1);
+		assertEquals("deleteBlogTestCase", true, flag);
+	}
+	
+	@Test
+	public void listBlogTestCase(){
+		int size = blogDAO.list().size();
+		assertEquals("listBlogTestCase", 1, size);
+	}
 
 }

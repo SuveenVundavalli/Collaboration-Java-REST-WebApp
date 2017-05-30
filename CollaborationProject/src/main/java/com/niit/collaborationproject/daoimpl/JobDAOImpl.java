@@ -1,5 +1,7 @@
 package com.niit.collaborationproject.daoimpl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
@@ -34,6 +36,27 @@ public class JobDAOImpl implements JobDAO {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public boolean deleteJob(int id) {
+		try {
+			getCurrentSession().delete(getJobById(id));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public Job getJobById(int id) {
+		return (Job) getCurrentSession().get(Job.class, id);
+	}
+
+	@Override
+	public List<Job> list() {
+		return getCurrentSession().createQuery("from Job").list();
 	}
 
 

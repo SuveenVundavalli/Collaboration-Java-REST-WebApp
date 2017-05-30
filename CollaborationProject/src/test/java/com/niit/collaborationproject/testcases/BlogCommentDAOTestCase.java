@@ -16,13 +16,13 @@ public class BlogCommentDAOTestCase {
 
 	@Autowired
 	static AnnotationConfigApplicationContext context;
-	
+
 	@Autowired
 	static BlogComment blogComment;
-	
+
 	@Autowired
 	static BlogCommentDAO blogCommentDAO;
-	
+
 	@BeforeClass
 	public static void initialize() {
 		context = new AnnotationConfigApplicationContext();
@@ -37,25 +37,34 @@ public class BlogCommentDAOTestCase {
 		blogComment = (BlogComment) context.getBean("blogComment");
 
 	}
-	
+
 	@Test
-	public void insertBlogCommentTestCase(){
+	public void insertBlogCommentTestCase() {
 		blogComment.setBlogcommentid(2);
 		blogComment.setUserid(1);
 		blogComment.setBlogid(1);
 		blogComment.setBlogcomment("Awesome Blog");
 		blogComment.setUsername("Suveen");
 		blogComment.setCommentdate(new Date());
-		
+
 		System.out.println(blogComment);
-		
+
 		boolean flag = blogCommentDAO.insertBlogComment(blogComment);
-		
-		
-		
+
 		assertEquals("insertBlogCommentTestCase", true, flag);
-		
-		
+
+	}
+	
+	@Test
+	public void deteleBlogCommentTestCase(){
+		boolean flag = blogCommentDAO.deleteBlogComment(1);
+		assertEquals("deleteBlogTestCase", true, flag);
+	}
+	
+	@Test
+	public void listBlogCommentTestCase(){
+		int size = blogCommentDAO.list().size();
+		assertEquals("listBlogCommentTestCase", 1, size);
 	}
 
 }
