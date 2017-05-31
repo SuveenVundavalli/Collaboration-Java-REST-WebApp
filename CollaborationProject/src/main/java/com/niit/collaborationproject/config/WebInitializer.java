@@ -6,7 +6,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-
+		// Add Hibernate db config class and webconfig class
 		return new Class[]{DBConfig.class, WebConfig.class};
 	}
 

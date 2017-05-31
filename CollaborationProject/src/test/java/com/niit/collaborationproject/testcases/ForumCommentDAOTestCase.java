@@ -55,7 +55,7 @@ public class ForumCommentDAOTestCase {
 
 	}
 	
-	@Test
+	//@Test
 	public void deteleForumCommentTestCase(){
 		boolean flag = forumCommentDAO.deleteForumComment(1);
 		assertEquals("deleteForumTestCase", true, flag);

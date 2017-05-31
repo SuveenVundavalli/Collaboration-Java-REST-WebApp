@@ -17,6 +17,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class DBConfig {
 
+	
+	// H2 Database
+	
 	@Bean(name = "dataSource")
 	public DataSource getH2DataSource() {
 
@@ -60,7 +63,9 @@ public class DBConfig {
 	}
 	
 	
-/*
+	
+	//Oracle Database
+	/*
 	@Bean(name = "dataSource")
 	public DataSource getH2DataSource() {
 
@@ -104,7 +109,7 @@ public class DBConfig {
 	}
 
 	*/
-	
+	//Sir File
 	/*@Bean(name="sessionFactory")
 	public SessionFactory getSessionFactory()
 	{

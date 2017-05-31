@@ -14,7 +14,7 @@ public class Blog {
 	@Id
 	private int blogid;
 	private int userid, likes;
-	private String blogname, blogcontent;
+	private String blogname, blogcontent, status;
 	private Date createdate;
 
 	//Getters and Setters
@@ -65,6 +65,16 @@ public class Blog {
 	public void setCreatedate(Date createdate) {
 		this.createdate = createdate;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	
 	
 	
 	
