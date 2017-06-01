@@ -10,5 +10,11 @@ public interface FriendDAO {
 	
 	public boolean deleteFriend(int id);
 	public Friend getFriendById(int id);
+	
+	/*
+	public boolean deleteFriend(int userid, int friendid);
+	public Friend getFriendById(int userid, int friendid);
+	 */
+	
 	public List<Friend> list();
 }

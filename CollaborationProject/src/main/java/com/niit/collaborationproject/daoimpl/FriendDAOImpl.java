@@ -39,9 +39,9 @@ public class FriendDAOImpl implements FriendDAO {
 	}
 
 	@Override
-	public boolean deleteFriend(int id) {
+	public boolean deleteFriend(int userid) {
 		try {
-			getCurrentSession().delete(getFriendById(id));
+			getCurrentSession().delete(getFriendById(userid));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -50,13 +50,36 @@ public class FriendDAOImpl implements FriendDAO {
 	}
 
 	@Override
-	public Friend getFriendById(int id) {
-		return (Friend) getCurrentSession().get(Friend.class, id);
+	public Friend getFriendById(int userid) {
+		return (Friend) getCurrentSession().get(Friend.class, userid);
 	}
 
 	@Override
 	public List<Friend> list() {
 		return getCurrentSession().createQuery("from Friend").list();
 	}
+	
+	/*
+	 @Override
+	public boolean deleteFriend(int userid, int friendid) {
+		try {
+			getCurrentSession().delete(getFriendById(userid, friendid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public Friend getFriendById(int userid, int friendid) {
+		return (Friend) getCurrentSession().createQuery("from Friend where userid = ? and friendid = ?").setInteger(0, userid).setInteger(1, friendid).uniqueResult();
+	}
+
+	@Override
+	public List<Friend> list() {
+		return getCurrentSession().createQuery("from Friend").list();
+	}
+	 */
 
 }
