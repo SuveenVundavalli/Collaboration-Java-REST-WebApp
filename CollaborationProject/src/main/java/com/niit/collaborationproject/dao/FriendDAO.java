@@ -8,8 +8,8 @@ public interface FriendDAO {
 
 	public boolean insertFriend(Friend friend);
 	
-	public boolean deleteFriend(int id);
-	public Friend getFriendById(int id);
+	public boolean deleteFriend(int tableid);
+	public Friend getFriendById(int tableid);
 	
 	/*
 	public boolean deleteFriend(int userid, int friendid);

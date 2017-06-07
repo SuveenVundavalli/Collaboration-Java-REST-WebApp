@@ -20,8 +20,6 @@ public class BlogController {
 
 	@Autowired BlogDAO blogDAO;
 	
-	//@Autowired Blog blog;
-	
 	@RequestMapping(value="/getBlogs", method=RequestMethod.GET)
 	public ResponseEntity<List<Blog>> getAllBlogs(){
 		

@@ -40,6 +40,7 @@ public class FriendDAOTestCase {
 	
 	@Test
 	public void insertFriendTestCase(){
+		friend.setTableid(1);
 		friend.setFriendid(4);
 		friend.setUserid(1);
 		friend.setStatus("Best Friends");
@@ -55,7 +56,7 @@ public class FriendDAOTestCase {
 		
 	}
 	
-	@Test
+	//@Test
 	public void deteleFriendTestCase(){
 		boolean flag = friendDAO.deleteFriend(1);
 		assertEquals("deleteFriendTestCase", true, flag);

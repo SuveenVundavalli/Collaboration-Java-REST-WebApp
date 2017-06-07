@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +21,8 @@ public class FriendDAOImpl implements FriendDAO {
 	@Autowired
 	SessionFactory sessionFactory;
 
+	private static Logger log = LoggerFactory.getLogger(FriendDAOImpl.class);
+	
 	public FriendDAOImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
@@ -39,9 +43,9 @@ public class FriendDAOImpl implements FriendDAO {
 	}
 
 	@Override
-	public boolean deleteFriend(int userid) {
+	public boolean deleteFriend(int tableid) {
 		try {
-			getCurrentSession().delete(getFriendById(userid));
+			getCurrentSession().delete(getFriendById(tableid));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -50,8 +54,8 @@ public class FriendDAOImpl implements FriendDAO {
 	}
 
 	@Override
-	public Friend getFriendById(int userid) {
-		return (Friend) getCurrentSession().get(Friend.class, userid);
+	public Friend getFriendById(int tableid) {
+		return (Friend) getCurrentSession().get(Friend.class, tableid);
 	}
 
 	@Override

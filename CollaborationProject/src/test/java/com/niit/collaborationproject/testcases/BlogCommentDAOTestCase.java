@@ -40,7 +40,7 @@ public class BlogCommentDAOTestCase {
 
 	@Test
 	public void insertBlogCommentTestCase() {
-		blogComment.setBlogcommentid(2);
+		blogComment.setBlogcommentid(10);
 		blogComment.setUserid(1);
 		blogComment.setBlogid(1);
 		blogComment.setBlogcomment("Awesome Blog");
@@ -57,7 +57,7 @@ public class BlogCommentDAOTestCase {
 	
 	@Test
 	public void deteleBlogCommentTestCase(){
-		boolean flag = blogCommentDAO.deleteBlogComment(1);
+		boolean flag = blogCommentDAO.deleteBlogComment(10);
 		assertEquals("deleteBlogTestCase", true, flag);
 	}
 	

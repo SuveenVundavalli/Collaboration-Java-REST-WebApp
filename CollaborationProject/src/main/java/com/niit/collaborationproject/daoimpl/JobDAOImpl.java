@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +21,8 @@ public class JobDAOImpl implements JobDAO {
 	@Autowired
 	SessionFactory sessionFactory;
 	
+	private static Logger log = LoggerFactory.getLogger(JobDAOImpl.class);
+
 	public JobDAOImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

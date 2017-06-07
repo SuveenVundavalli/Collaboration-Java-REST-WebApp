@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Collaboration Project</title>
+
+<link rel="stylesheet" href="resources/css/bootstrap.css">
+<script src="resources/js/jquery-3.2.0.js"></script>
+<script src="resources/js/boostrap.js"></script>
+<script src="resources/js/angular"></script>
+<script src="resources/js/angular-route.js"></script>
+
+
+</head>
+<body ng-app="myApp">
+
+<table class="table">
+	<tr>
+		<td bgcolor="cyan">
+			<a href="Blog.html">Blog</a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div ng-view></div>
+		</td>
+	</tr>
+</table>
+
+
+<!-- Route Config -->
+<script src="RouteConfig.js"></script>
+
+</body>
+</html>

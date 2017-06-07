@@ -10,10 +10,19 @@ import org.springframework.stereotype.Component;
 public class Friend {
 	
 	@Id
+	private int tableid;
 	private int userid;
 	private int friendid;
 	private String status;
 	
+	
+	
+	public int getTableid() {
+		return tableid;
+	}
+	public void setTableid(int tableid) {
+		this.tableid = tableid;
+	}
 	public int getUserid() {
 		return userid;
 	}
