@@ -1,0 +1,28 @@
+<div class="container">
+	<div ng-controller="BlogController">
+		{{header}}
+		<table class="table">
+			<tr>
+				<td>Blog Id</td>
+				<td>User Id</td>
+				<td>Likes</td>
+				<td>Blog Name</td>
+				<td>Blog Content</td>
+				<td>Status</td>
+				<td>Create Date</td>
+			</tr>
+			<tr ng-repeat="blog in blogdata">
+				<td>{{blog.blogid}}</td>
+				<td>{{blog.userid}}</td>
+				<td>{{blog.likes}}</td>
+				<td>{{blog.blogname}}</td>
+				<td>{{blog.blogcontent}}</td>
+				<td>{{blog.status}}</td>
+				<td>{{blog.createdate | date : "fullDate"}}</td>
+			</tr>
+		</table>
+
+	</div>
+</div>
+
+<script src="BlogController.js"></script>

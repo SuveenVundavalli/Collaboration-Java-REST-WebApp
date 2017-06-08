@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Collaboration Project</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
+
+<!-- <link rel="stylesheet" href="resources/css/bootstrap.css">
+<script src="resources/js/jquery-3.2.0.js"></script>
+<script src="resources/js/bootstrap.js"></script>
+<script src="resources/js/angular.js"></script>
+<script src="resources/js/angular-route.js"></script>
+ -->
+<!-- MainApp -->
+<script src="MainApp.js"></script>
+
+<!-- Route Config -->
+<script src="RouteConfig.js"></script>
+
+<!-- Controllers -->
+<script src="C_Blog/BlogController.js"></script>
+
+
+</head>
+<body ng-app="myapp">
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">WebSiteName</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#/">Home</a></li>
+				<li><a href="#/Blog">Blog</a></li>
+				<li><a href="#/Forum">Forum</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#/Register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+				<li><a href="#/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div ng-view></div>
+	</div>
+
+
+
+</body>
+</html>
