@@ -4,21 +4,23 @@ myApp.config(function($routeProvider) {
 		templateUrl : "Template/Home.html"
 	})
 	.when("/Login", {
-		templateUrl : "Template/Login.html"
+		templateUrl : "C_User/Login.html",
+		controller : "UserController"
 	})
 	.when("/Register", {
-		templateUrl : "Template/Register.html"
+		templateUrl : "C_User/Register.html",
+		controller : "UserController"
 	})
 	.when("/Blog", {
 		templateUrl : "C_Blog/Blog.html",
-		controller: "BlogController"
+		controller : "BlogController"
 	})
 	.when("/Forum", {
 		templateUrl : "C_Forum/Forum.html",
-		controller: "ForumController"
+		controller : "ForumController"
 	})
 	.when("/Jobs", {
 		templateUrl : "C_Jobs/Jobs.html",
-		controller: "C_Jobs/JobsController"
+		controller : "JobsController"
 	})
 });

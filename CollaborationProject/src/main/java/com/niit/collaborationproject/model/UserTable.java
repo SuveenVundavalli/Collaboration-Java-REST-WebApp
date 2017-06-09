@@ -1,5 +1,6 @@
 package com.niit.collaborationproject.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class UserTable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userid;
 
 	private String firstname, lastname, password, email, role, status, isonline;

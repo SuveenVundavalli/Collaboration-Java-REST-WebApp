@@ -1,10 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<div ng-controller="JobsController">
+	{{message}}
+	<!-- Create Job -->
+	<div class="container">
+		<div class="well">
+			<div class="h2 text-center">Create Job</div>
+			<br />
+			<form name="insertjob" class="form-horizontal" action="#" method="post">
+				<div class="form-group">
+					<label class="control-label col-sm-offset-2 col-sm-2" for="jobdesc">Job Description:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" name="jobdesc" id="jobdesc" placeholder="Enter job description" pattern=".{5,40}" title="Jobname must have 5 to 40 characters" ng-model="job.jobdesc" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-offset-2 col-sm-2" for="jobprofile">Job Profile:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="jobprofile"
+							placeholder="Enter job profile" pattern=".{5,40}" title="Job profile must have 5 to 40 characters" ng-model="job.jobprofile" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-offset-2 col-sm-2" for="qualification">Job Qualification:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="qualification" placeholder="Enter job qualification" pattern=".{5,40}" title="Job qualification must have 5 to 40 characters" ng-model="job.qualification" required>
+					</div>
+				</div>
 
-</body>
-</html>
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-8">
+						<button type="submit" ng-click="saveJobPost()" class="btn btn-warning">
+							<i class="fa fa-sign-in" aria-hidden="true"></i> Create Job
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- List Jobs -->
+	<div class="h2 text-center">List Jobs</div>
+	<table class="table">
+		<tr>
+			<td>Job Id</td>
+			<td>Job Desc</td>
+			<td>Job Profile</td>
+			<td>Job Qualification</td>
+			<td>Post Date</td>
+			<td>Status</td>
+		</tr>
+		<tr ng-repeat="job in jobdata">
+			<td>{{job.jobid}}</td>
+			<td>{{job.jobdesc}}</td>
+			<td>{{job.jobprofile}}</td>
+			<td>{{job.qualification}}</td>
+			<td>{{job.postdate | date : "fullDate"}}</td>
+			<td>{{job.status}}</td>
+
+		</tr>
+	</table>
+
+</div>
