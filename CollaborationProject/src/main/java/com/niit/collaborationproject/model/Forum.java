@@ -3,6 +3,8 @@ package com.niit.collaborationproject.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class Forum {
 	 
 		@Id
+		@GeneratedValue(strategy = GenerationType.AUTO)
 		private int forumid;
 		private int userid;
 		private String forumname, forumcontent;

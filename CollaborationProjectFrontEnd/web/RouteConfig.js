@@ -17,4 +17,8 @@ myApp.config(function($routeProvider) {
 		templateUrl : "C_Forum/Forum.html",
 		controller: "ForumController"
 	})
+	.when("/Jobs", {
+		templateUrl : "C_Jobs/Jobs.html",
+		controller: "C_Jobs/JobsController"
+	})
 });

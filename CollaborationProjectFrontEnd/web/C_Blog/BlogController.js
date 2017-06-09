@@ -1,9 +1,21 @@
-myApp.controller("BlogController",function($scope,$http){
-    $scope.header = "Hello";
-    $http.get("http://localhost:8080/CollaborationProject/getBlogs")
-    .then(function(response){
-        $scope.blogdata = response.data;
-        console.log(response.data);
-    });
-    
+myApp.controller("BlogController", function($scope, $http) {
+
+	$scope.blog = {
+		blogname : "",
+		blogcontent : ""
+	};
+
+	$http.get("http://localhost:8080/CollaborationProject/getBlogs").then(
+			function(response) {
+				$scope.blogdata = response.data;
+				console.log(response.data);
+			});
+
+	$scope.saveBlogPost = function() {
+		$http.post('http://localhost:8080/CollaborationProject/insertBlog',
+				$scope.blog).then(function(response) {
+			$scope.message = "successfully added blog";
+		});
+	};
+
 });

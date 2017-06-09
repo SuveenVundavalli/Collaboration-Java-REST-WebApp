@@ -1,6 +1,41 @@
 <div class="container">
 	<div ng-controller="BlogController">
-		{{header}}
+
+		<!-- Create Blog -->
+		<div class="container">
+			<div class="well">
+				<div class="h2 text-center">Create Blog</div>
+				<br />
+				<form name="insertblog" class="form-horizontal" action="#" method="post">
+					<div class="form-group">
+						<label class="control-label col-sm-offset-2 col-sm-2" for="blogname">Blog Name:</label>
+						<div class="col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span> 
+								<input type="text" class="form-control" name="blogname" id="blogname" placeholder="Enter blogname" pattern=".{5,40}" title="Blogname must have 5 to 40 characters" ng-model="blog.blogname" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-offset-2 col-sm-2" for="blogcontent">Blog Content:</label>
+						<div class="col-sm-6">
+							<textarea class="form-control" rows="5" id="blogcontent" placeholder="Enter blogcontent" pattern=".{5,255}" title="BlogContent must have 5 to 255 characters" ng-model="blog.blogcontent" required></textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-offset-4 col-sm-8">
+							<button type="submit" ng-click="saveBlogPost()" class="btn btn-warning">
+								<i class="fa fa-sign-in" aria-hidden="true"></i> Create Blog
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- List Blog -->
+		<div class="h2 text-center">List Blogs</div>
 		<table class="table">
 			<tr>
 				<td>Blog Id</td>
@@ -25,4 +60,3 @@
 	</div>
 </div>
 
-<script src="BlogController.js"></script>
