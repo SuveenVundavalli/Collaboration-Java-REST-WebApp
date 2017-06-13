@@ -71,4 +71,11 @@ public class BlogCommentDAOImpl implements BlogCommentDAO {
 		return getCurrentSession().createQuery("from BlogComment").list();
 	}
 
+	@Override
+	public List<BlogComment> getAllCommentsByBlogId(int blogid) {
+		log.debug("Starting of method getAllComments in Blog Comment");
+		log.debug("Ending of method getAllComments in Blog Comment");
+		return getCurrentSession().createQuery("from BlogComment where blogid = ?").setInteger(0, blogid).list();
+	}
+
 }

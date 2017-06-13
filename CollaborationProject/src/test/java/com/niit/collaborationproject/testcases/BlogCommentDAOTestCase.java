@@ -61,10 +61,17 @@ public class BlogCommentDAOTestCase {
 		assertEquals("deleteBlogTestCase", true, flag);
 	}
 	
+	
 	@Test
 	public void listBlogCommentTestCase(){
 		int size = blogCommentDAO.list().size();
 		assertEquals("listBlogCommentTestCase", 1, size);
+	}
+	
+	@Test
+	public void listAllBlogCommentTestCase(){
+		int size = blogCommentDAO.getAllComments(1).size();
+		assertEquals("listAllBlogCommentTestCase", 5, size);
 	}
 
 }

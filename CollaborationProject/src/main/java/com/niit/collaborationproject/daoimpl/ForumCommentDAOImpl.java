@@ -63,4 +63,11 @@ public class ForumCommentDAOImpl implements ForumCommentDAO {
 		return getCurrentSession().createQuery("from ForumComment").list();
 		}
 
+	@Override
+	public List<ForumComment> getAllCommentsByForumId(int forumid) {
+		log.debug("Starting of method getAllComments in Forum Comment");
+		log.debug("Ending of method getAllComments in Forum Comment");
+		return getCurrentSession().createQuery("from ForumComment where forumid = ?").setInteger(0, forumid).list();
+	}
+
 }

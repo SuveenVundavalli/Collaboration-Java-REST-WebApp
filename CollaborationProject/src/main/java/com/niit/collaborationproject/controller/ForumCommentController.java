@@ -56,5 +56,11 @@ public class ForumCommentController {
 		return new ResponseEntity<ForumComment>(curr_forumComment,HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/getAllCommentsByForumId/{forumid}", method = RequestMethod.GET)
+	public ResponseEntity<List<ForumComment>> getAllForumComments(@PathVariable("forumid") int forumid){
+		List<ForumComment> getAllCommentsByForumId = forumCommentDAO.getAllCommentsByForumId(forumid);
+		return new ResponseEntity<List<ForumComment>>(getAllCommentsByForumId,HttpStatus.OK);
+	}
+	
 	
 }

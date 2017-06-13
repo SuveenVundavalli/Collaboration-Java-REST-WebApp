@@ -24,7 +24,7 @@ public class BlogCommentController {
 	@Autowired
 	BlogCommentDAO blogCommentDAO;
 
-	@RequestMapping(value = "/getBlogComments", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAllBlogComments", method = RequestMethod.GET)
 	public ResponseEntity<List<BlogComment>> getAllBlogComments(){
 		List<BlogComment> listBlogComment = blogCommentDAO.list();
 		return new ResponseEntity<List<BlogComment>>(listBlogComment,HttpStatus.OK);
@@ -54,6 +54,12 @@ public class BlogCommentController {
 		curr_blogComment.setBlogcomment(blogComment.getBlogcomment());
 		blogCommentDAO.insertBlogComment(curr_blogComment);
 		return new ResponseEntity<BlogComment>(curr_blogComment,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/getAllCommentsByBlogId/{blogid}", method=RequestMethod.GET)
+	public ResponseEntity<List<BlogComment>> getAllCommentsByBlogId(@PathVariable("blogid") int blogid){
+		List<BlogComment> listBlogComments = blogCommentDAO.getAllCommentsByBlogId(blogid);
+		return new ResponseEntity<List<BlogComment>>(listBlogComments, HttpStatus.OK);
 	}
 	
 	
