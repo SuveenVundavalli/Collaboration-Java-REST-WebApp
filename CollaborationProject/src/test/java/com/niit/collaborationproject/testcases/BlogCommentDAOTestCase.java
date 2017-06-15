@@ -70,7 +70,7 @@ public class BlogCommentDAOTestCase {
 	
 	@Test
 	public void listAllBlogCommentTestCase(){
-		int size = blogCommentDAO.getAllComments(1).size();
+		int size = blogCommentDAO.getAllCommentsByBlogId(1).size();
 		assertEquals("listAllBlogCommentTestCase", 5, size);
 	}
 
