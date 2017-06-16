@@ -23,4 +23,5 @@ myApp.config(function($routeProvider) {
 		templateUrl : "C_Jobs/Jobs.html",
 		controller : "JobsController"
 	})
+	.otherwise({redirectTo:'/'});
 });

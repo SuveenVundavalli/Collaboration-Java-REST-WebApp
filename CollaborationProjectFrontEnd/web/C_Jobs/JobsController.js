@@ -1,4 +1,4 @@
-myApp.controller("JobsController", function($scope, $http) {
+myApp.controller("JobsController", function($scope, $http, $route) {
 
 	$scope.job = {
 		jobprofile : "",
@@ -17,6 +17,10 @@ myApp.controller("JobsController", function($scope, $http) {
 			$scope.message = "Successfully added job";
 			console.log(response);
 		});
+	};
+	
+	$scope.reloadRoute = function() {
+		$route.reload();
 	};
 
 });

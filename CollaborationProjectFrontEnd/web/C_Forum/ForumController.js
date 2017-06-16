@@ -1,4 +1,4 @@
-myApp.controller("ForumController", function($scope, $http) {
+myApp.controller("ForumController", function($scope, $http, $route) {
 
 	$scope.test = "test";
 	
@@ -22,5 +22,8 @@ myApp.controller("ForumController", function($scope, $http) {
 		});
 	};
 	
+	$scope.reloadRoute = function() {
+		$route.reload();
+	};
 
 });
