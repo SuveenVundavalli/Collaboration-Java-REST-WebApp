@@ -8,7 +8,7 @@
 			<br />
 			<form name="insertblog" class="form-horizontal" ng-submit="reloadRoute()">
 				<div class="form-group">
-					<label class="control-label col-sm-offset-2 col-sm-2" for="blogname">Blog Name:</label>
+					<label class="control-label col-sm-4" for="blogname">Blog Name:</label>
 					<div class="col-sm-6">
 						<div class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span> <input type="text" class="form-control" name="blogname" id="blogname" placeholder="Enter blogname" pattern=".{5,40}" title="Blogname must have 5 to 40 characters" ng-model="blog.blogname"
@@ -17,7 +17,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-offset-2 col-sm-2" for="blogcontent">Blog Content:</label>
+					<label class="control-label col-sm-4" for="blogcontent">Blog Content:</label>
 					<div class="col-sm-6">
 						<textarea class="form-control" rows="5" id="blogcontent" placeholder="Enter blogcontent" pattern=".{5,255}" title="BlogContent must have 5 to 255 characters" ng-model="blog.blogcontent" required></textarea>
 					</div>
