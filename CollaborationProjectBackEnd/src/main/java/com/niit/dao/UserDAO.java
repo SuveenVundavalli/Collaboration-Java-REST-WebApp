@@ -15,8 +15,14 @@ public interface UserDAO {
 	public User getUserById(String userId);
 
 	public List<User> list();
+	
+	public List<User> list(String status);
+	
+	public void setOnline(String userId);
 
-	//public User getUserByEmail(String email);
+	public void setOffline(String userId);
 
 	public User validate(String userId, String password);
+	
+	public List<User> notMyFriendList(String userId);
 }

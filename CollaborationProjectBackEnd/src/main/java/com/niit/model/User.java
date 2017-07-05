@@ -14,7 +14,7 @@ public class User extends BaseDomain {
 	@Id
 	private String userId;
 
-	private String firstname, lastname, password, email, role, status, isonline, remarks;
+	private String firstname, lastname, password, email, role, status, isOnline, remarks;
 
 	public String getUserId() {
 		return userId;
@@ -72,12 +72,12 @@ public class User extends BaseDomain {
 		this.status = status;
 	}
 
-	public String getIsonline() {
-		return isonline;
+	public String getIsOnline() {
+		return isOnline;
 	}
 
-	public void setIsonline(String isonline) {
-		this.isonline = isonline;
+	public void setIsOnline(String isOnline) {
+		this.isOnline = isOnline;
 	}
 
 	public String getRemarks() {

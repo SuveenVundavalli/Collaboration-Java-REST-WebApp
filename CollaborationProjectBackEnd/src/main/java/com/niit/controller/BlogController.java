@@ -6,7 +6,11 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,107 +20,239 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.dao.BlogDAO;
+import com.niit.daoimpl.JobDAOImpl;
 import com.niit.model.Blog;
 
-//@RestController
+@RestController
 public class BlogController {
-	
-	@Autowired BlogDAO blogDAO;
-	@Autowired HttpSession session;
-	
-	@GetMapping("/getBlogs")
-	public List<Blog> getBlogs(){
-		
-		return blogDAO.list("A");
+
+	private static Logger log = LoggerFactory.getLogger(BlogController.class);
+
+	@Autowired
+	BlogDAO blogDAO;
+	@Autowired
+	Blog blog;
+	@Autowired
+	HttpSession session;
+
+	@GetMapping("/getApprovedBlogs")
+	public ResponseEntity<List<Blog>> getApprovedBlogs() {
+		log.info("---> ");
+		log.debug("---> in /getApprovedBlogs");
+		log.debug("---> Starting getBlogs method");
+		return new ResponseEntity<List<Blog>>(blogDAO.list("A"), HttpStatus.OK);
 	}
-	
+
+	@GetMapping("/getAllBlogs")
+	public ResponseEntity<List<Blog>> getAllBlogs() {
+		log.info("---> ");
+		log.debug("---> in /getApprovedBlogs");
+		log.debug("---> Starting getBlogs method");
+		return new ResponseEntity<List<Blog>>(blogDAO.list(), HttpStatus.OK);
+	}
+
+	@GetMapping("/getNewBlogs")
+	public ResponseEntity<List<Blog>> getNewBlogs() {
+		log.info("---> ");
+		log.debug("---> in /getApprovedBlogs");
+		log.debug("---> Starting getBlogs method");
+		return new ResponseEntity<List<Blog>>(blogDAO.list("N"), HttpStatus.OK);
+	}
+
+	@GetMapping("/getUpdatedBlogs")
+	public ResponseEntity<List<Blog>> getUpdatedBlogs() {
+		log.info("---> ");
+		log.debug("---> in /getApprovedBlogs");
+		log.debug("---> Starting getBlogs method");
+		return new ResponseEntity<List<Blog>>(blogDAO.list("U"), HttpStatus.OK);
+	}
+
 	@PostMapping("/insertBlog")
-	public Blog insertBlog(@RequestBody Blog blog){
+	public ResponseEntity<Blog> insertBlog(@RequestBody Blog blog) {
+		log.debug("---> Starting insert blog method");
 		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
-		blog.setBlogId(getMaxId()+1);
+		blog.setBlogId(getMaxId() + 1);
 		blog.setCreateDate(new Date(System.currentTimeMillis()));
 		blog.setLikes(0);
-		blog.setStatus("NA");
+		blog.setStatus("N");
 		blog.setUserId(loggedInUserId);
-		if(loggedInUserId == null){
+		if (loggedInUserId == null) {
+			log.debug("---> UserId is null. User need to login");
 			blog.setErrorCode("404");
 			blog.setErrorMessage("Please Login to Continue!");
-			return blog;
-		}
-		else{
+			log.debug("---> Returning blog with 404 error code!");
+			
+		} else {
+			log.debug("---> User data present in session with userId : " + loggedInUserId);
 			if (blogDAO.save(blog)) {
+				log.debug("---> Save blog successfull");
 				blog.setErrorCode("200");
 				blog.setErrorMessage("Successfully Saved Blog");
-				return blog;
+				
 			} else {
+				log.debug("---> Save blog failed.");
 				blog.setErrorCode("404");
 				blog.setErrorMessage("Failed to save Blog");
-				return blog;
+				
 			}
 		}
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/updateBlog/{blogId}")
-	public Blog updateBlog(@PathVariable int blogId, @RequestBody Blog blog){
+	public ResponseEntity<Blog> updateBlog(@PathVariable int blogId, @RequestBody Blog blog) {
+		log.debug("---> in updateBlog method");
+		log.debug("---> Getting actual blog with blog id");
 		Blog actualBlog = blogDAO.getBlogById(blogId);
-		actualBlog.setBlogName(blog.getBlogName());
-		actualBlog.setBlogContent(blog.getBlogContent());
-		actualBlog.setStatus("NA");
-		if(blogDAO.update(actualBlog)){
-			actualBlog.setErrorCode("200");
-			actualBlog.setErrorMessage("Update successfull!");
+		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+		if (loggedInUserRole != null) {
+			if (loggedInUserId.equals(actualBlog.getUserId()) || loggedInUserRole.equals("ROLE_ADMIN")) {
+				log.debug("You are the author of the blog...");
+				actualBlog.setBlogName(blog.getBlogName());
+				actualBlog.setBlogContent(blog.getBlogContent());
+				log.debug("---> Setting status to NA after edit");
+				if (loggedInUserRole.equals("ROLE_ADMIN")) {
+					actualBlog.setStatus("A");
+				} else {
+					actualBlog.setStatus("U");
+				}
+				if (blogDAO.update(actualBlog)) {
+					log.debug("---> Update blog successfull");
+					actualBlog.setErrorCode("200");
+					actualBlog.setErrorMessage("Update successfull!");
+				} else {
+					log.debug("---> Update blog failed");
+					actualBlog.setErrorCode("404");
+					actualBlog.setErrorMessage("Update failed! Please try again.");
+				}
+			} else {
+				log.debug("You are not the author of the blog");
+				actualBlog.setErrorCode("404");
+				actualBlog.setErrorMessage("You are not authorised to update since you are not the author of the blog!");
+			}
 		} else {
+			log.debug("user not logged in!");
 			actualBlog.setErrorCode("404");
-			actualBlog.setErrorMessage("Update failed! Please try again.");
-		}
-		return actualBlog;
-	}
-	
-	@DeleteMapping("/deleteBlog/{blogId}")
-	public String deleteBlog(@PathVariable int blogId){
-		if(blogDAO.delete(blogId)){
-			return "Delete blog successfull";
-		} else {
-			return "Delete blog failed";
-		}
-	}
-	
-	@PutMapping("/approveBlog/{blogId}")
-	public Blog approveBlog(@PathVariable int blogId){
-		Blog blog = blogDAO.getBlogById(blogId);
-		if(changeStatus(blog, "A")){
-			blog.setErrorCode("200");
-			blog.setErrorMessage("Blog Approved Successfully!");
-		} else {
-			blog.setErrorCode("404");
-			blog.setErrorMessage("Blog Approve Failed!");
-		}
-		
-		return blog;
-		
-	}
-	
-	@PutMapping("/rejectBlog/{blogId}")
-	public Blog rejectBlog(@PathVariable int blogId){
-		Blog blog = blogDAO.getBlogById(blogId);
-		if(changeStatus(blog, "R")){
-			blog.setErrorCode("200");
-			blog.setErrorMessage("Blog Rejected Successfully!");
-		} else {
-			blog.setErrorCode("404");
-			blog.setErrorMessage("Blog Rejection Failed!");
+			actualBlog.setErrorMessage("Please login to perform this operation");
 
 		}
-		return blog;
-		
+		return new ResponseEntity<Blog>(actualBlog, HttpStatus.OK);
 	}
-	
-	private boolean changeStatus(Blog blog, String status){
+
+	@DeleteMapping("/deleteBlog/{blogId}")
+	public ResponseEntity<Blog> deleteBlog(@PathVariable int blogId) {
+		log.debug("---> In delete blog method");
+		log.warn("You are deleteing blog with id : " + blogId);
+		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+		blog = blogDAO.getBlogById(blogId);
+		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+		if (loggedInUserRole != null) {
+
+			if (blog.getUserId() == loggedInUserId || loggedInUserRole.equals("ROLE_ADMIN")) {
+				if (blogDAO.delete(blogId)) {
+					log.debug("---> delete blog successfull");
+					blog.setErrorCode("200");
+					blog.setErrorMessage("Delete Blog successfull");
+				} else {
+					blog.setErrorCode("404");
+					log.debug("---> delete blog failed");
+					blog.setErrorMessage("Delete blog failed");
+				}
+			} else {
+				blog.setErrorCode("404");
+				blog.setErrorMessage("You are not authorised to delete this blog!");
+			}
+		} else {
+			log.debug("user not logged in!");
+			blog.setErrorCode("404");
+			blog.setErrorMessage("Please login to perform this operation");
+
+		}
+		log.debug("---> Returning new blog with error codes and messages");
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+	}
+
+	@PutMapping("/approveBlog/{blogId}")
+	public ResponseEntity<Blog> approveBlog(@PathVariable int blogId) {
+		log.debug("---> in approveBlog");
+		log.debug("---> Getting blog with id : " + blogId);
+		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+		Blog blog = blogDAO.getBlogById(blogId);
+		if (loggedInUserRole != null) {
+			if (loggedInUserRole.equals("ROLE_ADMIN")) {
+
+				if (changeStatus(blog, "A")) {
+					log.debug("---> Blog approved");
+					blog.setErrorCode("200");
+					blog.setErrorMessage("Blog Approved Successfully!");
+				} else {
+					log.debug("---> Failed to approve blog");
+					blog.setErrorCode("404");
+					blog.setErrorMessage("Blog Approve Failed!");
+				}
+
+			} else {
+				log.debug("You are not authorised to approve this task since your role is : " + loggedInUserRole);
+				blog.setErrorCode("404");
+				blog.setErrorMessage(
+						"You are not authorised to approve this task since your role is : " + loggedInUserRole);
+			}
+		} else {
+			log.debug("user not logged in!");
+			blog.setErrorCode("404");
+			blog.setErrorMessage("Please login to perform this operation");
+
+		}
+		
+		log.debug("---> Returning blog");
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+
+	}
+
+	@PutMapping("/rejectBlog/{blogId}")
+	public ResponseEntity<Blog> rejectBlog(@PathVariable int blogId) {
+		log.debug("---> In reject Blog");
+		log.debug("---> Gettng blog details with blog id : " + blogId);
+		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+		Blog blog = blogDAO.getBlogById(blogId);
+		if (loggedInUserRole != null) {
+			if (loggedInUserRole.equals("ROLE_ADMIN")) {
+				if (changeStatus(blog, "R")) {
+					log.debug("---> Blog rejected successfully");
+					blog.setErrorCode("200");
+					blog.setErrorMessage("Blog Rejected Successfully!");
+				} else {
+					log.debug("---> Failed to reject blog");
+					blog.setErrorCode("404");
+					blog.setErrorMessage("Blog Rejection Failed!");
+
+				}
+			} else {
+				log.debug("You are not authorised to reject this task since your role is : " + loggedInUserRole);
+				blog.setErrorCode("404");
+				blog.setErrorMessage(
+						"You are not authorised to reject this task since your role is : " + loggedInUserRole);
+			}
+		} else {
+			log.debug("user not logged in!");
+			blog.setErrorCode("404");
+			blog.setErrorMessage("Please login to perform this operation");
+
+		}
+		log.debug("---> Returning updated blog");
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+
+	}
+
+	private boolean changeStatus(Blog blog, String status) {
+		log.debug("---> In changeStatus private method");
 		blog.setStatus(status);
 		return blogDAO.update(blog);
 	}
-	
-	private int getMaxId(){
+
+	private int getMaxId() {
+		log.debug("---> In getMaxId private method");
 		return blogDAO.getMaxBlogId();
 	}
 }

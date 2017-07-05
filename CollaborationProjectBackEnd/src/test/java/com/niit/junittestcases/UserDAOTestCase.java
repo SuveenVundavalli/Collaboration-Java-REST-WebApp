@@ -41,7 +41,7 @@ public class UserDAOTestCase {
 		user.setEmail("suveenkumar.vundavalli@gmail.com");
 		user.setFirstname("Suveen Kumar");
 		user.setLastname("Vundavalli");
-		user.setIsonline("true");
+		user.setIsOnline("true");
 		user.setPassword("suveen");
 		user.setRole("ROLE_USER");
 		user.setStatus("NA");
@@ -55,7 +55,7 @@ public class UserDAOTestCase {
 		user.setEmail("suveenkumar.vundavalli@gmail.com");
 		user.setFirstname("Suveen Kumar");
 		user.setLastname("Vundavalli");
-		user.setIsonline("true");
+		user.setIsOnline("true");
 		user.setPassword("Suveen");
 		user.setRole("ROLE_ADMIN");
 		user.setStatus("NA");

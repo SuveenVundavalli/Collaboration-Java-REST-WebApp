@@ -87,7 +87,17 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	public int getMaxBlogId() {
-		return (Integer) getCurrentSession().createQuery("select max(blogId) from Blog").uniqueResult();
+		int maxNum;
+		try {
+			log.debug("---> getting max id");
+			maxNum = (Integer) getCurrentSession().createQuery("select max(blogId) from Blog").uniqueResult();
+			log.debug("---> got maxId = "+maxNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.debug("No maxId. Hence returning 0");
+			maxNum=0;
+		}
+		return maxNum;
 	}
 
 	public List<Blog> list(String status) {

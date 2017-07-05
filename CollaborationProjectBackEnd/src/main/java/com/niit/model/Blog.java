@@ -16,7 +16,7 @@ public class Blog extends BaseDomain {
 	@Id
 	private int blogId;
 	private int likes;
-	private String userId, blogName, blogContent,remarks, status; // Status - N - new, A - Approved, R - Rejected
+	private String userId, blogName, blogContent,remarks, status; // Status - N - new, U - Updated, A - Approved, R - Rejected
 	private Date createDate;
 
 	public int getBlogId() {

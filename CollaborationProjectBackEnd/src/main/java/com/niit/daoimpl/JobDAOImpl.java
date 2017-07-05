@@ -34,28 +34,28 @@ public class JobDAOImpl implements JobDAO{
 	}
 
 	public boolean save(Job job) {
-		log.debug("--> Starting of save job method");
+		log.debug("---> Starting of save job method");
 		try {
 			getCurrentSession().save(job);
 		} catch (Exception e) {
-			log.debug("--> Exception arised during save job method");
+			log.debug("---> Exception arised during save job method");
 			e.printStackTrace();
 			return false;
 		}
-		log.debug("--> Ending of save job method");
+		log.debug("---> Ending of save job method");
 		return true;
 	}
 
 	public boolean update(Job job) {
-		log.debug("--> Starting of update job method");
+		log.debug("---> Starting of update job method");
 		try {
 			getCurrentSession().update(job);
 		} catch (Exception e) {
-			log.debug("--> Exception arised during update job method");
+			log.debug("---> Exception arised during update job method");
 			e.printStackTrace();
 			return false;
 		}
-		log.debug("--> Ending of update job method");
+		log.debug("---> Ending of update job method");
 		return true;
 	}
 	
@@ -71,45 +71,56 @@ public class JobDAOImpl implements JobDAO{
 	}
 
 	public boolean save(JobApplied jobApplied) {
-		log.debug("--> Starting of save jobApplied method");
+		log.debug("---> Starting of save jobApplied method");
 		try {
 			getCurrentSession().save(jobApplied);
 		} catch (Exception e) {
-			log.debug("--> Exception arised during save jobApplied method");
+			log.debug("---> Exception arised during save jobApplied method");
 			e.printStackTrace();
 			return false;
 		}
-		log.debug("--> Ending of save jobApplied method");
+		log.debug("---> Ending of save jobApplied method");
 		return true;
 	}
 
 	public boolean update(JobApplied jobApplied) {
-		log.debug("--> Starting of update jobApplied method");
+		log.debug("---> Starting of update jobApplied method");
 		try {
 			getCurrentSession().update(jobApplied);
 		} catch (Exception e) {
-			log.debug("--> Exception arised during update jobApplied method");
+			log.debug("---> Exception arised during update jobApplied method");
 			e.printStackTrace();
 			return false;
 		}
-		log.debug("--> Ending of update jobApplied method");
+		log.debug("---> Ending of update jobApplied method");
 		return true;
 	}
 
 	public List<JobApplied> listAllJobsAppliedByMe(String userId) {
-		log.debug("--> Starting of list jobApplied method");
+		log.debug("---> Starting of list jobApplied method");
 		return getCurrentSession().createCriteria(JobApplied.class)
 		.add(Restrictions.eq("userId", userId))
 		.list();
 	}
 
 	public int getMaxJobApplicationId() {
-		log.debug("--> Starting of getMaxJobApplicationId method");
-		return (Integer) getCurrentSession().createQuery("select max(jobAppliedId) from JobApplied").uniqueResult();
+		
+		int maxNum;
+		try {
+			log.debug("---> getting max id");
+			maxNum = (Integer) getCurrentSession().createQuery("select max(jobAppliedId) from JobApplied").uniqueResult();
+			log.debug("---> got maxId = " + maxNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.debug("No maxId. Hence returning 0");
+			maxNum = 0;
+		}
+		return maxNum;
+		
 	}
 
 	public JobApplied getJobApplication(String userId, String jobId) {
-		log.debug("--> Starting of getJobApplication with userId and jobId");
+		log.debug("---> Starting of getJobApplication with userId and jobId");
 		return (JobApplied) getCurrentSession().createCriteria(JobApplied.class)
 		.add(Restrictions.eq("userId", userId))
 		.add(Restrictions.eq("jobId", jobId))
@@ -117,7 +128,7 @@ public class JobDAOImpl implements JobDAO{
 	}
 
 	public JobApplied getJobApplication(int jobAppliedId) {
-		log.debug("--> Starting of getJobApplication with userId and jobId");
+		log.debug("---> Starting of getJobApplication with userId and jobId");
 		return (JobApplied) getCurrentSession().get(JobApplied.class, jobAppliedId);
 	}
 

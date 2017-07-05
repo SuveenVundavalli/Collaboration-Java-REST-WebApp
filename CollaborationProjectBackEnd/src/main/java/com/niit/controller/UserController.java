@@ -4,7 +4,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,92 +19,221 @@ import org.springframework.web.bind.annotation.RestController;
 import com.niit.dao.UserDAO;
 import com.niit.model.User;
 
-//@RestController
+@RestController
 public class UserController {
-	@Autowired UserDAO userDAO;
-	@Autowired HttpSession session;
-	
-	@GetMapping("/getUsers")
-	public List<User> getAllUsers(){
-		return userDAO.list();
+	private static Logger log = LoggerFactory.getLogger(UserController.class);
+
+	@Autowired
+	UserDAO userDAO;
+
+	@Autowired
+	User user;
+
+	@Autowired
+	HttpSession session;
+
+	@GetMapping("/getAllUsers")
+	public ResponseEntity<List<User>> getAllUsers() {
+		log.debug("---> in method listAllUsers");
+		return new ResponseEntity<List<User>>(userDAO.list(), HttpStatus.OK);
 	}
 	
+	@GetMapping("/getNewUsers")
+	public ResponseEntity<List<User>> getNewUsers() {
+		log.debug("---> In method netNewUsers");
+		return new ResponseEntity<List<User>>(userDAO.list("N"), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getRejectedUsers")
+	public ResponseEntity<List<User>> getRejectedUsers() {
+		log.debug("---> In method getRejectedUsers");
+		return new ResponseEntity<List<User>>(userDAO.list("R"), HttpStatus.OK);
+	}
+
 	@PostMapping("/validate")
-	public User validateUser(@RequestBody User user){
+	public ResponseEntity<User> validateUser(@RequestBody User user) {
+		log.info("---> Starting of validate method");
 		user = userDAO.validate(user.getUserId(), user.getPassword());
-		if(user == null) {
+		if (user == null) {
+			log.debug("--->Invalid user credentials");
 			user = new User();
 			user.setErrorCode("404");
 			user.setErrorMessage("Invalid login details!");
 		} else {
-			String fullName = user.getFirstname() +" "+ user.getLastname();
-			
-			user.setIsonline("true");
+			// String fullName = user.getFirstname() +" "+ user.getLastname();
+			log.debug("---> Valid user credentials");
+			user.setIsOnline("Y");
 			userDAO.update(user);
+			// userDAO.setOnline(user.getUserId());
 			user.setErrorCode("200");
 			user.setErrorMessage("Login Successfull!");
+			log.debug("---> Saving user details in session");
 			session.setAttribute("User", user);
 			session.setAttribute("loggedInUserId", user.getUserId());
 			session.setAttribute("loggedInUserRole", user.getRole());
 		}
-		return user;
+		log.info("---> Ending of validate method");
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/register")
-	public User registerUser(@RequestBody User user){
-		user.setIsonline("false");
-		user.setRole("ROLE_USER");
-		user.setStatus("NA");
-		if(userDAO.save(user)){
-			user.setErrorCode("200");
-			user.setErrorMessage("Registration Successfull!");
-		} else {
-			user.setErrorCode("404");
-			user.setErrorMessage("Failed to Register! Please try again.");
+	public ResponseEntity<User> registerUser(@RequestBody User user) {
+		log.debug("---> Starting of register method");
+		log.debug("---> setting degault online status to N");
+
+		if (userDAO.getUserById(user.getUserId()) == null) {
+
+			user.setIsOnline("N");
+
+			String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+
+			if (loggedInUserRole != null && loggedInUserRole.equals("ROLE_ADMIN")) {
+				log.debug("---> Role is set by admin as" + user.getRole());
+			} else {
+				log.debug("---> Default role is set to user");
+				user.setRole("ROLE_USER");
+			}
+
+			log.debug("---> If Logged in then user role : " + loggedInUserRole);
+			if (loggedInUserRole != null && loggedInUserRole.equals("ROLE_ADMIN")) {
+				log.debug("---> Admin created account and hence Accepted by default");
+				user.setStatus("A");
+			} else {
+				log.debug("---> Default status New");
+				user.setStatus("N");
+			}
+
+			if (userDAO.save(user)) {
+				log.debug("---> Saving new user details");
+				user.setErrorCode("200");
+				user.setErrorMessage("Registration Successfull!");
+			} else {
+				log.debug("---> failed to save user");
+				user.setErrorCode("404");
+				user.setErrorMessage("Failed to Register! Please try again.");
+			}
+			log.debug("---> Ending of register method");
 		}
-		return user;
+		else{
+			user.setErrorCode("404");
+			user.setErrorMessage("User id already exixts. Please choose an other userId");
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/signOut")
-	public User signOut(){
-		User user = (User) session.getAttribute("User");
-		user.setIsonline("false");
-		userDAO.update(user);
-		session.invalidate();
-		user = new User();
-		user.setErrorCode("200");
-		user.setErrorMessage("Sign Out successfull");
-		return user;
-		
+	public ResponseEntity<User> signOut() {
+
+		log.debug("---> Started signing out");
+		user = (User) session.getAttribute("User");
+
+		if (user != null) {
+			// userDAO.setOffline(user.getUserId());
+			user.setIsOnline("N");
+			userDAO.update(user);
+			session.invalidate();
+			user.setErrorCode("200");
+			user.setErrorMessage("Sign Out successfull");
+			log.debug("---> Signing out successfull!");
+		} else {
+			log.debug("Exception arised while signing out!");
+			user = new User();
+			session.invalidate();
+			user.setErrorCode("404");
+			user.setErrorMessage("You are not signed in!");
+		}
+
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+
 	}
-	
+
 	@PutMapping("/approveUser/{userId}")
-	public User approveUser(@PathVariable String userId){
-		User user = userDAO.getUserById(userId);
-		if(changeStatus(user, "A")){
-			user.setErrorCode("200");
-			user.setErrorMessage("User approved successfull");
+	public ResponseEntity<User> approveUser(@PathVariable String userId) {
+		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+		if (loggedInUserRole!=null && loggedInUserRole.equals("ROLE_ADMIN")) {
+			user = userDAO.getUserById(userId);
+			if (changeStatus(user, "A")) {
+				user.setErrorCode("200");
+				user.setErrorMessage("User approved successfull");
+			} else {
+				user.setErrorCode("404");
+				user.setErrorMessage("Failed to approve user! Please try again.");
+			}
 		} else {
+			user = new User();
 			user.setErrorCode("404");
-			user.setErrorMessage("Failed to approve user! Please try again.");
+			user.setErrorMessage("You are not admin to approve this user!");
 		}
-		return user;
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
+	@PutMapping("/changeUserRole/{userId}")
+	public ResponseEntity<User> changeUserRole(@RequestBody User user, @PathVariable String userId){
+		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+		User actualUser;
+		if(loggedInUserRole!=null && loggedInUserRole.equals("ROLE_ADMIN")){
+			actualUser = userDAO.getUserById(userId);
+			actualUser.setRole(user.getRole());
+			if(actualUser != null){
+				if(userDAO.update(actualUser)){
+					actualUser.setErrorCode("200");
+					actualUser.setErrorMessage("User Role updated successfully to : "+actualUser.getRole());
+				} else{
+					actualUser.setErrorCode("404");
+					actualUser.setErrorMessage("User Role failed to update");
+				}
+			} else{
+				actualUser.setErrorCode("404");
+				actualUser.setErrorMessage("User with userId: "+userId+" not found!");
+			}
+		} else {
+			actualUser = new User();
+			actualUser.setErrorCode("404");
+			actualUser.setErrorMessage("You are not logged in as Admin!");
+		}
+		return new ResponseEntity<User>(actualUser, HttpStatus.OK);
+	}
+
 	@PutMapping("/rejectUser/{userId}")
-	public User rejectUser(@PathVariable String userId){
-		User user = userDAO.getUserById(userId);
-		if(changeStatus(user, "R")){
-			user.setErrorCode("200");
-			user.setErrorMessage("User rejected successfully");
+	public ResponseEntity<User> rejectUser(@PathVariable String userId) {
+		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+		if (loggedInUserRole!=null && loggedInUserRole.equals("ROLE_ADMIN")) {
+			user = userDAO.getUserById(userId);
+			if (changeStatus(user, "R")) {
+				user.setErrorCode("200");
+				user.setErrorMessage("User rejected successfully");
+			} else {
+				user.setErrorCode("404");
+				user.setErrorMessage("Failed to reject user! Please try again.");
+			}
 		} else {
+			user = new User();
 			user.setErrorCode("404");
-			user.setErrorMessage("Failed to reject user! Please try again.");
+			user.setErrorMessage("You are not admin to reject this user!");
 		}
-		return user;
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
-	
-	private boolean changeStatus(User user, String status){
+
+	@GetMapping("/myProfile")
+	public ResponseEntity<User> myProfile() {
+		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+		log.debug("retreving data of : " + loggedInUserId);
+		user = userDAO.getUserById(loggedInUserId);
+		if (user == null) {
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("User not loggedin");
+			log.debug("User didnot login or no data in loggedInUserId");
+		} else {
+			user.setErrorCode("200");
+			user.setErrorMessage(
+					"Profile retrived successfully Mr. " + user.getFirstname() + " " + user.getLastname() + "!");
+
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+
+	private boolean changeStatus(User user, String status) {
 		user.setStatus(status);
 		return userDAO.update(user);
 	}

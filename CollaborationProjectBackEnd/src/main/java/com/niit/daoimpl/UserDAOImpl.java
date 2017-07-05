@@ -79,12 +79,21 @@ public class UserDAOImpl implements UserDAO {
 
 	public User getUserById(String userId) {
 		log.debug("---> Starting of getUserById method");
-		return (User) getCurrentSession().get(User.class, userId);
+		return (User) getCurrentSession().createCriteria(User.class)
+				.add(Restrictions.eq("userId", userId))
+				.uniqueResult();
 	}
 
 	public List<User> list() {
 		log.debug("---> Starting of list method in User");
 		return getCurrentSession().createCriteria(User.class).list();
+	}
+	
+	public List<User> list(String status) {
+		log.debug("---> Starting of list by status method in User");
+		return getCurrentSession().createCriteria(User.class)
+				.add(Restrictions.eq("status", status))
+				.list();
 	}
 
 	public User validate(String userId, String password) {
@@ -96,5 +105,23 @@ public class UserDAOImpl implements UserDAO {
 		
 
 	}
+	
+	public void setOnline(String userId) {
+		getCurrentSession().createQuery("UPDATE User SET isOnline = 'Y' where userId = ?").setString(0, userId).executeUpdate();
+	}
 
+	public void setOffline(String userId) {
+		getCurrentSession().createQuery("UPDATE User SET isOnline = 'N' where userId = ?").setString(0, userId).executeUpdate();
+		}
+
+
+	public List<User> notMyFriendList(String userId) {
+		String hql = "FROM USER WHERE userId NOT IN (SELECT friendId FROM CFRIEND WHERE userId='" + userId
+				+ "' OR friendId='" + userId + "'";
+		log.debug("Query : "+hql);
+		return getCurrentSession().createQuery(hql).list();
+
+	}
+
+	
 }

@@ -36,11 +36,11 @@ public class FriendDAOImpl implements FriendDAO {
 		List<Friend> list1 = getCurrentSession()
 				.createQuery("select friendId from Friend where userId = '" + userId + "' and status = 'A'")
 				.list();
-		log.debug("Me as userId "+ list1);
+		log.debug("---> Me as userId "+ list1);
 		List<Friend> list2 = getCurrentSession()
 				.createQuery(" select userId from Friend where friendId = '" + userId + "' and status = 'A'")
 				.list();
-		log.debug("Me as friendId "+ list2);
+		log.debug("---> Me as friendId "+ list2);
 		list1.addAll(list2);
 		return list1;
 	}
@@ -54,13 +54,10 @@ public class FriendDAOImpl implements FriendDAO {
 
 	public boolean save(Friend friend) {
 		try {
-			log.debug("Previous max Id = " + getMaxId());
-			friend.setTableId(getMaxId() + 1);
-			log.debug("Generated Id = " + getMaxId() + 1);
 			getCurrentSession().save(friend);
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.debug("Exception arised while saving");
+			log.debug("---> Exception arised while saving");
 			return false;
 		}
 		return true;
@@ -68,32 +65,32 @@ public class FriendDAOImpl implements FriendDAO {
 
 	public boolean update(Friend friend) {
 		try {
-			log.debug("Starting of Update method");
+			log.debug("---> Starting of Update method");
 			getCurrentSession().update(friend);
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.debug("Exception arised while updating");
+			log.debug("---> Exception arised while updating");
 			return false;
 		}
-		log.debug("Ending of Update method");
+		log.debug("---> Ending of Update method");
 		return true;
 	}
 
 	public boolean delete(String userId, String friendId) {
-		log.debug("Starting of delete friend  method");
+		log.debug("---> Starting of delete friend  method");
 		Friend friend = get(userId, friendId);
 		if (friend==null) {
-			log.debug("No such friend exist");
+			log.debug("---> No such friend exist");
 			return false;
 		}
 		try {
 			getCurrentSession().delete(friend);
 		} catch (Exception e) {
-			log.debug("Exception arised");
+			log.debug("---> Exception arised");
 			e.printStackTrace();
 			return false;
 		}
-		log.debug("Starting of delete friend method");
+		log.debug("---> Starting of delete friend method");
 		return true;
 		
 	}
@@ -115,18 +112,18 @@ public class FriendDAOImpl implements FriendDAO {
 		return getCurrentSession().createQuery("select friendId from Friend where userId = ? and status = 'N'").setString(0, userId).list();
 	}
 
-	private int getMaxId() {
-		log.debug("Starting of method getMaxId");
+	public int getMaxId() {
+		log.debug("---> Starting of method getMaxId");
 		int maxId;
 		try {
 			maxId = (Integer) getCurrentSession().createQuery("select max(id) from Friend").uniqueResult();
-			log.debug("Got max Id : " + maxId);
+			log.debug("---> Got max Id : " + maxId);
 		} catch (Exception e) {
-			log.debug("Exception arised! There may not be any rows in table. Returning 0 as starting value");
+			log.debug("---> Exception arised! There may not be any rows in table. Returning 0 as starting value");
 			e.printStackTrace();
 			return 0;
 		}
-		log.debug("Returning max Id");
+		log.debug("---> Returning max Id");
 		return maxId;
 
 	}

@@ -86,7 +86,19 @@ public class ForumDAOImpl implements ForumDAO{
 	}
 
 	public int getMaxForumId() {
-		return (Integer) getCurrentSession().createQuery("select max(forumId) from Forum").uniqueResult();
+		
+		int maxNum;
+		try {
+			log.debug("---> getting max id");
+			maxNum = (Integer) getCurrentSession().createQuery("select max(forumId) from Forum").uniqueResult();
+			log.debug("---> got maxId = " + maxNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.debug("No maxId. Hence returning 0");
+			maxNum = 0;
+		}
+		return maxNum;
+	
 	}
 
 	public List<Forum> list(String status) {
