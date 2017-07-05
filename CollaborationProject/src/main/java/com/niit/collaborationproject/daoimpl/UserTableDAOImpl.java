@@ -65,7 +65,7 @@ public class UserTableDAOImpl implements UserTableDAO {
 	}
 
 	@Override
-	public boolean validate(String email, String password) {
+	public UserTable validate(String email, String password) {
 		Query query=	 sessionFactory.getCurrentSession().createQuery("from UserTable where email = ? and password = ?");
 		query.setString(0, email);     //actually the index will start from zero  - will get once exception.
 		query.setString(1, password);
@@ -73,13 +73,19 @@ public class UserTableDAOImpl implements UserTableDAO {
 		 if(  query.uniqueResult()  == null)
 		 {
 			 //means no row exist i.e., invalid credentials
-			 return false;
+			 return null;
 		 }
 		 else
 		 {
 			 //means row exist i.e., valid credentials
-			 return true;
+			 return (UserTable) query.uniqueResult();
 		 }
+	}
+
+	@Override
+	public UserTable getUserTableByEmail(String email) {
+		
+		return (UserTable) sessionFactory.getCurrentSession().createQuery("from UserTable where email = ?").setString(0, email).uniqueResult();
 	}
 
 

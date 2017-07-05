@@ -1,11 +1,14 @@
 myApp.controller("UserController", function($scope,$http) {
 	
+	var baseURL = "http://localhost:8080/CollaborationProject/";
+	
 	$scope.userTable = {
 			firstname : "",
 			lastname : "",
 			password : "",
 			email : ""
 	};
+	$scope.testmessage= "message";
 	
 	
 	$scope.insertUser = function(){
@@ -15,4 +18,12 @@ myApp.controller("UserController", function($scope,$http) {
 		});
 	};
 	
+	$scope.userLogin = function(){
+		//alert("userlogin");
+		$http.post("http://localhost:8080/CollaborationProject/authenticateUser", $scope.userTable)
+		.then(function(response){
+			$scope.loggedInUserDetails = response.data;
+			console.log(response.data);
+		});
+	};
 })

@@ -41,7 +41,7 @@ public class BlogController {
 	}
 	
 	@RequestMapping(value="/deleteBlog/{blogid}", method=RequestMethod.DELETE)
-	public ResponseEntity<String> addBlog(@PathVariable("blogid") int blogid){
+	public ResponseEntity<String> deleteBlog(@PathVariable("blogid") int blogid){
 	
 		blogDAO.deleteBlog(blogid);
 		return new ResponseEntity<String>("Successfully Deleted", HttpStatus.OK);

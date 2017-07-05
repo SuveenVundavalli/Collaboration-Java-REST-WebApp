@@ -14,7 +14,7 @@ myApp.controller("BlogController", function($scope, $http, $route) {
 	$scope.saveBlogPost = function() {
 		$http.post('http://localhost:8080/CollaborationProject/insertBlog',
 				$scope.blog).then(function(response) {
-			console.log(response);
+			//console.log(response.data);
 			$scope.message = response.data;
 		});
 	};

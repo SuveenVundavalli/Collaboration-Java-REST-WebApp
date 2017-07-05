@@ -1,6 +1,7 @@
 myApp.config(function($routeProvider) {
 
-	$routeProvider.when("/", {
+	$routeProvider
+	.when("/", {
 		templateUrl : "Template/Home.html"
 	})
 	.when("/Login", {

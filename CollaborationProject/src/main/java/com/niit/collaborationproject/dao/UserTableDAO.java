@@ -12,5 +12,7 @@ public interface UserTableDAO {
 	public UserTable getUserTableById(int id);
 	public List<UserTable> list();
 	
-	public boolean validate(String email, String password);
+	public UserTable getUserTableByEmail(String email);
+	
+	public UserTable validate(String email, String password);
 }

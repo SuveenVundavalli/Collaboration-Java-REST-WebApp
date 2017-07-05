@@ -63,8 +63,8 @@ public class UserTableDAOTestCase {
 	
 	@Test
 	public void validateUserTableTestCase(){
-		boolean flag = userTableDAO.validate("suveenkumar.vundavalli@gmail.com", "Suveen");
-		assertEquals("validateUserTableTestCase", true, flag);
+		UserTable userDetails = userTableDAO.validate("suveenkumar.vundavalli@gmail.com", "Suveen");
+		assertEquals("validateUserTableTestCase", "suveenkumar.vundavalli@gmail.com", userDetails.getEmail());
 	}
 
 }
