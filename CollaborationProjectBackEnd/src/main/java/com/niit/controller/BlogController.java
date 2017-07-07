@@ -3,7 +3,6 @@ package com.niit.controller;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Id;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.dao.BlogDAO;
-import com.niit.daoimpl.JobDAOImpl;
 import com.niit.model.Blog;
 
 @RestController
@@ -46,17 +44,24 @@ public class BlogController {
 	@GetMapping("/getAllBlogs")
 	public ResponseEntity<List<Blog>> getAllBlogs() {
 		log.info("---> ");
-		log.debug("---> in /getApprovedBlogs");
-		log.debug("---> Starting getBlogs method");
+		log.debug("---> in /getAllBlogs");
+		log.debug("---> Starting getAllBlogs method");
 		return new ResponseEntity<List<Blog>>(blogDAO.list(), HttpStatus.OK);
 	}
 
 	@GetMapping("/getNewBlogs")
 	public ResponseEntity<List<Blog>> getNewBlogs() {
 		log.info("---> ");
-		log.debug("---> in /getApprovedBlogs");
-		log.debug("---> Starting getBlogs method");
+		log.debug("---> in /getNewBlogs");
+		log.debug("---> Starting getNewBlogs method");
 		return new ResponseEntity<List<Blog>>(blogDAO.list("N"), HttpStatus.OK);
+	}
+	@GetMapping("/getRejectedBlogs")
+	public ResponseEntity<List<Blog>> getRejectedBlogs() {
+		log.info("---> ");
+		log.debug("---> in /getRejectedBlogs");
+		log.debug("---> Starting getRejectedBlogs method");
+		return new ResponseEntity<List<Blog>>(blogDAO.list("R"), HttpStatus.OK);
 	}
 
 	@GetMapping("/getUpdatedBlogs")
@@ -71,10 +76,15 @@ public class BlogController {
 	public ResponseEntity<Blog> insertBlog(@RequestBody Blog blog) {
 		log.debug("---> Starting insert blog method");
 		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
 		blog.setBlogId(getMaxId() + 1);
 		blog.setCreateDate(new Date(System.currentTimeMillis()));
 		blog.setLikes(0);
-		blog.setStatus("N");
+		if (loggedInUserId != null && loggedInUserRole.equals("ROLE_ADMIN")) {
+			blog.setStatus("A");
+		} else {
+			blog.setStatus("N");
+		}
 		blog.setUserId(loggedInUserId);
 		if (loggedInUserId == null) {
 			log.debug("---> UserId is null. User need to login");
@@ -100,7 +110,7 @@ public class BlogController {
 	}
 
 	@PutMapping("/updateBlog/{blogId}")
-	public ResponseEntity<Blog> updateBlog(@PathVariable int blogId, @RequestBody Blog blog) {
+	public ResponseEntity<Blog> updateBlog(@PathVariable("blogId") int blogId, @RequestBody Blog blog) {
 		log.debug("---> in updateBlog method");
 		log.debug("---> Getting actual blog with blog id");
 		Blog actualBlog = blogDAO.getBlogById(blogId);
@@ -141,7 +151,7 @@ public class BlogController {
 	}
 
 	@DeleteMapping("/deleteBlog/{blogId}")
-	public ResponseEntity<Blog> deleteBlog(@PathVariable int blogId) {
+	public ResponseEntity<Blog> deleteBlog(@PathVariable("blogId") int blogId) {
 		log.debug("---> In delete blog method");
 		log.warn("You are deleteing blog with id : " + blogId);
 		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
@@ -174,7 +184,7 @@ public class BlogController {
 	}
 
 	@PutMapping("/approveBlog/{blogId}")
-	public ResponseEntity<Blog> approveBlog(@PathVariable int blogId) {
+	public ResponseEntity<Blog> approveBlog(@PathVariable("blogId") int blogId) {
 		log.debug("---> in approveBlog");
 		log.debug("---> Getting blog with id : " + blogId);
 		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
@@ -211,7 +221,7 @@ public class BlogController {
 	}
 
 	@PutMapping("/rejectBlog/{blogId}")
-	public ResponseEntity<Blog> rejectBlog(@PathVariable int blogId) {
+	public ResponseEntity<Blog> rejectBlog(@PathVariable("blogId") int blogId) {
 		log.debug("---> In reject Blog");
 		log.debug("---> Gettng blog details with blog id : " + blogId);
 		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");

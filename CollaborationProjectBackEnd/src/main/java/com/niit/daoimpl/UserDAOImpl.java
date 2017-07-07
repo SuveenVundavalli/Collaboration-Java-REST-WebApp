@@ -116,8 +116,8 @@ public class UserDAOImpl implements UserDAO {
 
 
 	public List<User> notMyFriendList(String userId) {
-		String hql = "FROM USER WHERE userId NOT IN (SELECT friendId FROM CFRIEND WHERE userId='" + userId
-				+ "' OR friendId='" + userId + "'";
+		String hql = "FROM User WHERE userId NOT IN (SELECT friendId FROM Friend WHERE userId='" + userId
+				+ "' OR friendId='" + userId + "')";
 		log.debug("Query : "+hql);
 		return getCurrentSession().createQuery(hql).list();
 

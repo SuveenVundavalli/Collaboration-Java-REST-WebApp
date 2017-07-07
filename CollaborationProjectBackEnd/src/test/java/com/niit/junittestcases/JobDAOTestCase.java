@@ -42,7 +42,7 @@ public class JobDAOTestCase {
 	@Test
 	public void saveJobTestCase(){
 		job.setJobId("SoftwareDeveloper2");
-		job.setDateTime(new Date(System.currentTimeMillis()));
+		job.setCreateDate(new Date(System.currentTimeMillis()));
 		job.setJobDescription("Software Developer in a leading software company");
 		job.setJobQualification("B. Tech, BE, BS, M. Tech, ME, MS");
 		job.setJobStatus("O");

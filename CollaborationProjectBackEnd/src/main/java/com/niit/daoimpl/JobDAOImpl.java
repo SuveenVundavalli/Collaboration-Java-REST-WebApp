@@ -135,7 +135,19 @@ public class JobDAOImpl implements JobDAO{
 	public List<Job> listAllOpenJobs() {
 		log.debug("Starting of listAllOpenJobs method");
 		return getCurrentSession().createCriteria(Job.class)
-		.add(Restrictions.eq("jobStatus", 'O'))
+		.add(Restrictions.eq("jobStatus", "O"))
+		.list();
+	}
+
+	public Job getJobById(String id) {
+		return (Job) getCurrentSession().createCriteria(Job.class)
+		.add(Restrictions.eq("jobId", id))
+		.uniqueResult();
+	}
+
+	public List<JobApplied> listJobsAppliedByStatus(String status) {
+		return getCurrentSession().createCriteria(JobApplied.class)
+		.add(Restrictions.eq("status", status))
 		.list();
 	}
 

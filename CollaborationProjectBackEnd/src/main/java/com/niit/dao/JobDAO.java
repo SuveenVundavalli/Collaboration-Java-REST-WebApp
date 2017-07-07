@@ -37,8 +37,12 @@ public interface JobDAO {
 	
 	//get job application
 	public JobApplied getJobApplication(int jobAppliedId);
+	
+	public Job getJobById(String id);
 
 	//public int getMaxJobId();
 	public int getMaxJobApplicationId();
+	
+	public List<JobApplied> listJobsAppliedByStatus(String status);
 
 }

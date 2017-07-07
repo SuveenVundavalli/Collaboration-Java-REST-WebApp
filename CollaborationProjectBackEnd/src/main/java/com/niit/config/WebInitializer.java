@@ -2,6 +2,8 @@ package com.niit.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+
+
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
@@ -20,7 +22,11 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	protected String[] getServletMappings() {
 
 		return new String[]{"/"};
-		
+	
 	}
+	
+	//System.getProperty("catalina.home");
+	//Path.transferimage
+	
 
 }

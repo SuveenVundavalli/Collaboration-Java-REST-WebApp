@@ -87,12 +87,12 @@ public class UserController {
 
 			String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
 
-			if (loggedInUserRole != null && loggedInUserRole.equals("ROLE_ADMIN")) {
+			/*if (loggedInUserRole != null && loggedInUserRole.equals("ROLE_ADMIN")) {
 				log.debug("---> Role is set by admin as" + user.getRole());
 			} else {
 				log.debug("---> Default role is set to user");
 				user.setRole("ROLE_USER");
-			}
+			}*/
 
 			log.debug("---> If Logged in then user role : " + loggedInUserRole);
 			if (loggedInUserRole != null && loggedInUserRole.equals("ROLE_ADMIN")) {
@@ -148,10 +148,12 @@ public class UserController {
 	}
 
 	@PutMapping("/approveUser/{userId}")
-	public ResponseEntity<User> approveUser(@PathVariable String userId) {
+	public ResponseEntity<User> approveUser(@PathVariable("userId") String userId) {
 		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
 		if (loggedInUserRole!=null && loggedInUserRole.equals("ROLE_ADMIN")) {
 			user = userDAO.getUserById(userId);
+			user.setRemarks("You are approved by : "+loggedInUserId);
 			if (changeStatus(user, "A")) {
 				user.setErrorCode("200");
 				user.setErrorMessage("User approved successfull");
@@ -168,7 +170,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/changeUserRole/{userId}")
-	public ResponseEntity<User> changeUserRole(@RequestBody User user, @PathVariable String userId){
+	public ResponseEntity<User> changeUserRole(@RequestBody User user, @PathVariable("userId") String userId){
 		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
 		User actualUser;
 		if(loggedInUserRole!=null && loggedInUserRole.equals("ROLE_ADMIN")){
@@ -195,10 +197,11 @@ public class UserController {
 	}
 
 	@PutMapping("/rejectUser/{userId}")
-	public ResponseEntity<User> rejectUser(@PathVariable String userId) {
+	public ResponseEntity<User> rejectUser(@PathVariable("userId") String userId, @RequestBody User userRejected) {
 		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
 		if (loggedInUserRole!=null && loggedInUserRole.equals("ROLE_ADMIN")) {
 			user = userDAO.getUserById(userId);
+			user.setRemarks(userRejected.getRemarks());
 			if (changeStatus(user, "R")) {
 				user.setErrorCode("200");
 				user.setErrorMessage("User rejected successfully");
@@ -237,4 +240,9 @@ public class UserController {
 		user.setStatus(status);
 		return userDAO.update(user);
 	}
+	/*private boolean changeStatus(User user, String status, String remarks) {
+		user.setStatus(status);
+		user.setRemarks(remarks);
+		return userDAO.update(user);
+	}*/
 }

@@ -2,6 +2,8 @@ package com.niit.junittestcases;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +83,12 @@ public class UserDAOTestCase {
 		User user = userDAO.getUserById("suveen");
 		String firstname = user.getFirstname();
 		assertEquals("validateTestCase", "Suveen Kumar", firstname);
+	}
+	@Test
+	public void getNotMyFriendsListTestCase() {
+		List<User> users123 = userDAO.notMyFriendList("Suveen");
+		int size = users123.size();
+		assertEquals("getNotMyFriendsListTestCase", 9, size);
 	}
 
 }

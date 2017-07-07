@@ -16,7 +16,7 @@ public class Job extends BaseDomain {
 	@Id
 	private String jobId;
 	private String jobTitle, jobQualification, jobDescription, jobStatus; //O - Open //C-Closed 
-	private Date dateTime;
+	private Date createDate;
 
 	public String getJobId() {
 		return jobId;
@@ -59,16 +59,14 @@ public class Job extends BaseDomain {
 		this.jobStatus = jobStatus;
 	}
 
-	public Date getDateTime() {
-		return dateTime;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setDateTime(Date dateTime) {
-		if (dateTime == null) {
-			this.dateTime = new Date(System.currentTimeMillis());
-		} else {
-			this.dateTime = dateTime;
-		}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
+
+	
 
 }
