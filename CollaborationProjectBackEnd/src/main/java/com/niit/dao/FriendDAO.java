@@ -8,6 +8,8 @@ public interface FriendDAO {
 
 	// Select * from Friend where userId = ? and Status = 'A'
 	public List<Friend> getMyFriends(String userId);
+	
+	public Friend get(String userId, String friendId,String status);
 
 	public Friend get(String userId, String friendId);
 
@@ -26,5 +28,7 @@ public interface FriendDAO {
 	
 	// Select * from Friend where userId = ? and Status = 'N'
 	public List<Friend> getFriendRequestsSentByMe(String userId);
+	
+	public int getMaxFriendId();
 
 }

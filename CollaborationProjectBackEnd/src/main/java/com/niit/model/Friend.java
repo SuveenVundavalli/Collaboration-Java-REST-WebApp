@@ -14,7 +14,7 @@ public class Friend extends BaseDomain{
 	@Id
 	private int tableId;
 	private String userId, friendId, status, isOnline;
-	//Status : N-New, A-Approved, R-Rejected
+	//Status : N-New, A-Approved, R-Rejected, U-Unfriend
 	//isOnline : Y-Yes, N-No
 	
 	public int getTableId() {

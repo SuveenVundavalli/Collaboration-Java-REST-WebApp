@@ -121,7 +121,7 @@ public class BlogController {
 				log.debug("You are the author of the blog...");
 				actualBlog.setBlogName(blog.getBlogName());
 				actualBlog.setBlogContent(blog.getBlogContent());
-				log.debug("---> Setting status to NA after edit");
+				log.debug("---> Setting status to U after edit");
 				if (loggedInUserRole.equals("ROLE_ADMIN")) {
 					actualBlog.setStatus("A");
 				} else {

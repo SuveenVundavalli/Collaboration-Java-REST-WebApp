@@ -128,4 +128,29 @@ public class FriendDAOImpl implements FriendDAO {
 
 	}
 
+	public int getMaxFriendId() {
+		
+		int maxNum;
+		try {
+			log.debug("---> getting max id");
+			maxNum = (Integer) getCurrentSession().createQuery("select max(tableId) from Friend").uniqueResult();
+			log.debug("---> got maxId = " + maxNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.debug("No maxId. Hence returning 0");
+			maxNum = 0;
+		}
+		return maxNum;
+	
+	}
+
+	public Friend get(String userId, String friendId, String status) {
+		return (Friend) getCurrentSession().createCriteria(Friend.class)
+				.add(Restrictions.eq("userId", userId))
+				.add(Restrictions.eq("friendId", friendId))
+				.add(Restrictions.eq("status", status))
+				
+				.uniqueResult();
+	}
+
 }

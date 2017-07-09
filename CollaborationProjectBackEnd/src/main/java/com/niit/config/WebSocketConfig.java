@@ -9,14 +9,11 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
-import com.niit.controller.ChatForumController;
-
 @Configuration
 @EnableWebSocketMessageBroker
 @ComponentScan("com.niit")
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
-	private static final Logger logger = 
-			LoggerFactory.getLogger(WebSocketConfig.class);
+	private static final Logger logger = LoggerFactory.getLogger(WebSocketConfig.class);
     
 
   @Override
