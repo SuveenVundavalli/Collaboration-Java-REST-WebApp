@@ -1,9 +1,11 @@
 package com.niit.daoimpl;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -12,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.niit.dao.FriendDAO;
 import com.niit.dao.UserDAO;
+import com.niit.model.Friend;
 import com.niit.model.User;
 
 @Repository("userDAO")
@@ -21,6 +25,12 @@ public class UserDAOImpl implements UserDAO {
 
 	private static Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
 
+	@Autowired
+	FriendDAO friendDAO;
+	
+	@Autowired
+	Friend friend;
+	
 	@Autowired
 	SessionFactory sessionFactory;
 
@@ -121,6 +131,16 @@ public class UserDAOImpl implements UserDAO {
 		log.debug("Query : "+hql);
 		return getCurrentSession().createQuery(hql).list();
 
+	}
+	public List<User> notMyFriendList1(String userId) {
+		List<Friend> friends = new LinkedList<Friend>();
+		friends = friendDAO.getFriendForNotCondition(userId);
+		
+		
+		//Query query1 = getCurrentSession().createQuery("select s.id from Salary s where s.salary < 50000 AND s.salary > 49980");
+		Query query2 = getCurrentSession().createQuery("from User where userId not in (:ids)").setParameterList("ids", friends);
+		return query2.list();
+		
 	}
 
 	

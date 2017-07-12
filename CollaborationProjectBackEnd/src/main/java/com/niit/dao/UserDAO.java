@@ -25,4 +25,6 @@ public interface UserDAO {
 	public User validate(String userId, String password);
 	
 	public List<User> notMyFriendList(String userId);
+	
+	public List<User> notMyFriendList1(String userId);
 }

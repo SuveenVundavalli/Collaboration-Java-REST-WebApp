@@ -25,6 +25,16 @@ import com.niit.model.User;
 @RestController
 public class FriendController {
 	
+	/*
+	 * /getMyFriends				- Get
+	 * /addFriend/{friendId}		- Post
+	 * /unFriend/{friendId}			- Put
+	 * /acceptFriend/{friendId}		- Put
+	 * /rejectFriend/{friendId}		- Put
+	 * /getMyFriendRequests			- Get
+	 * /getFriendRequestsSentByMe	- Get
+	 */
+	
 	private static Logger log = LoggerFactory.getLogger(FriendController.class);
 	
 	@Autowired Friend friend;
@@ -33,7 +43,7 @@ public class FriendController {
 	@Autowired User user;
 	@Autowired HttpSession session;
 	
-	@GetMapping("getMyFriends")
+	@GetMapping("/getMyFriends")
 	public ResponseEntity<List<Friend>> getMyFriends(){
 		log.debug("---> ");
 		log.debug("---> Starting of method getMyFriends");
@@ -71,7 +81,7 @@ public class FriendController {
 		friend.setTableId(friendDAO.getMaxFriendId()+1);
 		if(loggedInUserId != null){
 			if(isUserExist(friendId)){
-				if(!isAlreadyFriend(loggedInUserId, friendId)){
+				if(!isAlreadyFriend(friendId, loggedInUserId) && !isAlreadyFriend(loggedInUserId, friendId)){
 					if(!isFriendRequestAlreadySent(loggedInUserId, friendId)) {
 						if(friendDAO.save(friend)){
 							log.debug("---> Friend request sent successfully");
@@ -106,18 +116,27 @@ public class FriendController {
 		return new ResponseEntity<Friend>(friend, HttpStatus.OK);
 	}
 	
-	@PutMapping("unFriend/{friendId}")
+	@PutMapping("/unFriend/{friendId}")
 	public ResponseEntity<Friend> unFriend(@PathVariable("friendId") String friendId){
 		log.debug("---> ");
 		log.debug("---> Starting of method unFriend");
 		
 		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
 		
-		if(loggedInUserId != null){
-			if(isAlreadyFriend(loggedInUserId, friendId)){
-				friend = friendDAO.get(loggedInUserId, friendId);
+		if (loggedInUserId != null) {
+			if (isAlreadyFriend(friendId, loggedInUserId) || isAlreadyFriend(loggedInUserId, friendId)) {
+				friend = friendDAO.get(friendId, loggedInUserId);
+				if (friend == null) {
+					friend = friendDAO.get(loggedInUserId, friendId);
+				}
 				friend.setStatus("U");
-				if(friendDAO.delete(loggedInUserId, friendId)){
+				log.debug("----------------------> Friend id : " + friendId);
+				log.debug("----------------------> User id : " + loggedInUserId);
+				if (friendDAO.delete(friendId, loggedInUserId)) {
+					log.debug("---> Unfriend successfull");
+					friend.setErrorCode("200");
+					friend.setErrorMessage("Unfriend successfull");
+				} else if (friendDAO.delete(loggedInUserId, friendId)) {
 					log.debug("---> Unfriend successfull");
 					friend.setErrorCode("200");
 					friend.setErrorMessage("Unfriend successfull");
@@ -127,9 +146,9 @@ public class FriendController {
 					friend.setErrorMessage("Unfriend Failed!");
 				}
 			} else {
-				log.debug("---> You are not friend with "+friendId);
+				log.debug("---> You are not friend with " + friendId);
 				friend.setErrorCode("404");
-				friend.setErrorMessage("You are not friend with "+friendId);
+				friend.setErrorMessage("You are not friend with " + friendId);
 			}
 		} else {
 			log.debug("---> Please login to perform this operation!");
@@ -140,7 +159,7 @@ public class FriendController {
 		return new ResponseEntity<Friend>(friend, HttpStatus.OK);
 	}
 	
-	@PutMapping("acceptFriend/{friendId}")
+	@PutMapping("/acceptFriend/{friendId}")
 	public ResponseEntity<Friend> acceptFriend(@PathVariable("friendId") String friendId){
 		log.debug("---> ");
 		log.debug("---> Starting of method acceptFriend");
@@ -148,7 +167,7 @@ public class FriendController {
 		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
 		
 		if(loggedInUserId != null){
-			if(!isAlreadyFriend(loggedInUserId, friendId)){
+			if(!isAlreadyFriend(loggedInUserId, friendId) && !isAlreadyFriend(friendId, loggedInUserId)){
 				
 				friend = friendDAO.get(friendId, loggedInUserId);
 				if(friend != null){
@@ -180,7 +199,7 @@ public class FriendController {
 		log.debug("---> Ending of method acceptFriend");
 		return new ResponseEntity<Friend>(friend, HttpStatus.OK);
 	}
-	@PutMapping("rejectFriend/{friendId}")
+	@PutMapping("/rejectFriend/{friendId}")
 	public ResponseEntity<Friend> rejectFriend(@PathVariable("friendId") String friendId){
 		log.debug("---> ");
 		log.debug("---> Starting of method rejectFriend");
@@ -188,8 +207,8 @@ public class FriendController {
 		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
 		
 		if(loggedInUserId != null){
-			if(!isAlreadyFriend(loggedInUserId, friendId)){
-				friend = friendDAO.get(loggedInUserId, friendId);
+			if(!isAlreadyFriend(friendId, loggedInUserId) && !isAlreadyFriend(loggedInUserId, friendId)){
+				friend = friendDAO.get(friendId, loggedInUserId);
 				friend.setStatus("R");
 				if(friendDAO.update(friend)){
 					log.debug("---> Reject friend successfull");
@@ -214,7 +233,7 @@ public class FriendController {
 		return new ResponseEntity<Friend>(friend, HttpStatus.OK);
 	}
 	
-	@GetMapping("getMyFriendRequests")
+	@GetMapping("/getMyFriendRequests")
 	public ResponseEntity<List<Friend>> getMyFriendRequests(){
 		
 		log.debug("---> ");
@@ -269,24 +288,7 @@ public class FriendController {
 		log.debug("--->Ending of method getFriendRequestsSentByMe");
 		return new ResponseEntity<List<Friend>>(friends,HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	private boolean isUserExist(String userId){
 		if(userDAO.getUserById(userId) == null){
 			return false;

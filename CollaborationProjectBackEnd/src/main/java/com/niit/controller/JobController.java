@@ -25,6 +25,24 @@ import com.niit.model.JobApplied;
 @RestController
 public class JobController {
 
+	/*
+	 *  /getAllJobs													- Get
+	 *  /getAllOpenJobs												- Get
+	 *  /getJob/{jobId}												- Get
+	 *  /getJobApplication/{jobAppliedId}							- Get
+	 *  /getAllApprovedJobsApplied									- Get
+	 *  /getAllRejectedJobsApplied									- Get
+	 *  /getAllInterviewJobsApplied									- Get
+	 *  /closeJob/{jobId}											- Put
+	 *  /getMyAppliedJobs											- Get
+	 *  /approveJobApplication/{userId}/{jobId}/{remarks}			- Put
+	 *  /rejectJobApplication/{userId}/{jobId}/{remarks}			- Put
+	 *  /callForInterviewJobApplication/{userId}/{jobId}/{remarks}	- Put
+	 *  /applyJob/{jobId}											- Post
+	 *  /postNewJob													- Post
+	 *  /updateJob/{jobId}											- Put
+	 */
+	
 	private static Logger log = LoggerFactory.getLogger(JobController.class);
 
 	@Autowired

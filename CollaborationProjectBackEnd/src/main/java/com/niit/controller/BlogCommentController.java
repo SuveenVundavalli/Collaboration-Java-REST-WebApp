@@ -29,6 +29,13 @@ import com.niit.model.User;
 @RestController
 public class BlogCommentController {
 
+	/*
+	 * /saveBlogComment						- Post
+	 * /updateBlogComment/{blogCommentId}	- Put
+	 * /deleteBlogComment/{blogCommentId}	- Delete
+	 * /getAllCommentsByBlogId/{blogId}		- Get
+	 */
+	
 	private static Logger log = LoggerFactory.getLogger(BlogController.class);
 	
 	@Autowired Blog blog;
@@ -133,6 +140,7 @@ public class BlogCommentController {
 	public ResponseEntity<List<BlogComment>> getAllCommentsByBlogId(@PathVariable("blogId") int blogId){
 		log.debug("---> starting of method getAllCommentsByBlogId");
 		if(blogDAO.getBlogById(blogId)==null){
+			log.debug("---> Blog not found!");
 			blogComment = new BlogComment();
 			blogComment.setErrorCode("404");
 			blogComment.setErrorMessage("Blog Not Found");
@@ -141,7 +149,7 @@ public class BlogCommentController {
 			return new ResponseEntity<List<BlogComment>>(blogCommentList, HttpStatus.OK);
 		}
 		
-		
+		log.debug("---> Ending of method getAllCommentsByBlogId");
 		return new ResponseEntity<List<BlogComment>>(blogCommentDAO.getAllCommentsByBlogId(blogId), HttpStatus.OK);
 	}
 	

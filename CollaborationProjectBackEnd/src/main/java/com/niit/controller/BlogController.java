@@ -23,6 +23,19 @@ import com.niit.model.Blog;
 
 @RestController
 public class BlogController {
+	
+	/*
+	 * /getApprovedBlogs		- Get
+	 * /getAllBlogs				- Get
+	 * /getNewBlogs				- Get
+	 * /getRejectedBlogs		- Get
+	 * /getUpdatedBlogs			- Get
+	 * /insertBlog				- Post
+	 * /updateBlog/{blogId}		- Put
+	 * /deleteBlog/{blogId}		- Delete
+	 * /approveBlog/{blogId}	- Put
+	 * /rejectBlog/{blogId}		- Put
+	 */
 
 	private static Logger log = LoggerFactory.getLogger(BlogController.class);
 

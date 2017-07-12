@@ -24,6 +24,19 @@ import com.niit.model.Forum;
 @RestController
 public class ForumController {
 
+	/*
+	 * /getApprovedForums		- Get
+	 * /getAllForums			- Get
+	 * /getNewForums			- Get
+	 * /getRejectedForums		- Get
+	 * /getUpdatedForums		- Get
+	 * /insertForum				- Post
+	 * /updateForum/{forumId}	- Put
+	 * /deleteForum/{forumId}	- Delete
+	 * /approveForum/{forumId}	- Put
+	 * /rejectForum/{forumId}	- Put
+	 */
+	
 	private static Logger log = LoggerFactory.getLogger(ForumController.class);
 
 	@Autowired

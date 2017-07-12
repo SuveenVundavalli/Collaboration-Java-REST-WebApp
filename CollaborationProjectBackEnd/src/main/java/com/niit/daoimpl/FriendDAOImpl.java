@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.niit.dao.FriendDAO;
 import com.niit.model.Friend;
+import com.niit.model.User;
 
 @Repository("friendDAO")
 @Transactional
@@ -42,6 +43,27 @@ public class FriendDAOImpl implements FriendDAO {
 				.list();
 		log.debug("---> Me as friendId "+ list2);
 		list1.addAll(list2);
+		return list1;
+	}
+	
+	public List<Friend> getFriendForNotCondition(String userId) {
+		List<Friend> list1 = getCurrentSession()
+				.createQuery("select friendId from Friend where userId = '" + userId + "' and status = 'A'")
+				.list();
+		log.debug("---> Me as userId "+ list1);
+		List<Friend> list2 = getCurrentSession()
+				.createQuery(" select userId from Friend where friendId = '" + userId + "' and status = 'A'")
+				.list();
+		List<Friend> list3 = getCurrentSession()
+				.createQuery(" select userId from Friend where userId = '" + userId + "'")
+				.list();
+		List<Friend> list4 = getCurrentSession()
+				.createQuery(" select friendId from Friend where friendId = '" + userId + "'")
+				.list();
+		log.debug("---> Me as friendId "+ list2);
+		list1.addAll(list2);
+		list1.addAll(list3);
+		list1.addAll(list4);
 		return list1;
 	}
 
@@ -153,4 +175,5 @@ public class FriendDAOImpl implements FriendDAO {
 				.uniqueResult();
 	}
 
+	
 }

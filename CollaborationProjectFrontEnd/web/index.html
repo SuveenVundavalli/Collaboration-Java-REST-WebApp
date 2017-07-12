@@ -19,6 +19,7 @@
 <script src="resources/js/bootstrap.js"></script>
 <script src="resources/js/angular.js"></script>
 <script src="resources/js/angular-route.js"></script>
+<script src="resources/js/angular-cookies.js"></script>
 <script src="resources/js/MyScript.js"></script>
 
 <!-- MainApp -->
@@ -27,46 +28,37 @@
 <!-- Route Config -->
 <script src="RouteConfig.js"></script>
 
-<!-- Controllers -->
-<script src="C_Blog/BlogController.js"></script>
-<script src="C_Forum/ForumController.js"></script>
-<script src="C_Jobs/JobsController.js"></script>
-<script src="C_User/UserController.js"></script>
-<script src="C_Navbar/navController.js"></script>
-
 
 </head>
 <body ng-app="myapp">
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container-fluid">
-			<div ng-controller="navController">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">WebSiteName</a>
-				</div>
-				<div class="collapse navbar-collapse" id="myNavbar">
-					<ul class="nav navbar-nav">
-						<li ng-class="{active: isActive('/')}"><a href="#/">Home</a></li>
-						<li ng-class="{active: isActive('/Blog')}"><a href="#/Blog">Blog</a></li>
-						<li ng-class="{active: isActive('/Forum')}"><a href="#/Forum">Forum</a></li>
-						<li ng-class="{active: isActive('/Jobs')}"><a href="#/Jobs">Jobs</a></li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li ng-class="{active: isActive('/Register')}"><a href="#/Register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-						<li ng-class="{active: isActive('/Login')}"><a href="#/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</nav>
-
+	
+	<div ng-include="'C_Navbar/Navbar.html'" ></div>
+	<marquee>{{message}}</marquee>
 	<div class="container">
 		<div ng-view></div>
 	</div>
 
 	<div ng-include="'Template/Footer.html'" ></div>
+
+
+<!-- Blog -->
+<script src="C_Blog/BlogController.js"></script>
+<script src="C_Blog/BlogService.js"></script>
+
+<!-- Forum -->
+<script src="C_Forum/ForumController.js"></script>
+<script src="C_Forum/ForumService.js"></script>
+
+<!-- Jobs -->
+<script src="C_Jobs/JobsController.js"></script>
+<script src="C_Jobs/JobsService.js"></script>
+
+<!-- User -->
+<script src="C_User/UserController.js"></script>
+<script src="C_User/UserService.js"></script>
+
+<!-- Navbar -->
+<script src="C_Navbar/navController.js"></script>
 
 </body>
 </html>

@@ -30,6 +30,14 @@ import com.niit.model.User;
 @RestController
 public class ForumCommentController {
 
+	/*
+	 * /saveForumComment						- Post
+	 * /updateForumComment/{forumCommentId}		- Put
+	 * /deleteForumComment/{forumCommentId}		- Delete
+	 * /getAllCommentsByForumId/{forumId}		- Get
+	 */
+	
+	
 	private static Logger log = LoggerFactory.getLogger(ForumController.class);
 	
 	@Autowired Forum forum;

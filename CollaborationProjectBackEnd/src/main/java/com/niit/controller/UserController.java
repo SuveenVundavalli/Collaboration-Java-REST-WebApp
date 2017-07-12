@@ -1,5 +1,6 @@
 package com.niit.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,11 +17,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.niit.dao.FriendDAO;
 import com.niit.dao.UserDAO;
 import com.niit.model.User;
 
 @RestController
 public class UserController {
+	
+	/*
+	 *  /getAllUsers				- Get
+	 *  /getNewUsers				- Get
+	 *  /getRejectedUsers			- Get
+	 *  /validate					- Post
+	 *  /register					- Post
+	 *  /signOut					- Get
+	 *  /approveUser/{userId}		- Put
+	 *  /changeUserRole/{userId}	- Put
+	 *  /rejectUser/{userId}		- Put
+	 *  /myProfile					- Get
+	 *  /getNotMyFriendsList		- Get
+	 */
+	
 	private static Logger log = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
@@ -28,6 +45,9 @@ public class UserController {
 
 	@Autowired
 	User user;
+	
+	@Autowired
+	FriendDAO friendDAO;
 
 	@Autowired
 	HttpSession session;
@@ -63,6 +83,7 @@ public class UserController {
 			// String fullName = user.getFirstname() +" "+ user.getLastname();
 			log.debug("---> Valid user credentials");
 			user.setIsOnline("Y");
+			friendDAO.setOnline(user.getUserId());
 			userDAO.update(user);
 			// userDAO.setOnline(user.getUserId());
 			user.setErrorCode("200");
@@ -130,6 +151,7 @@ public class UserController {
 		if (user != null) {
 			// userDAO.setOffline(user.getUserId());
 			user.setIsOnline("N");
+			friendDAO.setOffline(user.getUserId());
 			userDAO.update(user);
 			session.invalidate();
 			user.setErrorCode("200");
@@ -234,6 +256,21 @@ public class UserController {
 
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	@GetMapping("/getNotMyFriendsList")
+	public ResponseEntity<List<User>> getNotMyFriendsList(){
+		List<User> users = new LinkedList<User>();
+		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+		users = userDAO.notMyFriendList1(loggedInUserId);
+		users.remove(userDAO.getUserById(loggedInUserId));
+		if(users.isEmpty()){
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("All users are in your friends list");
+			users.add(user);
+		}
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
 	private boolean changeStatus(User user, String status) {
