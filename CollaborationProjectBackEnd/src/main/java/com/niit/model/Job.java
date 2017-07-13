@@ -2,8 +2,10 @@ package com.niit.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -15,7 +17,10 @@ public class Job extends BaseDomain {
 
 	@Id
 	private String jobId;
-	private String jobTitle, jobQualification, jobDescription, jobStatus; //O - Open //C-Closed 
+	private String jobTitle, jobQualification, jobStatus; //O - Open //C-Closed 
+	@Lob
+	@Column(length=1000)
+	private String jobDescription; //O - Open //C-Closed 
 	private Date createDate;
 
 	public String getJobId() {

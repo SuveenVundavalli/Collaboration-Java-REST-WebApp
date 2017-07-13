@@ -200,11 +200,12 @@ public class BlogController {
 	public ResponseEntity<Blog> approveBlog(@PathVariable("blogId") int blogId) {
 		log.debug("---> in approveBlog");
 		log.debug("---> Getting blog with id : " + blogId);
+		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
 		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
 		Blog blog = blogDAO.getBlogById(blogId);
 		if (loggedInUserRole != null) {
 			if (loggedInUserRole.equals("ROLE_ADMIN")) {
-
+				blog.setRemarks("Approved by "+loggedInUserId);
 				if (changeStatus(blog, "A")) {
 					log.debug("---> Blog approved");
 					blog.setErrorCode("200");
@@ -237,10 +238,12 @@ public class BlogController {
 	public ResponseEntity<Blog> rejectBlog(@PathVariable("blogId") int blogId) {
 		log.debug("---> In reject Blog");
 		log.debug("---> Gettng blog details with blog id : " + blogId);
+		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
 		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
 		Blog blog = blogDAO.getBlogById(blogId);
 		if (loggedInUserRole != null) {
 			if (loggedInUserRole.equals("ROLE_ADMIN")) {
+				blog.setRemarks("Rejected by "+loggedInUserId+". For more details please contact admin!");
 				if (changeStatus(blog, "R")) {
 					log.debug("---> Blog rejected successfully");
 					blog.setErrorCode("200");

@@ -2,8 +2,10 @@ package com.niit.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -15,7 +17,10 @@ public class Forum extends BaseDomain {
 
 	@Id
 	private int forumId;
-	private String userId, forumName, forumContent, remarks, status; // Status - N - new, A - Approved, R - Rejected
+	private String userId, forumName, remarks, status; // Status - N - new, A - Approved, R - Rejected
+	@Lob
+	@Column(length=1000)
+	private String forumContent;
 	private Date createDate;
 
 	public int getForumId() {

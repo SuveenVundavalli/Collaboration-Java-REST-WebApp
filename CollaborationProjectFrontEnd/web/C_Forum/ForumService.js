@@ -1,29 +1,27 @@
-myApp.controller("ForumController", function($scope, $http, $route) {
-
-	$scope.test = "test";
+myApp.service("ForumService", function($http, $q) {
+	console.log("Starting forum service");
 	
-	$scope.forum = {
-		forumname : "",
-		forumcontent : ""
-	};
+	var BackendUrl = 'http://localhost:8080/CollaborationProjectBackEnd';
 
-	// getting Forums from rest controller
-	$http.get("http://localhost:8080/CollaborationProject/getForums").then(
-			function(response) {
-				$scope.forumdata = response.data;
-				console.log(response.data);
-			});
-	
-	//Inserting new forum
-	$scope.saveForumPost = function(){
-		$http.post("http://localhost:8080/CollaborationProject/insertForum", $scope.forum).then(function(response){
-			console.log(response);
+	return {
+		//getAllForums
+		getAllForums : function(){
+			console.log("Starting of getAllForums method in ForumService");
 			
-		});
-	};
+			return $http.get(BackendUrl+"/getAllForums")
+			.then(
+					function(response) {
+						return response.data;
+					}, 
+					null
+			);
+		}
+		
+		
+	}
 	
-	$scope.reloadRoute = function() {
-		$route.reload();
-	};
+	
+	console.log("Ending forum service");
+	
 
 });

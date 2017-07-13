@@ -27,6 +27,47 @@ a.blackText:hover {
 	text-decoration: none;
 }
 
+
+/*-----------------------------------------------Div Color -----------------------------------*/
+.div-head {
+	background-color: black;
+	color: white;
+	border-color: #0078ff;
+}
+
+/*-----------------------------------------------bordered -----------------------------------*/
+.bordered {
+	border: 2px solid black;
+}
+
+
+/*-----------------------------------------------content-body -----------------------------------*/
+.content-body {
+	border: 1px solid #0078ff;
+}
+/*-----------------------------------------------Vertical center -----------------------------------*/
+//ps: Should be used along with row class
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+/*-----------------------------------------------hr color -----------------------------------*/
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid black;
+    margin: 1em 0;
+    padding: 0; 
+}
+
 /*-----------------------------------------------Navbar color styling---------------------------------------*/
 .navbar-default {
 	background-color: #0078ff;
@@ -131,6 +172,42 @@ a.blackText:hover {
 		color: #000000;
 		background-color: #ffffff;
 	}
+}
+
+/*-----------------------------------------------new button with theme color---------------------------------------*/
+.btn-navbar-color {
+	color: #FFFFFF;
+	background-color: #0078FF;
+	border-color: #0080FF;
+}
+
+.btn-navbar-color:hover, .btn-navbar-color:focus, .btn-navbar-color:active,
+	.btn-navbar-color.active, .open .dropdown-toggle.btn-navbar-color {
+	color: #FFFFFF;
+	background-color: #0048FF;
+	border-color: #0080FF;
+}
+
+.btn-navbar-color:active, .btn-navbar-color.active, .open .dropdown-toggle.btn-navbar-color
+	{
+	background-image: none;
+}
+
+.btn-navbar-color.disabled, .btn-navbar-color[disabled], fieldset[disabled] .btn-navbar-color,
+	.btn-navbar-color.disabled:hover, .btn-navbar-color[disabled]:hover,
+	fieldset[disabled] .btn-navbar-color:hover, .btn-navbar-color.disabled:focus,
+	.btn-navbar-color[disabled]:focus, fieldset[disabled] .btn-navbar-color:focus,
+	.btn-navbar-color.disabled:active, .btn-navbar-color[disabled]:active,
+	fieldset[disabled] .btn-navbar-color:active, .btn-navbar-color.disabled.active,
+	.btn-navbar-color[disabled].active, fieldset[disabled] .btn-navbar-color.active
+	{
+	background-color: #0078FF;
+	border-color: #0080FF;
+}
+
+.btn-navbar-color .badge {
+	color: #0078FF;
+	background-color: #FFFFFF;
 }
 
 /*-----------------------------------------------Footer color styling---------------------------------------*/

@@ -33,7 +33,11 @@
 <body ng-app="myapp">
 	
 	<div ng-include="'C_Navbar/Navbar.html'" ></div>
-	<marquee>{{message}}</marquee>
+	<marquee class="text-danger">{{errorMessage}}</marquee>
+	<marquee class="text-success">{{successMessage}}</marquee>
+	
+	<div ng-show="loggedInUser.role=='ROLE_ADMIN'" ng-include="'C_Navbar/AdminMenu.html'"></div>
+	
 	<div class="container">
 		<div ng-view></div>
 	</div>
@@ -56,6 +60,7 @@
 <!-- User -->
 <script src="C_User/UserController.js"></script>
 <script src="C_User/UserService.js"></script>
+
 
 <!-- Navbar -->
 <script src="C_Navbar/navController.js"></script>

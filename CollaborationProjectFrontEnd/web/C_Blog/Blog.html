@@ -1,5 +1,5 @@
 
-<div ng-controller="BlogController">
+<div ng-controller="BlogController as blogctrl">
 
 	<!-- Create Blog -->
 	<div class="container">
@@ -46,14 +46,14 @@
 			<td>Status</td>
 			<td>Create Date</td>
 		</tr>
-		<tr ng-repeat="blog in blogdata | orderBy : 'blogid'">
-			<td>{{blog.blogid}}</td>
-			<td>{{blog.userid}}</td>
+		<tr ng-repeat="blog in blogs | orderBy : 'blogid'">
+			<td>{{blog.blogId}}</td>
+			<td>{{blog.userId}}</td>
 			<td>{{blog.likes}}</td>
-			<td>{{blog.blogname}}</td>
-			<td>{{blog.blogcontent}}</td>
+			<td>{{blog.blogName}}</td>
+			<td>{{blog.blogContent}}</td>
 			<td>{{blog.status}}</td>
-			<td>{{blog.createdate | date : "fullDate"}}</td>
+			<td>{{blog.createDate | date : "fullDate"}}</td>
 		</tr>
 	</table>
 

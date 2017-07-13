@@ -24,5 +24,18 @@ myApp.config(function($routeProvider) {
 		templateUrl : "C_Jobs/Jobs.html",
 		controller : "JobsController"
 	})
+	//Admin
+	.when("/ManageNewBlogs", {
+		templateUrl : "C_Blog/Admin_ManageNewBlogs.html",
+		controller : "BlogController"
+	})
+	.when("/ManageUpdatedBlogs", {
+		templateUrl : "C_Blog/Admin_ManageUpdatedBlogs.html",
+		controller : "BlogController"
+	})
+	.when("/ManageRejectedBlogs", {
+		templateUrl : "C_Blog/Admin_ManageRejectedBlogs.html",
+		controller : "BlogController"
+	})
 	.otherwise({redirectTo:'/'});
 });

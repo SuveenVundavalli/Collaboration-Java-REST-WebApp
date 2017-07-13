@@ -2,8 +2,10 @@ package com.niit.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -16,7 +18,11 @@ public class Blog extends BaseDomain {
 	@Id
 	private int blogId;
 	private int likes;
-	private String userId, blogName, blogContent,remarks, status; // Status - N - new, U - Updated, A - Approved, R - Rejected
+	private String userId, blogName,remarks, status; // Status - N - new, U - Updated, A - Approved, R - Rejected
+	
+	@Lob
+	@Column(length=1000)
+	private String blogContent;
 	private Date createDate;
 
 	public int getBlogId() {

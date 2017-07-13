@@ -17,7 +17,7 @@ myApp.controller("UserController", function($scope,$http, UserService, $rootScop
 		errorCode	: ''		
 	};
 	
-	$rootScope.loggedInUser = {	
+	this.loggedInUser = {	
 			userId 		: '',
 			firstname 	: '',
 			lastname 	: '',
@@ -32,17 +32,18 @@ myApp.controller("UserController", function($scope,$http, UserService, $rootScop
 			errorCode	: ''		
 	};
 	
-	$rootScope.message = "";
+	this.successMessage = "";
+	this.errorMessage = "";
 	
-	$rootScope.isUserLoggedIn = false;
+	this.isUserLoggedIn = false;
 	
 	this.users = [];
 	
+	//validate
 	this.validate = function (user){
 		console.log("Starting of validate method");
 		
-		UserService
-		.validate(user)
+		UserService.validate(user)
 		.then(
 				function(dataFromService){
 					this.user = dataFromService;
@@ -50,19 +51,25 @@ myApp.controller("UserController", function($scope,$http, UserService, $rootScop
 					
 					if(this.user.errorCode == "404"){
 						//
-						$rootScope.message = this.user.errorMessage;
+						$rootScope.errorMessage = this.user.errorMessage;
 						this.user.userId = "";
 						this.user.password = "";
 					} else {
 						//valid credentials
 						console.log("Valid credentials! Returning to home page");
-						$rootScope.message = this.user.errorMessage;
+						$rootScope.successMessage = this.user.errorMessage+" Welcome "+this.user.firstname+" "+this.user.lastname;
 						$rootScope.isUserLoggedIn = true;
 						console.log("Logged is as : "+this.user);
 						$rootScope.loggedInUser = this.user;
 						$cookieStore.put('loggedInUser', this.user);
 						$http.defaults.headers.common['Authorization'] = 'Basic ' +$rootScope.loggedInUser;
-						$location.path('/');
+						if(this.user.role == "ROLE_ADMIN"){
+							console.log("Redirecting to admin page");
+							$location.path('/AdminHome');
+						} else {
+							console.log("Redirecting to home page");
+							$location.path('/');
+						}
 						
 					}
 				}, function(errResponse){
@@ -72,6 +79,42 @@ myApp.controller("UserController", function($scope,$http, UserService, $rootScop
 				
 		);
 	};
+	
+	//signout
+	this.signOut = function(){
+		console.log("Starting of method signOut in UserController");
+		$rootScope.loggedInUser = {};
+		$rootScope.isUserLoggedIn = false;
+		$cookieStore.remove("loggedInUser");
+		UserService.signOut();
+		$rootScope.successMessage = "Successfully Signed Out! Welcome Back!!";
+		$location.path("/");
+	}
+	
+	//register user
+	this.register = function(user){
+		console.log("Starting of registration method");
+		UserService.register(user)
+		.then(function(dataFromService) {
+			this.user = dataFromService;
+			if(this.user.errorCode == "404"){
+				console.log(this.user.errorMessage);
+				$rootScope.errorMessage = this.user.errorMessage;
+			} else {
+				console.log(this.user.errorMessage);
+				$rootScope.successMessage = this.user.errorMessage+" Please login to continue!";
+				
+				$location.path('/Login');
+				
+			}
+		}, function(reason) {
+			console.log("Error occured during registration");
+			
+			
+		});
+		
+	} 
+	
 	
 	
 	

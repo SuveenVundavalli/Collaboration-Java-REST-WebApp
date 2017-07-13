@@ -137,7 +137,7 @@ public class UserController {
 		}
 		else{
 			user.setErrorCode("404");
-			user.setErrorMessage("User id already exixts. Please choose an other userId");
+			user.setErrorMessage("User id already exists. Please choose an other userId");
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}

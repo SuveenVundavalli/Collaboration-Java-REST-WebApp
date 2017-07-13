@@ -1,29 +1,43 @@
-myApp.controller("ForumController", function($scope, $http, $route) {
-
-	$scope.test = "test";
+myApp.controller("ForumController", function($scope, $http, ForumService, $rootScope, $cookieStore, $location){
+console.log("Starting of ForumController");
 	
-	$scope.forum = {
-		forumname : "",
-		forumcontent : ""
-	};
-
-	// getting Forums from rest controller
-	$http.get("http://localhost:8080/CollaborationProject/getForums").then(
-			function(response) {
-				$scope.forumdata = response.data;
-				console.log(response.data);
-			});
+	this.forum = {
+			errorMessage: '',
+	        errorCode: '',
+	        forumId: '',
+	        likes: '',
+	        userId: '',
+	        forumName: '',
+	        forumContent: '',
+	        remarks: '',
+	        status: '',
+	        createDate: ''
+	}
 	
-	//Inserting new forum
-	$scope.saveForumPost = function(){
-		$http.post("http://localhost:8080/CollaborationProject/insertForum", $scope.forum).then(function(response){
-			console.log(response);
-			
-		});
+	this.forums=[];
+	
+	//getAllForums
+	this.getAllForums = function(){
+		console.log("Starting of method getAllForums");
+		
+		ForumService.getAllForums()
+		.then(
+				function(dataFromService){
+					this.forums = dataFromService;
+					$rootScope.forums = dataFromService;
+					$cookieStore.put("forums",this.forums);
+					$http.defaults.headers.common['Authorization'] = 'Basic ' +$rootScope.forums;
+					
+				},
+				function(errResponse){
+					console.error("Error while fetching forums!");
+				}
+		);
 	};
 	
-	$scope.reloadRoute = function() {
-		$route.reload();
-	};
+	this.getAllForums();
+	
+	
+	
 
 });

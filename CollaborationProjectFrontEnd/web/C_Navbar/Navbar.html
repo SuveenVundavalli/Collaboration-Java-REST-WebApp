@@ -1,23 +1,27 @@
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container-fluid">
 		<div ng-controller="navController">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">WebSiteName</a>
-			</div>
-			<div class="collapse navbar-collapse" id="myNavbar">
-				<ul class="nav navbar-nav">
-					<li ng-class="{active: isActive('/')}"><a href="#/">Home</a></li>
-					<li ng-class="{active: isActive('/Blog')}"><a href="#/Blog">Blog</a></li>
-					<li ng-class="{active: isActive('/Forum')}"><a href="#/Forum">Forum</a></li>
-					<li ng-class="{active: isActive('/Jobs')}"><a href="#/Jobs">Jobs</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li ng-class="{active: isActive('/Register')}"><a href="#/Register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-					<li ng-class="{active: isActive('/Login')}"><a href="#/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-				</ul>
+			<div ng-controller = "UserController as userctrl">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">WebSiteName</a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li ng-class="{active: isActive('/')}"><a href="#/">Home</a></li>
+						<li ng-class="{active: isActive('/Blog')}"><a href="#/Blog">Blog</a></li>
+						<li ng-class="{active: isActive('/Forum')}"><a href="#/Forum">Forum</a></li>
+						<li ng-class="{active: isActive('/Jobs')}"><a href="#/Jobs">Jobs</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+							<li ng-class="{active: isActive('/Register')}" ng-hide="loggedInUser.userId"><a href="#/Register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+							<li ng-class="{active: isActive('/Login')}" ng-hide="loggedInUser.userId"><a href="#/Login"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
+
+							<li ng-class="{active: isActive('/Logout')}" ng-show="loggedInUser.userId"><a ng-click="userctrl.signOut()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
