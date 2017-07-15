@@ -2,6 +2,8 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 	
 	console.log("Starting of BlogController");
 	
+	this.blogStatus = "";
+	
 	this.blog = {
 			errorMessage: '',
 	        errorCode: '',
@@ -106,7 +108,24 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 		);
 	};
 	
-
+	this.getManageAdminBlogStatus = function(){
+		console.log("Starting of manageAdminPage method");
+		if($location.path() == "/ManageNewBlogs"){
+			this.blogStatus = 'N';
+			return 'N';
+		}
+		else if($location.path() == "/ManageUpdatedBlogs"){
+			this.blogStatus = 'U';
+			return 'U';
+		}
+		else if($location.path() == "/ManageRejectedBlogs"){
+			this.blogStatus = 'R';
+			return 'R';
+		} else {
+			this.blogStatus = "";
+			//console.log("Invalid usage of method getManageAdminBlogStatus");
+		}
+	};
 	
 
 });

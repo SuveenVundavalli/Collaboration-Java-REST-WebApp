@@ -1,0 +1,45 @@
+<div ng-controller="ForumController as forumctrl">
+	<div class="container">
+		<div class="h2">Manage New Forums</div>
+		<div class="row">
+			<div class="col-sm-offset-9 col-sm-3 nopadding">
+				<form>
+					<div class="form-group">
+						<label for="selectedSort">Sort by: </label>
+						<select ng-model='selectedSort' id="selectedSort" class="form-control bootstrap-select btn btn-navbar-color">
+							<option value='forumId'>Forum Id</option>
+							<option value='forumName'>Name</option>
+							<option value='userId'>User Id</option>
+							<option value='createDate'>Date</option>
+						</select>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div ng-repeat="forum in forums | filter:{status : 'N'} | orderBy : selectedSort">
+			<div class="well row vertical-align bordered">
+				<div class="col-sm-9">
+					<div>
+						<div class="h3">{{forum.forumName}}</div>
+						
+						<div class="col-xs-6">
+							<div class="text-muted">{{forum.userId}}</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="text-right text-muted">{{forum.createDate | date:"medium" }}</div>
+						</div>
+					</div>
+					<hr />
+					<hr />
+					<div class="text-justify">{{forum.forumContent}}</div>
+					
+				</div>
+				<div class="col-sm-3 text-center">
+					<a class="btn btn-success" ng-click="forumctrl.approveForum(forum.forumId)"> <span class="glyphicon glyphicon-ok"></span> </a>
+					<a class="btn btn-danger" ng-click="forumctrl.rejectForum(forum.forumId)"> <span class="glyphicon glyphicon-remove"></span> </a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,51 @@
+<div ng-controller="JobController as jobctrl">
+	<div class="container">
+		<div class="h2">Manage Jobs</div>
+		<div class="row">
+			<div class="col-sm-offset-9 col-sm-3 nopadding">
+				<form>
+					<div class="form-group">
+						<label for="selectedSort">Sort by: </label> 
+						<select ng-model='selectedSort' id="selectedSort" class="form-control bootstrap-select btn btn-navbar-color">
+							<option value='jobId' selected>Job Id</option>
+							<option value='jobTitle'>Job Title</option>
+							<option value='createDate'>Date</option>
+						</select>
+					</div>
+				</form>
+			</div>
+		</div>
+	
+		<div ng-repeat="job in jobs | filter:{jobStatus : jobctrl.getManageAdminJobStatus()} | orderBy : selectedSort">
+			<div class="container well row vertical-align bordered">
+				<div class="col-md-9 col-sm-12">
+					<div>
+						<div class="h3">{{job.jobTitle}}</div>
+						
+						<div class="col-md-4 col-sm-12">
+							<div class="text-muted">{{job.jobId}}</div>
+						</div>
+						<div class="col-md-4 col-sm-12 text-center">
+							<div class="text-muted">Status : {{job.jobStatus}}</div>
+						</div>
+						<div class="col-md-4 col-sm-12">
+							<div class="text-right text-muted">{{job.createDate | date:"medium" }}</div>
+						</div>
+					</div>
+					<hr class="text-muted"/>
+					<hr />
+					<div class="text-justify text-muted"> Qualification : {{job.jobQualification}}</div>
+					<div class="text-justify">{{job.jobDescription}}</div>
+					
+					
+					
+				</div>
+				<div class="col-md-3 text-center col-sm-12">
+					<a ng-show="jobctrl.getManageAdminJobStatus() == 'O'" class="btn btn-warning" ng-click="jobctrl.closeJob(job.jobId)"> <span class="glyphicon glyphicon-remove"></span> </a>					
+					<a ng-show="jobctrl.getManageAdminJobStatus() == 'C'" class="btn btn-success" ng-click="jobctrl.openJob(job.jobId)"> <span class="glyphicon glyphicon-repeat"></span> </a>					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>

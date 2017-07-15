@@ -34,6 +34,7 @@ public class JobController {
 	 *  /getAllRejectedJobsApplied									- Get
 	 *  /getAllInterviewJobsApplied									- Get
 	 *  /closeJob/{jobId}											- Put
+	 *  /openJob/{jobId}											- Put
 	 *  /getMyAppliedJobs											- Get
 	 *  /approveJobApplication/{userId}/{jobId}/{remarks}			- Put
 	 *  /rejectJobApplication/{userId}/{jobId}/{remarks}			- Put
@@ -126,6 +127,38 @@ public class JobController {
 			job.setErrorMessage("Please login as admin to perform this operation!");
 		}
 		log.debug("---> Starting of method closeJob");
+		return new ResponseEntity<Job>(job, HttpStatus.OK);
+	}
+	@PutMapping("/openJob/{jobId}")
+	public ResponseEntity<Job> openJob(@PathVariable("jobId") String jobId) {
+		log.debug("---> Starting of method openJob");
+		job = jobDAO.getJobById(jobId);
+		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
+		if (loggedInUserRole != null && loggedInUserRole.equals("ROLE_ADMIN")) {
+			if (job != null) {
+				log.debug("---> Job details retrived");
+				job.setCreateDate(new Date(System.currentTimeMillis()));
+				job.setJobStatus("O");
+				if (jobDAO.update(job)) {
+					log.debug("---> Job update successfull");
+					job.setErrorCode("200");
+					job.setErrorMessage("Job status is now opend");
+				} else {
+					log.debug("---> Job update failed");
+					job.setErrorCode("404");
+					job.setErrorMessage("Failed to open Job");
+				}
+			} else {
+				log.debug("---> Job doesnot exist");
+				job.setErrorCode("404");
+				job.setErrorMessage("Job doesnot exist with jobId : " + jobId);
+			}
+		} else {
+			log.debug("---> Not logged in as admin");
+			job.setErrorCode("404");
+			job.setErrorMessage("Please login as admin to perform this operation!");
+		}
+		log.debug("---> Starting of method openJob");
 		return new ResponseEntity<Job>(job, HttpStatus.OK);
 	}
 

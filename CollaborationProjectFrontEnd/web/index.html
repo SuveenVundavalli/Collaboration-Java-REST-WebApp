@@ -34,7 +34,7 @@
 	
 	<div ng-include="'C_Navbar/Navbar.html'" ></div>
 	<marquee class="text-danger">{{errorMessage}}</marquee>
-	<marquee class="text-success">{{successMessage}}</marquee>
+	<marquee class="text-navbar-color">{{successMessage}}</marquee>
 	
 	<div ng-show="loggedInUser.role=='ROLE_ADMIN'" ng-include="'C_Navbar/AdminMenu.html'"></div>
 	
@@ -54,8 +54,8 @@
 <script src="C_Forum/ForumService.js"></script>
 
 <!-- Jobs -->
-<script src="C_Jobs/JobsController.js"></script>
-<script src="C_Jobs/JobsService.js"></script>
+<script src="C_Jobs/JobController.js"></script>
+<script src="C_Jobs/JobService.js"></script>
 
 <!-- User -->
 <script src="C_User/UserController.js"></script>

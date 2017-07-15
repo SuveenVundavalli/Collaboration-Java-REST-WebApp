@@ -26,16 +26,40 @@ myApp.config(function($routeProvider) {
 	})
 	//Admin
 	.when("/ManageNewBlogs", {
-		templateUrl : "C_Blog/Admin_ManageNewBlogs.html",
+		templateUrl : "C_Blog/Admin_ManageBlogs.html",
 		controller : "BlogController"
 	})
 	.when("/ManageUpdatedBlogs", {
-		templateUrl : "C_Blog/Admin_ManageUpdatedBlogs.html",
+		templateUrl : "C_Blog/Admin_ManageBlogs.html",
 		controller : "BlogController"
 	})
 	.when("/ManageRejectedBlogs", {
-		templateUrl : "C_Blog/Admin_ManageRejectedBlogs.html",
+		templateUrl : "C_Blog/Admin_ManageBlogs.html",
 		controller : "BlogController"
+	})
+	.when("/ManageNewForums", {
+		templateUrl : "C_Forum/Admin_ManageForums.html",
+		controller : "ForumController"
+	})
+	.when("/ManageUpdatedForums", {
+		templateUrl : "C_Forum/Admin_ManageForums.html",
+		controller : "ForumController"
+	})
+	.when("/ManageRejectedForums", {
+		templateUrl : "C_Forum/Admin_ManageForums.html",
+		controller : "ForumController"
+	})
+	.when("/CreateNewJob", {
+		templateUrl : "C_Jobs/Admin_CreateJob.html",
+		controller : "JobController"
+	})
+	.when("/ManageOpenJobs", {
+		templateUrl : "C_Jobs/Admin_ManageJobs.html",
+		controller : "JobController"
+	})
+	.when("/ManageClosedJobs", {
+		templateUrl : "C_Jobs/Admin_ManageJobs.html",
+		controller : "JobController"
 	})
 	.otherwise({redirectTo:'/'});
 });

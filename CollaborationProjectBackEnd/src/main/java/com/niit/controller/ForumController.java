@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.dao.ForumDAO;
 import com.niit.model.Forum;
+import com.sun.corba.se.pept.transport.ContactInfo;
 
 @RestController
 public class ForumController {
@@ -203,7 +204,8 @@ public class ForumController {
 		Forum forum = forumDAO.getForumById(forumId);
 		if (loggedInUserRole != null) {
 			if (loggedInUserRole.equals("ROLE_ADMIN")) {
-
+				String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+				forum.setRemarks("Approved by :"+loggedInUserId);
 				if (changeStatus(forum, "A")) {
 					log.debug("---> Forum approved");
 					forum.setErrorCode("200");
@@ -240,6 +242,8 @@ public class ForumController {
 		Forum forum = forumDAO.getForumById(forumId);
 		if (loggedInUserRole != null) {
 			if (loggedInUserRole.equals("ROLE_ADMIN")) {
+				String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+				forum.setRemarks("Rejected by :"+loggedInUserId+". Contact admin if unsatisfied!");
 				if (changeStatus(forum, "R")) {
 					log.debug("---> Forum rejected successfully");
 					forum.setErrorCode("200");

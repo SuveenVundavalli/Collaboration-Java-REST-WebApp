@@ -15,9 +15,46 @@ myApp.service("ForumService", function($http, $q) {
 					}, 
 					null
 			);
+		},
+		
+		//approveForum
+		approveForum : function(forumId){
+			console.log("Starting of method approveForum in ForumService");
+			
+			return $http.put(BackendUrl+"/approveForum/"+forumId)
+			.then(function(response) {
+				return response.data;
+			}, function(errResponse) {
+				console.error("Error while approving forum");
+			}
+			);
+		},
+		
+		//rejectForum
+		rejectForum : function(forumId){
+			console.log("Starting of method rejectForum in ForumService");
+			
+			return $http.put(BackendUrl+"/rejectForum/"+forumId)
+			.then(function(response) {
+				return response.data;
+			}, function(errResponse) {
+				console.error("Error while rejecting forum");
+			}
+			);
+		},
+		
+		//deleteForum
+		deleteForum : function(forumId){
+			console.log("Starting of method deleteForum in ForumService");
+			
+			return $http.delete(BackendUrl+"/deleteForum/"+forumId)
+			.then(function(response) {
+				return response.data;
+			}, function(errResponse) {
+				console.error("Error while deleting forum");
+			}
+			);
 		}
-		
-		
 	}
 	
 	

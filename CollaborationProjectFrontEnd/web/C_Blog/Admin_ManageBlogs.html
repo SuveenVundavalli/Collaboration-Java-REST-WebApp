@@ -1,6 +1,6 @@
 <div ng-controller="BlogController as blogctrl">
 	<div class="container">
-		<div class="h2">Manage Rejeted Blogs</div>
+		<div class="h2">Manage New Blogs</div>
 		<div class="row">
 			<div class="col-sm-offset-9 col-sm-3 nopadding">
 				<form>
@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		
-		<div ng-repeat="blog in blogs | filter:{status : 'R'} | orderBy : selectedSort">
+		<div ng-repeat="blog in blogs | filter:{status : blogctrl.getManageAdminBlogStatus()} | orderBy : selectedSort">
 			<div class="well row vertical-align bordered">
 				<div class="col-sm-9">
 					<div>
@@ -37,8 +37,9 @@
 				</div>
 				<div class="col-sm-3 text-center">
 					<a class="btn btn-success" ng-click="blogctrl.approveBlog(blog.blogId)"> <span class="glyphicon glyphicon-ok"></span> </a>
-					<a class="btn btn-danger" ng-click="blogctrl.rejectBlog(blog.blogId)"> <span class="glyphicon glyphicon-remove"></span> </a>
-					<a class="btn btn-danger" ng-click="blogctrl.deleteBlog(blog.blogId)"> <span class="glyphicon glyphicon-trash"></span> </a>
+					<a class="btn btn-warning" ng-click="blogctrl.rejectBlog(blog.blogId)"> <span class="glyphicon glyphicon-remove"></span> </a>
+					<a ng-show="blogctrl.getManageAdminBlogStatus() == 'R'" class="btn btn-danger" ng-click="blogctrl.deleteBlog(blog.blogId)"> <span class="glyphicon glyphicon-trash"></span> </a>
+					
 				</div>
 			</div>
 		</div>
