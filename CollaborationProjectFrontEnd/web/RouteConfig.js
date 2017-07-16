@@ -61,5 +61,9 @@ myApp.config(function($routeProvider) {
 		templateUrl : "C_Jobs/Admin_ManageJobs.html",
 		controller : "JobController"
 	})
+	.when("/ManageJobApplications", {
+		templateUrl : "C_Jobs/Admin_ManageJobApplications.html",
+		controller : "JobController"
+	})
 	.otherwise({redirectTo:'/'});
 });

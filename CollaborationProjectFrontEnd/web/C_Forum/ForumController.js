@@ -29,8 +29,8 @@ console.log("Starting of ForumController");
 				function(dataFromService){
 					this.forums = dataFromService;
 					$rootScope.forums = dataFromService;
-					$cookieStore.put("forums",this.forums);
-					$http.defaults.headers.common['Authorization'] = 'Basic ' +$rootScope.forums;
+					localStorage.setItem('forums', JSON.stringify(this.forums));
+					
 					
 				},
 				function(errResponse){

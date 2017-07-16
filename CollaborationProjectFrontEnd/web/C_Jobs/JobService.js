@@ -55,6 +55,71 @@ myApp.service("JobService", function($http, $q) {
 						console.error("Error while posting new job");
 					}
 			);
+		},
+		updateJob : function(job) {
+			console.log("Starting of postNewJob() in JobService");
+			
+			return $http.put(BackendUrl+"/updateJob/"+job.jobId, job)
+			.then(
+					function(response){
+						return response.data;
+					},
+					function(errResponse){
+						console.error("Error while posting new job");
+					}
+			);
+		},
+		getAllJobApplications : function(){
+			console.log("Starting of getAllJobApplications in JobService");
+			
+			return $http.get(BackendUrl+"/getAllJobApplications")
+			.then(
+					function(response) {
+						return response.data;
+					},
+					function(errResponse){
+						console.log("Error while getting all job applications");
+					}
+				);
+		},
+		approveJobApplication : function(userId,jobId,remarks){
+			console.log("Starting of approveJobApplication() in JobService");
+			
+			return $http.put(BackendUrl+"/approveJobApplication/"+userId+"/"+jobId+"/"+remarks)
+			.then(
+					function(response) {
+						return response.data;
+					},
+					function(errResponse) {
+						console.log("Error while approving job application");
+					}
+			);
+		},
+		rejectJobApplication : function(userId,jobId,remarks){
+			console.log("Starting of rejectJobApplication() in JobService");
+			
+			return $http.put(BackendUrl+"/rejectJobApplication/"+userId+"/"+jobId+"/"+remarks)
+			.then(
+					function(response) {
+						return response.data;
+					},
+					function(errResponse) {
+						console.log("Error while rejection job application");
+					}
+			);
+		},
+		callForInterviewJobApplication : function(userId,jobId,remarks){
+			console.log("Starting of callForInterviewJobApplication() in JobService");
+			
+			return $http.put(BackendUrl+"/callForInterviewJobApplication/"+userId+"/"+jobId+"/"+remarks)
+			.then(
+					function(response) {
+						return response.data;
+					},
+					function(errResponse) {
+						console.log("Error while callForInterview job application");
+					}
+			);
 		}
 	
 		

@@ -151,6 +151,11 @@ public class JobDAOImpl implements JobDAO{
 		.list();
 	}
 
+	public List<JobApplied> listAllJobsApplied() {
+		return getCurrentSession().createCriteria(JobApplied.class)
+				.list();
+	}
+
 	
 	
 

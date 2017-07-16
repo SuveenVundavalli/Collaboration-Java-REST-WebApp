@@ -15,6 +15,8 @@ public interface JobDAO {
 	
 	// List all jobs for admin
 	public List<Job> list();
+	
+	public List<JobApplied> listAllJobsApplied();
 
 	// Admin gets jobs by status
 	// Students/Alumini gets jobs that are 'V'

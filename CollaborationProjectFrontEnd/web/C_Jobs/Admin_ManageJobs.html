@@ -16,35 +16,41 @@
 			</div>
 		</div>
 	
-		<div ng-repeat="job in jobs | filter:{jobStatus : jobctrl.getManageAdminJobStatus()} | orderBy : selectedSort">
+		<div ng-repeat="thisJob in jobs | filter:{jobStatus : jobctrl.getManageAdminJobStatus()} | orderBy : selectedSort">
 			<div class="container well row vertical-align bordered">
 				<div class="col-md-9 col-sm-12">
 					<div>
-						<div class="h3">{{job.jobTitle}}</div>
+						<div class="h3">{{thisJob.jobTitle}}</div>
 						
 						<div class="col-md-4 col-sm-12">
-							<div class="text-muted">{{job.jobId}}</div>
+							<div class="text-muted">{{thisJob.jobId}}</div>
 						</div>
 						<div class="col-md-4 col-sm-12 text-center">
-							<div class="text-muted">Status : {{job.jobStatus}}</div>
+							<div class="text-muted">Status : {{thisJob.jobStatus}}</div>
 						</div>
 						<div class="col-md-4 col-sm-12">
-							<div class="text-right text-muted">{{job.createDate | date:"medium" }}</div>
+							<div class="text-right text-muted">{{thisJob.createDate | date:"medium" }}</div>
 						</div>
 					</div>
 					<hr class="text-muted"/>
 					<hr />
-					<div class="text-justify text-muted"> Qualification : {{job.jobQualification}}</div>
-					<div class="text-justify">{{job.jobDescription}}</div>
+					<div class="text-justify text-muted"> Qualification : {{thisJob.jobQualification}}</div>
+					<div class="text-justify">{{thisJob.jobDescription}}</div>
 					
 					
 					
 				</div>
 				<div class="col-md-3 text-center col-sm-12">
-					<a ng-show="jobctrl.getManageAdminJobStatus() == 'O'" class="btn btn-warning" ng-click="jobctrl.closeJob(job.jobId)"> <span class="glyphicon glyphicon-remove"></span> </a>					
-					<a ng-show="jobctrl.getManageAdminJobStatus() == 'C'" class="btn btn-success" ng-click="jobctrl.openJob(job.jobId)"> <span class="glyphicon glyphicon-repeat"></span> </a>					
+					<a ng-show="jobctrl.getManageAdminJobStatus() == 'O'" class="btn btn-danger" ng-click="jobctrl.closeJob(thisJob.jobId)"> <span class="glyphicon glyphicon-remove"></span> </a>					
+					<a ng-show="jobctrl.getManageAdminJobStatus() == 'C'" class="btn btn-success" ng-click="jobctrl.openJob(thisJob.jobId)"> <span class="glyphicon glyphicon-repeat"></span> </a>					
+					<a class="btn btn-warning" ng-click="jobctrl.editJob(thisJob.jobId,thisJob.jobTitle,thisJob.jobQualification,thisJob.jobDescription)"> <span class="glyphicon glyphicon-edit"></span> </a>					
 				</div>
 			</div>
+			
+			<div class="container" ng-if="thisJob.jobId == job.jobId">{{jobctrl.job.jobId}}
+				<div ng-include="'C_Jobs/Admin_EditJob.html'"></div>
+			</div>
+			
 		</div>
 	</div>
 	

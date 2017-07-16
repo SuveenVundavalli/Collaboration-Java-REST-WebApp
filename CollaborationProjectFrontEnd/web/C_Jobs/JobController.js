@@ -13,11 +13,25 @@ myApp.controller("JobController", function($scope, $http, JobService, $rootScope
 	        createDate: ""
 	}
 	
+	this.jobApplication = {
+			errorMessage: '',
+	        errorCode: '',
+	        jobAppliedId: '',
+	        userId: '',
+	        jobId: '',
+	        remarks: '',
+	        status: '',
+	        dateApplied: ''
+	}
+	
+	this.jobApplications = [];
+	
 	this.jobs = [];
 	
 	this.jobStatus = "";
 	
 	$scope.selectedSort = "jobId";
+	$scope.selectedJobApplicationsSort = "jobId";
 	
 	//getAllJobs
 	this.getAllJobs = function(){
@@ -28,16 +42,32 @@ myApp.controller("JobController", function($scope, $http, JobService, $rootScope
 				function(dataFromService) {
 					this.jobs = dataFromService;
 					$rootScope.jobs = dataFromService;
-					$cookieStore.put("jobs", this.jobs);
-					$http.defaults.headers.common['Authorization'] = 'Basic ' +$rootScope.blogs;
+					localStorage.setItem('jobs', JSON.stringify(this.jobs));
+					//$cookieStore.put("jobs", this.jobs);
+					//$http.defaults.headers.common['Authorization'] = 'Basic ' +$rootScope.blogs;
 				}, 
 				function(errResponse) {
 					console.error("Error wile fetching jobs");
 				}
 		);
 	};
+	
 	this.getAllJobs();
 	
+	this.getAllJobApplications = function(){
+		console.log("Starting of getAllJobApplications in JobController");
+		
+		JobService.getAllJobApplications()
+		.then(
+				function(dataFromService) {
+					this.jobApplications = dataFromService;
+					$rootScope.jobApplications = dataFromService;
+					localStorage.setItem('jobApplications', JSON.stringify(this.jobApplications));
+					console.log(this.jobApplications);
+				}
+		);
+	};
+	this.getAllJobApplications();
 	
 	this.postNewJob = function(job, insertjob){
 		console.log("Starting of postNewJob() in JobController");
@@ -118,6 +148,99 @@ myApp.controller("JobController", function($scope, $http, JobService, $rootScope
 			//console.log("Invalid usage of method getManageAdminJobStatus");
 		}
 	};
+	
+	this.alertwin = function(msg){
+		alert(msg);
+	}
+	
+	this.editJob = function(jobId,jobTitle,jobQualification,jobDescription){
+		console.log("Starting of editJob method");
+		$rootScope.job={};
+		$rootScope.job.jobId = jobId;
+		$rootScope.job.jobDescription = jobDescription;
+		$rootScope.job.jobQualification = jobQualification;
+		$rootScope.job.jobTitle = jobTitle;
+		console.log(this.job);
+		console.log("Ending of editJob method");
+	}
+	
+	this.approveJobApplication = function(userId, jobId){
+		console.log("Starting of approveJobApplication in JobController")
+		var remarks = prompt("Enter remarks","Approved by "+$rootScope.loggedInUser.userId+".");
+		
+		JobService.approveJobApplication(userId, jobId, remarks)
+		.then(
+				function(response){
+					this.jobApplication = response;
+					if(response.errorCode == "404"){
+						$rootScope.errorMessage = response.errorMessage;
+					} else {
+						$rootScope.successMessage = response.errorMessage;
+						$route.reload();
+					}
+				}
+		)		
+	}
+	this.rejectJobApplication = function(userId, jobId){
+		console.log("Starting of rejectJobApplication in JobController")
+		var remarks = prompt("Enter remarks","Rejected by "+$rootScope.loggedInUser.userId+".");
+		
+		JobService.rejectJobApplication(userId, jobId, remarks)
+		.then(
+				function(response){
+					this.jobApplication = response;
+					if(response.errorCode == "404"){
+						$rootScope.errorMessage = response.errorMessage;
+					} else {
+						$rootScope.successMessage = response.errorMessage;
+						$route.reload();
+					}
+				}
+		)		
+	}
+	this.callForInterviewJobApplication = function(userId, jobId){
+		console.log("Starting of callForInterviewJobApplication in JobController")
+		var remarks = prompt("Enter remarks","Accepted for interviewe by "+$rootScope.loggedInUser.userId+".");
+		
+		JobService.callForInterviewJobApplication(userId, jobId, remarks)
+		.then(
+				function(response){
+					this.jobApplication = response;
+					if(response.errorCode == "404"){
+						$rootScope.errorMessage = response.errorMessage;
+					} else {
+						$rootScope.successMessage = response.errorMessage;
+						$route.reload();
+					}
+				}
+		)		
+	}
+	
+	
+	
+	$rootScope.updateJob = function(job, insertjob){
+		console.log("Starting of postNewJob() in JobController");
+		
+		JobService.updateJob(job)
+		.then(
+				function(response){
+					if(response.errorCode=="404"){
+						$rootScope.errorMessage = response.errorMessage;
+						console.error(response.errorMessage)
+					} else {
+						$rootScope.job = {};
+						this.getAllJobs;
+						console.log(response.errorMessage);
+						$rootScope.successMessage = response.errorMessage;
+						$scope.resetForm(insertjob);
+						$route.reload();
+						
+					}
+				}
+		)
+		
+	}
+	
 	
 	$scope.resetForm = function(insertjob){
 		console.log("Starting reserForm method");

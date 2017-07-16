@@ -30,8 +30,7 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 				function(dataFromService){
 					this.blogs = dataFromService;
 					$rootScope.blogs = dataFromService;
-					$cookieStore.put("blogs",this.blogs);
-					$http.defaults.headers.common['Authorization'] = 'Basic ' +$rootScope.blogs;
+					localStorage.setItem('blogs', JSON.stringify(this.blogs));
 					
 				},
 				function(errResponse){

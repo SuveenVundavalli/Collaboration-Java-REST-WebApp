@@ -12,29 +12,21 @@ myApp.run(function($rootScope, $http, $cookieStore){
 	    $http.defaults.headers.common['Authorization'] = 'Basic' + $rootScope.loggedInUser; 
 	};
 	
-	//Getting blogs details from cookies after page refresh
-	$rootScope.blogs = $cookieStore.get('blogs') || {};
-	if ($rootScope.blogs) {
-		$http.defaults.headers.common['Authorization'] = 'Basic' + $rootScope.blogs; 
-	};
+	//Getting blogs details from localStorage after page refresh
+	$rootScope.blogs = JSON.parse(localStorage.getItem('blogs')) || {};
 	
-	//Getting forums details from cookies after page refresh
-	$rootScope.forums = $cookieStore.get('forums') || {};
-	if ($rootScope.blogs) {
-		$http.defaults.headers.common['Authorization'] = 'Basic' + $rootScope.forums; 
-	};
+	//Getting forums details from localStorage after page refresh
+	$rootScope.forums = JSON.parse(localStorage.getItem('forums')) || {};
 	
-	//Getting jobs details from cookies after page refresh
-	$rootScope.jobs = $cookieStore.get('jobs') || {};
-	if ($rootScope.blogs) {
-		$http.defaults.headers.common['Authorization'] = 'Basic' + $rootScope.jobs; 
-	};
 	
-	//Getting user details from cookies after page refresh
-	$rootScope.users = $cookieStore.get('users') || {};
-	if ($rootScope.blogs) {
-		$http.defaults.headers.common['Authorization'] = 'Basic' + $rootScope.users; 
-	}
+	//Getting jobs details from local Storage after page refresh
+	$rootScope.jobs = JSON.parse(localStorage.getItem('jobs')) || {};
+	
+	//Getting jobApplications details from local Storage after page refresh
+	$rootScope.jobApplications = JSON.parse(localStorage.getItem('jobApplications')) || {};
+	
+	//Getting user details from localStorage after page refresh
+	$rootScope.users = JSON.parse(localStorage.getItem('users')) || {};
 	
 	
 	console.log('Ending of run method');

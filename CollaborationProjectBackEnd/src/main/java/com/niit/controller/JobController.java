@@ -27,6 +27,7 @@ public class JobController {
 
 	/*
 	 *  /getAllJobs													- Get
+	 *  /getAllJobApplications										- Get
 	 *  /getAllOpenJobs												- Get
 	 *  /getJob/{jobId}												- Get
 	 *  /getJobApplication/{jobAppliedId}							- Get
@@ -52,6 +53,7 @@ public class JobController {
 	JobApplied jobApplied;
 	@Autowired
 	JobDAO jobDAO;
+	
 	@Autowired
 	HttpSession session;
 
@@ -59,6 +61,12 @@ public class JobController {
 	public ResponseEntity<List<Job>> getAllJobs() {
 		log.debug("---> Starting of method getAllJobs");
 		return new ResponseEntity<List<Job>>(jobDAO.list(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAllJobApplications")
+	public ResponseEntity<List<JobApplied>> getAllJobApplications(){
+		log.debug("---> Starting of method getAllJobApplications");
+		return new ResponseEntity<List<JobApplied>>(jobDAO.listAllJobsApplied(), HttpStatus.OK);
 	}
 
 	@GetMapping("/getAllOpenJobs")
@@ -350,7 +358,7 @@ public class JobController {
 
 			} else {
 				jobApplied.setErrorCode("404");
-				jobApplied.setErrorMessage("Please login as user to perform this operation!");
+				jobApplied.setErrorMessage("Please login as admin to perform this operation!");
 
 			}
 		} else {
