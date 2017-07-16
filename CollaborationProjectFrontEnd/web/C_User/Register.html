@@ -1,62 +1,68 @@
 <div ng-controller="UserController as userctrl">
 	<div class="well">
-		<h2 class="text-center">Register</h2>
+		<h2 ng-if="userctrl.whatIsUrl()=='/Register'" class="text-center">Register</h2>
+		<h2 ng-if="userctrl.whatIsUrl()=='/CreateNewUsers'" class="text-center">Add User</h2>
 		<br />
-		<form class="form-horizontal" ng-submit="userctrl.register(userctrl.user)">
-			<div class="form-group">
-				<label class="control-label col-sm-offset-2 col-sm-2" for="fName">First Name:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" id="fName" placeholder="Enter First Name" name="fName" pattern=".{2,40}" title="First must have 2 to 40 characters" ng-model="userctrl.user.firstname" required>
+		<form name="myForm" ng-submit="userctrl.register(userctrl.user)">
+				<div class="form-group">
+						<label for="fName">First Name:</label> 
+						<input type="text" placeholder="Enter first name" class="form-control" name="fName" id="fName" ng-model="userctrl.user.firstname" ng-minlength="3" ng-maxlength="255" required> 
+						<span ng-show="myForm.fName.$error.required && myForm.fName.$dirty" style="color: red;">Enter First Name</span> 
+						<span ng-show="myForm.fName.$error.maxlength" style="color: red;">Maximum 255 characters</span> 
+						<span ng-show="myForm.fName.$error.minlength" style="color: red;">Minimum 3 characters</span>
 				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-offset-2 col-sm-2" for="lName">Last Name:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" id="lName" placeholder="Enter Last Name" name="lName" pattern=".{2,40}" title="Last must have 2 to 40 characters" ng-model="userctrl.user.lastname" required>
+				<div class="form-group">
+						<label for="lName">Last Name:</label> 
+						<input type="text" placeholder="Enter last name" class="form-control" name="lName" id="lName" ng-model="userctrl.user.lastname" ng-minlength="3" ng-maxlength="255" required> 
+						<span ng-show="myForm.lName.$error.required && myForm.lName.$dirty" style="color: red;">Enter Last Name</span> 
+						<span ng-show="myForm.lName.$error.maxlength" style="color: red;">Maximum 255 characters</span> 
+						<span ng-show="myForm.lName.$error.minlength" style="color: red;">Minimum 3 characters</span>
 				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-offset-2 col-sm-2" for="uEmail"> Email:</label>
-				<div class="col-sm-6">
-					<input type="email" class="form-control" id="uEmail" placeholder="Enter Email" name="uEmail" ng-model="userctrl.user.email" required>
+				<div class="form-group">
+						<label for="email">Email:</label> 
+						<input type="email" placeholder="Enter email" class="form-control" name="email" id="email" ng-model="userctrl.user.email" required> 
+						<span ng-show="myForm.email.$error.required && myForm.email.$dirty" style="color: red;">Enter Email</span> 
+						<span ng-show="myForm.email.$error.email && myForm.email.$dirty" style="color: red;">Enter Valid Email</span> 
 				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="control-label col-sm-offset-2 col-sm-2" for="uUserId"> User Id:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" id="uEmail" placeholder="Enter Email" name="uUserId" ng-model="userctrl.user.userId" required>
+				<div class="form-group">
+						<label for="uName">Username:</label> 
+						<input type="text" placeholder="Enter username" class="form-control" name="uName" id="uName" ng-model="userctrl.user.userId" ng-minlength="3" ng-maxlength="255" required> 
+						<span ng-show="myForm.uName.$error.required && myForm.uName.$dirty" style="color: red;">Enter Last Name</span> 
+						<span ng-show="myForm.uName.$error.maxlength" style="color: red;">Maximum 255 characters</span> 
+						<span ng-show="myForm.uName.$error.minlength" style="color: red;">Minimum 3 characters</span>
 				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="control-label col-sm-offset-2 col-sm-2" for="uPassword">Password:</label>
-				<div class="col-sm-6">
-					<input type="password" class="form-control" id="uPassword" placeholder="Enter Password" name="uPassword" pattern=".{5,15}" title="password must have 5 to 15 characters" ng-model="userctrl.user.password" required>
+				<div class="form-group">
+						<label for="password">Password:</label> 
+						<input type="password" placeholder="Enter password" class="form-control" name="password" id="password" ng-model="userctrl.user.password" ng-minlength="3" ng-maxlength="255" required> 
+						<span ng-show="myForm.password.$error.required && myForm.password.$dirty" style="color: red;">Enter Last Name</span> 
+						<span ng-show="myForm.password.$error.maxlength" style="color: red;">Maximum 255 characters</span> 
+						<span ng-show="myForm.password.$error.minlength" style="color: red;">Minimum 3 characters</span>
 				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="control-label col-sm-offset-2 col-sm-2" for="uRole">Role:</label>
-				<div class="col-sm-6">
-					<div class="radio">
-						  <label><input type="radio" name="optradio" ng-model="userctrl.user.role" value="ROLE_USER">User</label>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="uRole">Role:</label>
+					<div class="col-sm-10">
+						<div class="radio">
+							  <label class="radio-inline"><input type="radio" name="optradio" ng-model="userctrl.user.role" value="ROLE_USER" required>User</label>
+						</div>
+						<div class="radio">
+							  <label class="radio-inline"><input type="radio" name="optradio" ng-model="userctrl.user.role" value="ROLE_ALUMNI" required>Alumni</label>
+						</div>
+						<div class="radio">
+							  <label class="radio-inline"><input type="radio" name="optradio" ng-model="userctrl.user.role" value="ROLE_EMP" required>Employee</label>
+						</div>
+						<div ng-if="userctrl.whatIsUrl()=='/CreateNewUsers'" class="radio">
+							  <label class="radio-inline"><input type="radio" name="optradio" ng-model="userctrl.user.role" value="ROLE_ADMIN" required>Admin</label>
+						</div>
 					</div>
-					<div class="radio">
-						  <label><input type="radio" name="optradio" ng-model="userctrl.user.role" value="ROLE_EMP">Employee</label>
-					</div>
 				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-sm-offset-4 col-sm-4">
-					<button type="submit" class="btn btn-warning">
-						<i class="fa fa-user-plus" aria-hidden="true"></i> Register
-					</button>
-				</div>
-			</div>
-			
-		</form>
-		<!-- {{"Hello "+userctrl.user.firstname}} {{userctrl.user.lastname}} -->
+				
+				
+
+					<button ng-if="userctrl.whatIsUrl()=='/Register'" type="submit" class="btn btn-navbar-color btn-block" ng-disabled="myForm.$invalid"><i class="fa fa-user-plus" aria-hidden="true"></i> Register</button>
+					<button ng-if="userctrl.whatIsUrl()=='/CreateNewUsers'" type="submit" class="btn btn-navbar-color btn-block" ng-disabled="myForm.$invalid"><i class="fa fa-user-plus" aria-hidden="true"></i> Add User</button>
+				
+			</form>
+		
+		
 	</div>
 </div>

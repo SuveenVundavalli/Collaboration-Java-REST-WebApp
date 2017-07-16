@@ -93,6 +93,15 @@ public class UserDAOImpl implements UserDAO {
 				.add(Restrictions.eq("userId", userId))
 				.uniqueResult();
 	}
+	
+	public User getUserById(String userId, String status) {
+		log.debug("---> Starting of getUserById method");
+		return (User) getCurrentSession().createCriteria(User.class)
+				.add(Restrictions.eq("userId", userId))
+				.add(Restrictions.eq("status", status))
+				.uniqueResult();
+	}
+
 
 	public List<User> list() {
 		log.debug("---> Starting of list method in User");

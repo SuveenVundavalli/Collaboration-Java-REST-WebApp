@@ -65,5 +65,21 @@ myApp.config(function($routeProvider) {
 		templateUrl : "C_Jobs/Admin_ManageJobApplications.html",
 		controller : "JobController"
 	})
+	.when("/ManageNewUsers", {
+		templateUrl : "C_User/Admin_ManageUsers.html",
+		controller : "UserController"
+	})
+	.when("/ManageExistingUsers", {
+		templateUrl : "C_User/Admin_ManageUsers.html",
+		controller : "UserController"
+	})
+	.when("/ManageRejectedUsers", {
+		templateUrl : "C_User/Admin_ManageUsers.html",
+		controller : "UserController"
+	})
+	.when("/CreateNewUsers", {
+		templateUrl : "C_User/Register.html",
+		controller : "UserController"
+	})
 	.otherwise({redirectTo:'/'});
 });

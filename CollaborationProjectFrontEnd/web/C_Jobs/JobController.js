@@ -244,7 +244,6 @@ myApp.controller("JobController", function($scope, $http, JobService, $rootScope
 	
 	$scope.resetForm = function(insertjob){
 		console.log("Starting reserForm method");
-		console.log(insertjob);
 		this.job = {
 				errorMessage: '',
 		        errorCode: '',

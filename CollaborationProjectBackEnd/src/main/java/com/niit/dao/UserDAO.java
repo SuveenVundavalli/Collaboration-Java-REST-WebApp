@@ -13,6 +13,8 @@ public interface UserDAO {
 	public boolean delete(String userId);
 
 	public User getUserById(String userId);
+	
+	public User getUserById(String userId, String status);
 
 	public List<User> list();
 	

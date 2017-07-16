@@ -26,7 +26,11 @@ a.blackText {
 a.blackText:hover {
 	text-decoration: none;
 }
+/*-----------------------------------------------table vertical center align-------------------*/
 
+.table > tbody > tr > td.vcenter {
+     vertical-align: middle;
+}
 
 /*-----------------------------------------------Text color -----------------------------------*/
 .text-navbar-color{

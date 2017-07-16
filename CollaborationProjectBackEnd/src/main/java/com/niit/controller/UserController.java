@@ -80,18 +80,24 @@ public class UserController {
 			user.setErrorCode("404");
 			user.setErrorMessage("Invalid login details!");
 		} else {
-			// String fullName = user.getFirstname() +" "+ user.getLastname();
-			log.debug("---> Valid user credentials");
-			user.setIsOnline("Y");
-			friendDAO.setOnline(user.getUserId());
-			userDAO.update(user);
-			// userDAO.setOnline(user.getUserId());
-			user.setErrorCode("200");
-			user.setErrorMessage("Login Successfull!");
-			log.debug("---> Saving user details in session");
-			session.setAttribute("User", user);
-			session.setAttribute("loggedInUserId", user.getUserId());
-			session.setAttribute("loggedInUserRole", user.getRole());
+			if(userDAO.getUserById(user.getUserId(), "A") != null){
+				// String fullName = user.getFirstname() +" "+ user.getLastname();
+				log.debug("---> Valid user credentials");
+				user.setIsOnline("Y");
+				friendDAO.setOnline(user.getUserId());
+				userDAO.update(user);
+				// userDAO.setOnline(user.getUserId());
+				user.setErrorCode("200");
+				user.setErrorMessage("Login Successfull!");
+				log.debug("---> Saving user details in session");
+				session.setAttribute("User", user);
+				session.setAttribute("loggedInUserId", user.getUserId());
+				session.setAttribute("loggedInUserRole", user.getRole());
+			} else {
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMessage("Please wait until admin approves your account!");
+			}
 		}
 		log.info("---> Ending of validate method");
 		return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -138,6 +144,24 @@ public class UserController {
 		else{
 			user.setErrorCode("404");
 			user.setErrorMessage("User id already exists. Please choose an other userId");
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateUser")
+	public ResponseEntity<User> updateUser(@RequestBody User user){
+		log.debug("Starting of updateUser method");
+		if(userDAO.getUserById(user.getUserId()) != null){
+			if(userDAO.update(user)){
+				user.setErrorCode("200");
+				user.setErrorMessage("User update successfull");
+			} else {
+				user.setErrorCode("404");
+				user.setErrorMessage("User update failed! Please try again!");
+			}
+		} else {
+			user.setErrorCode("404");
+			user.setErrorMessage("The user id :"+user.getUserId()+" is not present in database!");
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
@@ -218,12 +242,12 @@ public class UserController {
 		return new ResponseEntity<User>(actualUser, HttpStatus.OK);
 	}
 
-	@PutMapping("/rejectUser/{userId}")
-	public ResponseEntity<User> rejectUser(@PathVariable("userId") String userId, @RequestBody User userRejected) {
+	@PutMapping("/rejectUser/{userId}/{remarks}")
+	public ResponseEntity<User> rejectUser(@PathVariable("userId") String userId, @PathVariable("remarks") String remarks) {
 		String loggedInUserRole = (String) session.getAttribute("loggedInUserRole");
 		if (loggedInUserRole!=null && loggedInUserRole.equals("ROLE_ADMIN")) {
 			user = userDAO.getUserById(userId);
-			user.setRemarks(userRejected.getRemarks());
+			user.setRemarks(remarks);
 			if (changeStatus(user, "R")) {
 				user.setErrorCode("200");
 				user.setErrorMessage("User rejected successfully");
