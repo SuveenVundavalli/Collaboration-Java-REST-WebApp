@@ -34,6 +34,7 @@ public class BlogCommentController {
 	 * /updateBlogComment/{blogCommentId}	- Put
 	 * /deleteBlogComment/{blogCommentId}	- Delete
 	 * /getAllCommentsByBlogId/{blogId}		- Get
+	 * /getAllBlogComments					- Get
 	 */
 	
 	private static Logger log = LoggerFactory.getLogger(BlogController.class);
@@ -151,6 +152,13 @@ public class BlogCommentController {
 		
 		log.debug("---> Ending of method getAllCommentsByBlogId");
 		return new ResponseEntity<List<BlogComment>>(blogCommentDAO.getAllCommentsByBlogId(blogId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAllBlogComments")
+	public ResponseEntity<List<BlogComment>> getAllBlogComments(){
+		log.debug("---> starting of method getAllCommentsByBlogId");
+		log.debug("---> Ending of method getAllCommentsByBlogId");
+		return new ResponseEntity<List<BlogComment>>(blogCommentDAO.list(), HttpStatus.OK);
 	}
 	
 }

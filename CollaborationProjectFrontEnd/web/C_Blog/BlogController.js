@@ -21,6 +21,28 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 	
 	this.blogs=[];
 	
+	this.blogComment = {
+			errorMessage: '',
+	        errorCode: '',
+	        blogCommentId: '',
+	        blogId: '',
+	        userId: '',
+	        username: '',
+	        blogComment: '',
+	        commentDate: ''
+		    
+	};
+	
+	this.blogComments = [];
+	
+	$scope.blogId = "";
+	$scope.blogId1 = "";
+	
+	$scope.buttonMessage = "Show Comments";
+	$scope.addBlogComment = false;
+	$scope.showBlogComments = false;
+   
+	
 	//getAllBlogs
 	this.getAllBlogs = function(){
 		console.log("Starting of method getAllBlogs");
@@ -40,6 +62,25 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 	};
 	
 	this.getAllBlogs();
+	//getAllBlogComments
+	this.getAllBlogComments = function(){
+		console.log("Starting of method getAllBlogComments");
+		
+		BlogService.getAllBlogComments()
+		.then(
+				function(dataFromService){
+					this.blogComments = dataFromService;
+					$rootScope.blogComments = dataFromService;
+					localStorage.setItem('blogComments', JSON.stringify(this.blogComments));
+					
+				},
+				function(errResponse){
+					console.error("Error while fetching blogs!");
+				}
+		);
+	};
+	
+	this.getAllBlogComments();
 	
 	//approveBlog
 	this.approveBlog = function(blogId){
@@ -126,5 +167,50 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 		}
 	};
 	
+	
+	this.saveBlogComment = function(blogComment,blogId){
+		console.log("Starting of saveBlogComment() in BlogController");
+		blogComment.blogId = blogId;
+		BlogService.saveBlogComment(blogComment)
+		.then(
+				function(response){
+					this.blogComment = response;
+					if(blogComment.errorCode == "404"){
+						console.log(this.blogComment.errorMessage);
+						$rootScope.errorMessage = this.blogComment.errorMessage;
+					} else {
+						console.log(this.blogComment.errorMessage);
+						$rootScope.successMessage = this.blogComment.errorMessage;
+						this.blogComment = {};
+						$route.reload();
+					}
+				}
+		)
+		
+	} 
+
+	this.userClickedAddBlogComment = function(blogId){
+		if($scope.blogId1 == blogId){
+			$scope.blogId1 = "";
+			
+		} else {
+			$scope.blogId1 = blogId;
+		}
+		$scope.addBlogComment = !$scope.addBlogComment;
+		
+		
+	}
+
+	$scope.toggleFilter = function(blogId) {
+		if($scope.blogId == blogId){
+			$scope.blogId = "";
+			$scope.buttonMessage = "Show Comments";
+			
+		} else {
+			$scope.blogId = blogId;
+			$scope.buttonMessage = "Hide Comments";
+		}
+		$scope.showBlogComments = !$scope.showBlogComments;
+	}
 
 });

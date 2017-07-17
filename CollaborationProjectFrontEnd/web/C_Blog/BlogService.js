@@ -17,6 +17,19 @@ myApp.service("BlogService", function($http, $q) {
 			);
 		},
 		
+		//getAllBlogComments
+		getAllBlogComments : function(){
+			console.log("Starting of getAllBlogComments method in BlogService");
+			
+			return $http.get(BackendUrl+"/getAllBlogComments")
+			.then(
+					function(response) {
+						return response.data;
+					}, 
+					null
+			);
+		},
+		
 		//approveBlog
 		approveBlog : function(blogId){
 			console.log("Starting of method approveBlog in BlogService");
@@ -53,6 +66,20 @@ myApp.service("BlogService", function($http, $q) {
 			}, function(errResponse) {
 				console.error("Error while deleting blog");
 			}
+			);
+		},
+		
+		//save blog comment
+		saveBlogComment : function(blogComment){
+			console.log("Starting of method saveBlogComment in BlogService");
+			
+			return $http.post(BackendUrl+"/saveBlogComment", blogComment)
+			.then(
+					function(response) {
+						return response.data;
+					}, function(errResponse) {
+						console.error("Error while adding blog comment");
+					}
 			);
 		}
 		

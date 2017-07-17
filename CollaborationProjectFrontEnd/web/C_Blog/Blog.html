@@ -1,61 +1,80 @@
-
 <div ng-controller="BlogController as blogctrl">
-
-	<!-- Create Blog -->
 	<div class="container">
-		<div class="well">
-			<div class="h2 text-center">Create Blog</div>
-			<br />
-			<form name="insertblog" class="form-horizontal" ng-submit="reloadRoute()">
-				<div class="form-group">
-					<label class="control-label col-sm-4" for="blogname">Blog Name:</label>
-					<div class="col-sm-6">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span> <input type="text" class="form-control" name="blogname" id="blogname" placeholder="Enter blogname" pattern=".{5,40}" title="Blogname must have 5 to 40 characters" ng-model="blog.blogname"
-								required>
+		<div class="h2">Blogs</div>
+		<div class="row">
+			<div class="col-sm-offset-9 col-sm-3 nopadding">
+				<form>
+					<div class="form-group">
+						<label for="selectedSort">Sort by: </label>
+						<select ng-model='selectedSort' id="selectedSort" class="form-control bootstrap-select btn btn-navbar-color">
+							<option value='blogId'>Blog Id</option>
+							<option value='blogName'>Name</option>
+							<option value='userId'>User Id</option>
+							<option value='createDate'>Date</option>
+						</select>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div ng-repeat="blog in blogs | filter: 'A' | orderBy : selectedSort">
+			<div class="well row vertical-align bordered">
+				<div class="col-sm-12">
+					<div>
+						<div class="h3">{{blog.blogName}}</div>
+
+						<div class="col-md-4">
+							<div class="text-muted">Posted by: {{blog.userId}}</div>
+						</div>
+						<div class="col-md-4">
+							<div class="text-right text-muted">Posted on: {{blog.createDate | date:"medium" }}</div>
+						</div>
+						<div class="col-md-4">
+							<div class="text-right text-muted">Likes: {{blog.likes}}</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-sm-4" for="blogcontent">Blog Content:</label>
-					<div class="col-sm-6">
-						<textarea class="form-control" rows="5" id="blogcontent" placeholder="Enter blogcontent" pattern=".{5,255}" title="BlogContent must have 5 to 255 characters" ng-model="blog.blogcontent" required></textarea>
-					</div>
-				</div>
+					<hr />
+					<hr />
+					<div class="text-justify">{{blog.blogContent}}</div>
 
-				<div class="form-group">
-					<div class="col-sm-offset-4 col-sm-8">
-						<button type="submit" ng-click="saveBlogPost()" class="btn btn-warning">
-							<i class="fa fa-sign-in" aria-hidden="true"></i> Create Blog
-						</button>
+				</div>
+			</div>
+			<a ng-click="toggleFilter(blog.blogId)" class="btn btn-navbar-color">Comments</a>
+			<a class="btn btn-navbar-color" ng-click = "blogctrl.userClickedAddBlogComment(blog.blogId)">Add comment</a>
+			<br />
+			<br />
+
+			<div ng-if="blogId == blog.blogId ">
+				<div ng-repeat="blogComment in blogComments | filter:{blogId : blog.blogId}">
+					<div class="col-sm-12 container well">
+						<div class="col-sm-6 text-muted">{{blogComment.username}}</div>
+						<div class="com-sm-6 text-muted text-right">{{blogComment.commentDate | date:'medium'}}</div>
+						<hr class="muted" />
+						<div class="col-sm-12">{{blogComment.blogComment}}</div>
 					</div>
 				</div>
-			</form>
+			</div>
+			<div ng-if="blogId1 == blog.blogId">
+				<h2>Add comment</h2>
+				<div class="container">
+					<div class="well">
+						<form name="myForm" ng-submit="blogctrl.saveBlogComment(blogComment, blog.blogId)">
+							<div class="form-group">
+								<label for="bComment">Comment:</label> 
+								<textarea type="text" placeholder="Enter Comment" class="form-control" name="bComment" id="bComment" ng-model="blogComment.blogComment" ng-minlength="5" ng-maxlength="255" required></textarea> 
+								<span ng-show="myForm.bComment.$error.minlength" style="color: red;">Minimum 5 characters</span> 
+								<span ng-show="myForm.bComment.$error.maxlength" style="color: red;">Maximum 255 characters</span> 
+								<span ng-show="myForm.bComment.$error.required && myForm.bComment.$dirty" style="color: red;">Required Field</span>
+							</div>
+							<button type="submit" class="btn btn-success" ng-disabled="myForm.$invalid">Add Comment</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			<br /> <br />
 		</div>
+
 	</div>
-
-	<!-- List Blog -->
-	<div class="h2 text-center">List Blogs</div>
-	<table class="table">
-		<tr>
-			<td>Blog Id</td>
-			<td>User Id</td>
-			<td>Likes</td>
-			<td>Blog Name</td>
-			<td>Blog Content</td>
-			<td>Status</td>
-			<td>Create Date</td>
-		</tr>
-		<tr ng-repeat="blog in blogs | orderBy : 'blogid'">
-			<td>{{blog.blogId}}</td>
-			<td>{{blog.userId}}</td>
-			<td>{{blog.likes}}</td>
-			<td>{{blog.blogName}}</td>
-			<td>{{blog.blogContent}}</td>
-			<td>{{blog.status}}</td>
-			<td>{{blog.createDate | date : "fullDate"}}</td>
-		</tr>
-	</table>
-
+	</div>
 </div>
-

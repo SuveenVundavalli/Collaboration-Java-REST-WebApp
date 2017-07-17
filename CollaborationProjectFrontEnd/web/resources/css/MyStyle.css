@@ -75,6 +75,14 @@ hr {
     margin: 1em 0;
     padding: 0; 
 }
+hr.muted {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid grey;
+    margin: 1em 0;
+    padding: 0; 
+}
 
 /*-----------------------------------------------Navbar color styling---------------------------------------*/
 .navbar-default {

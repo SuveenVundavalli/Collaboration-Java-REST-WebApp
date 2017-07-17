@@ -93,10 +93,19 @@ public class UserController {
 				session.setAttribute("User", user);
 				session.setAttribute("loggedInUserId", user.getUserId());
 				session.setAttribute("loggedInUserRole", user.getRole());
-			} else {
+			} else if(userDAO.getUserById(user.getUserId(), "R") != null){
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMessage("Your account has been rejected by the admin!");
+			} else if(userDAO.getUserById(user.getUserId(), "N") != null){
 				user = new User();
 				user.setErrorCode("404");
 				user.setErrorMessage("Please wait until admin approves your account!");
+			}
+			else {
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMessage("Unknown error!");
 			}
 		}
 		log.info("---> Ending of validate method");

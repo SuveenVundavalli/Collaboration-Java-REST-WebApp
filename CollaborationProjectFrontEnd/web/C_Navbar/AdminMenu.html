@@ -17,7 +17,7 @@
 							<li><a href="#/ManageRejectedForums">View rejected forums</a></li>
 						</ul>
 					</li>
-					<li ng-class="{active: isActive('/CreateNewJob') || isActive('/ManageExistingJob') || isActive('/ManageJobApplications')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Jobs<span class="caret"></span></a>
+					<li ng-class="{active: isActive('/CreateNewJob') || isActive('/ManageOpenJobs') || isActive('/ManageClosedJobs') || isActive('/ManageJobApplications')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Jobs<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#/CreateNewJob">Create new job</a></li>
 							<li><a href="#/ManageOpenJobs">Manage open jobs</a></li>
@@ -25,7 +25,7 @@
 							<li><a href="#/ManageJobApplications">Manage job applications</a></li>
 						</ul>
 					</li>
-					<li ng-class="{active: isActive('/ManageNewUsers') || isActive('/ManageExistingUsers') || isActive('/ViewRejectedUsers') || isActive('/CreateNewUsers')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Users<span class="caret"></span></a>
+					<li ng-class="{active: isActive('/ManageNewUsers') || isActive('/ManageExistingUsers') || isActive('/ManageRejectedUsers') || isActive('/CreateNewUsers')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Users<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#/ManageNewUsers">Manage new users</a></li>
 							<li><a href="#/ManageExistingUsers">Manage existing users</a></li>
