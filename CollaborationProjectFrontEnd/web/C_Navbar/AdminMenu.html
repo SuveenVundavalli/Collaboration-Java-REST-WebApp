@@ -3,18 +3,17 @@
 		<div class="container">
 			<div class="navbar navbar-default">
 					<ul class="nav navbar-nav nav-tabs nav-justified">
-					<li ng-class="{active: isActive('/ManageNewBlogs') || isActive('/ManageUpdatedBlogs') || isActive('/ManageRejectedBlogs')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Blogs<span class="caret"></span></a>
+					<li ng-class="{active: isActive('/ManageNewBlogs') || isActive('/ManageUpdatedBlogs') || isActive('/ManageRejectedBlogs')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#/ManageNewBlogs">Manage Blogs<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#/ManageNewBlogs">Manage new blogs</a></li>
 							<li><a href="#/ManageUpdatedBlogs">Manage updated blogs</a></li>
 							<li><a href="#/ManageRejectedBlogs">Manage rejected blogs</a></li>
 						</ul>
 					</li>
-					<li ng-class="{active: isActive('/ManageNewForums') || isActive('/ManageUpdatedForums') || isActive('/ManageRejectedForums')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Forums<span class="caret"></span></a>
+					<li ng-class="{active: isActive('/ManageNewForums') || isActive('/ManageUpdatedForums') || isActive('/ManageRejectedForums')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#/ManageForums">Manage Forums<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#/ManageNewForums">Manage new forums</a></li>
-							<li><a href="#/ManageUpdatedForums">Manage updated forums</a></li>
-							<li><a href="#/ManageRejectedForums">View rejected forums</a></li>
+							<li><a href="#/ManageForums">Manage forums</a></li>
+							<li><a href="#/CreateNewForum">Create new forum</a></li>
 						</ul>
 					</li>
 					<li ng-class="{active: isActive('/CreateNewJob') || isActive('/ManageOpenJobs') || isActive('/ManageClosedJobs') || isActive('/ManageJobApplications')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Jobs<span class="caret"></span></a>

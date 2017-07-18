@@ -17,31 +17,33 @@
 			</div>
 		</div>
 		
-		<div ng-repeat="forum in forums | filter:{status : forumctrl.getManageAdminForumStatus()} | orderBy : selectedSort">
+		<div ng-repeat="oneforum in forums | filter:'A' | orderBy : selectedSort">
 			<div class="well row vertical-align bordered">
 				<div class="col-sm-9">
 					<div>
-						<div class="h3">{{forum.forumName}}</div>
+						<div class="h3">{{oneforum.forumName}}</div>
 						
 						<div class="col-xs-6">
-							<div class="text-muted">{{forum.userId}}</div>
+							<div class="text-muted">{{oneforum.userId}}</div>
 						</div>
 						<div class="col-xs-6">
-							<div class="text-right text-muted">{{forum.createDate | date:"medium" }}</div>
+							<div class="text-right text-muted">{{oneforum.createDate | date:"medium" }}</div>
 						</div>
 					</div>
 					<hr />
 					<hr />
-					<div class="text-justify">{{forum.forumContent}}</div>
+					<div class="text-justify">{{oneforum.forumContent}}</div>
 					
 				</div>
 				<div class="col-sm-3 text-center">
-					<a class="btn btn-success" ng-click="forumctrl.approveForum(forum.forumId)"> <span class="glyphicon glyphicon-ok"></span> </a>
-					<a class="btn btn-warning" ng-click="forumctrl.rejectForum(forum.forumId)"> <span class="glyphicon glyphicon-remove"></span> </a>
-					<a ng-show="forumctrl.getManageAdminForumStatus() == 'R'" class="btn btn-danger" ng-click="forumctrl.deleteForum(forum.forumId)"> <span class="glyphicon glyphicon-trash"></span> </a>
-					
+					<a class="btn btn-success" ng-click="forumctrl.editForum(oneforum)"> <span class="glyphicon glyphicon-edit"></span> </a>
+					<a class="btn btn-danger" ng-click="forumctrl.deleteForum(oneforum.forumId)"> <span class="glyphicon glyphicon-remove"></span> </a>
 				</div>
 			</div>
+			<div ng-if="forum.forumId == oneforum.forumId">
+				<div ng-include="'C_Forum/Admin_EditForum.html'"></div>
+			</div>
+			
 		</div>
 	</div>
 </div>

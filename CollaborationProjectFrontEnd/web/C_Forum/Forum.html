@@ -1,52 +1,41 @@
-<div ng-controller="ForumController">
-	<!-- Create Forum -->
+<div ng-controller="ForumController as forumctrl">
 	<div class="container">
-		<div class="well">
-			<div class="h2 text-center">Create Forum</div>
-			<br />
-			<form name="insertforum" class="form-horizontal" ng-submit="reloadRoute()">
-				<div class="form-group">
-					<label class="control-label col-sm-offset-2 col-sm-2" for="forumname">Forum Name:</label>
-					<div class="col-sm-6">
-						<input type="text" class="form-control" name="forumname" id="forumname" placeholder="Enter forumname" pattern=".{5,40}" title="Forumname must have 5 to 40 characters" ng-model="forum.forumname" required>
+		<div class="h2">Manage New Forums</div>
+		<div class="row">
+			<div class="col-sm-offset-9 col-sm-3 nopadding">
+				<form>
+					<div class="form-group">
+						<label for="selectedSort">Sort by: </label>
+						<select ng-model='selectedSort' id="selectedSort" class="form-control bootstrap-select btn btn-navbar-color">
+							<option value='forumId'>Forum Id</option>
+							<option value='forumName'>Name</option>
+							<option value='userId'>User Id</option>
+							<option value='createDate'>Date</option>
+						</select>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-sm-offset-2 col-sm-2" for="forumcontent">Forum Content:</label>
-					<div class="col-sm-6">
-						<textarea class="form-control" rows="5" id="forumcontent" placeholder="Enter forumcontent" pattern=".{5,255}" title="ForumContent must have 5 to 255 characters" ng-model="forum.forumcontent" required></textarea>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-sm-offset-4 col-sm-8">
-						<button type="submit" ng-click="saveForumPost()" class="btn btn-warning">
-							<i class="fa fa-sign-in" aria-hidden="true"></i> Create Forum
-						</button>
-					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
-	</div>
+		
+		<div ng-repeat="oneforum in forums | filter:'A' | orderBy : selectedSort">
+			<div class="well row bordered" ng-click="forumctrl.viewForum(oneforum)">
+				<div class="col-sm-12">
+					<div>
+						<div class="h3">{{oneforum.forumName}}</div>
 
-	<!-- List Forum -->
-	<div class="container">
-		<div class="h2 text-center">List Forums</div>
-		<table class="table">
-			<tr>
-				<td>Forum Id</td>
-				<td>User Id</td>
-				<td>Forum Name</td>
-				<td>Forum Content</td>
-				<td>Create Date</td>
-			</tr>
-			<tr ng-repeat="forum in forumdata">
-				<td>{{forum.forumid}}</td>
-				<td>{{forum.userid}}</td>
-				<td>{{forum.forumname}}</td>
-				<td>{{forum.forumcontent}}</td>
-				<td>{{forum.createdate | date : "fullDate"}}</td>
-			</tr>
-		</table>
+						<div class="col-xs-6">
+							<div class="text-muted">{{oneforum.userId}}</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="text-right text-muted">{{oneforum.createDate | date:"medium" }}</div>
+						</div>
+					</div>
+					<hr />
+					<hr />
+					<div class="text-justify">{{oneforum.forumContent}}</div>
+
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

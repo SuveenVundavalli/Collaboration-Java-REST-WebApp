@@ -20,6 +20,10 @@ myApp.config(function($routeProvider) {
 		templateUrl : "C_Forum/Forum.html",
 		controller : "ForumController"
 	})
+	.when("/viewForum", {
+		templateUrl : "C_Forum/ViewForum.html",
+		controller : "ForumController"
+	})
 	.when("/Jobs", {
 		templateUrl : "C_Jobs/Jobs.html",
 		controller : "JobsController"
@@ -37,16 +41,12 @@ myApp.config(function($routeProvider) {
 		templateUrl : "C_Blog/Admin_ManageBlogs.html",
 		controller : "BlogController"
 	})
-	.when("/ManageNewForums", {
+	.when("/ManageForums", {
 		templateUrl : "C_Forum/Admin_ManageForums.html",
 		controller : "ForumController"
 	})
-	.when("/ManageUpdatedForums", {
-		templateUrl : "C_Forum/Admin_ManageForums.html",
-		controller : "ForumController"
-	})
-	.when("/ManageRejectedForums", {
-		templateUrl : "C_Forum/Admin_ManageForums.html",
+	.when("/CreateNewForum", {
+		templateUrl : "C_Forum/Admin_CreateForum.html",
 		controller : "ForumController"
 	})
 	.when("/CreateNewJob", {

@@ -18,12 +18,18 @@ myApp.run(function($rootScope, $http, $cookieStore){
 	//Getting forums details from localStorage after page refresh
 	$rootScope.forums = JSON.parse(localStorage.getItem('forums')) || {};
 	
+	$rootScope.forumComments = JSON.parse(localStorage.getItem('forumComments')) || {};
+	$rootScope.forum1 = JSON.parse(localStorage.getItem('forum1')) || {};
+	console.log("Forum Comments");
+	console.log($rootScope.forumComments);
+	
 	
 	//Getting jobs details from local Storage after page refresh
 	$rootScope.jobs = JSON.parse(localStorage.getItem('jobs')) || {};
 	
 	//Getting jobApplications details from local Storage after page refresh
 	$rootScope.jobApplications = JSON.parse(localStorage.getItem('jobApplications')) || {};
+	
 	
 	//Getting user details from localStorage after page refresh
 	$rootScope.users = JSON.parse(localStorage.getItem('users')) || {};

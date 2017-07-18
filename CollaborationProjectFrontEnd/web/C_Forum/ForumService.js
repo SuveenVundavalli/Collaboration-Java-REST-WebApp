@@ -17,6 +17,48 @@ myApp.service("ForumService", function($http, $q) {
 			);
 		},
 		
+		getAllForumComments : function(){
+			console.log("Starting of getAllForumComments in FOrumService");
+			
+			return $http.get(BackendUrl+"/getAllForumComments")
+			.then(
+					function(response) {
+						return response.data;
+					}, function(errResponse) {
+						console.log("Error while getting forum comments");
+					}
+			)
+		},
+		
+		//insertForum
+		insertForum : function(forum){
+			console.log("Starting of insertForum() in ForumService");
+			
+			return $http.post(BackendUrl+"/insertForum", forum)
+			.then(
+					function(response) {
+						return response.data;
+					},
+					function(errResponse){
+						console.error("Error while adding new forum!");
+					}
+			);
+		},
+		
+		//updateForum
+		updateForum : function(forum){
+			console.log("Starting of updateForum() in ForumController");
+			
+			return $http.put(BackendUrl+"/updateForum/"+forum.forumId, forum)
+			.then(
+					function(response) {
+						return response.data;
+					}, function(errResponse) {
+						console.error("Error while updating forum");
+					}
+			)
+		},
+		
 		//approveForum
 		approveForum : function(forumId){
 			console.log("Starting of method approveForum in ForumService");
@@ -53,6 +95,20 @@ myApp.service("ForumService", function($http, $q) {
 			}, function(errResponse) {
 				console.error("Error while deleting forum");
 			}
+			);
+		},
+		
+		//saveForumComment
+		saveForumComment : function(forumComment){
+			console.log("Starting of method saveForumComment in ForumService");
+			
+			return $http.post(BackendUrl+"/saveForumComment",forumComment)
+			.then(
+					function(response) {
+						return response.data;
+					}, function(errResponse) {
+						console.log("Error while saving forum comment");
+					}
 			);
 		}
 	}

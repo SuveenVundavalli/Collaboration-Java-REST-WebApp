@@ -48,6 +48,15 @@ public class ForumCommentController {
 	@Autowired UserDAO userDAO;
 	@Autowired User user;
 	
+	
+	@GetMapping("/getAllForumComments")
+	public ResponseEntity<List<ForumComment>> getAllForumComments(){
+		log.debug("---> ");
+		log.debug("---> Starting of method getAllForumComments");
+		return new ResponseEntity<List<ForumComment>>(forumCommentDAO.list(), HttpStatus.OK);
+	}
+	
+	
 	@PostMapping("/saveForumComment")
 	public ResponseEntity<ForumComment> saveForumComment(@RequestBody ForumComment forumComment){
 		log.debug("---> ");
