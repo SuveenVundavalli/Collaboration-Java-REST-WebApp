@@ -233,6 +233,30 @@ public class FriendController {
 		return new ResponseEntity<Friend>(friend, HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/deleteFriendRequest/{friendId}")
+	public ResponseEntity<Friend> deleteFriendRequest(@PathVariable("friendId") String friendId){
+		log.debug("---> ");
+		log.debug("---> Starting of method deleteFriendRequest");
+		
+		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+		friend = new Friend();
+		if(loggedInUserId != null){
+			if(friendDAO.delete(loggedInUserId, friendId)){
+				friend.setErrorCode("200");
+				friend.setErrorMessage("Delete friend request successfull");
+			} else {
+				friend.setErrorCode("404");
+				friend.setErrorMessage("Delete friend request failed");
+			}
+		} else {
+			log.debug("---> Please login to perform this operation!");
+			friend.setErrorCode("404");
+			friend.setErrorMessage("Please login to perform this operation!");
+		}
+		log.debug("---> Ending of method deleteFriendRequest");
+		return new ResponseEntity<Friend>(friend, HttpStatus.OK);
+	}
+	
 	@GetMapping("/getMyFriendRequests")
 	public ResponseEntity<List<Friend>> getMyFriendRequests(){
 		
@@ -245,6 +269,7 @@ public class FriendController {
 			log.debug("---> getting friend requests");
 			friends = friendDAO.getNewFriendRequests(loggedInUserId);
 			if(friends.isEmpty()){
+				friend =new Friend();
 				log.debug("---> No friend requests");
 				friend.setErrorCode("404");
 				friend.setErrorMessage("You have no friend requests");
@@ -288,6 +313,8 @@ public class FriendController {
 		log.debug("--->Ending of method getFriendRequestsSentByMe");
 		return new ResponseEntity<List<Friend>>(friends,HttpStatus.OK);
 	}
+	
+	
 		
 	private boolean isUserExist(String userId){
 		if(userDAO.getUserById(userId) == null){

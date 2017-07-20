@@ -11,9 +11,15 @@
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
 						<li ng-class="{active: isActive('/')}"><a href="#/">Home</a></li>
-						<li ng-class="{active: isActive('/Blog')}"><a href="#/Blog">Blog</a></li>
+						<li ng-class="{active: isActive('/Blog') || isActive('/AddBlog')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#/Blog">Blogs<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#/Blog">View Blogs</a></li>
+								<li><a href="#/AddBlog">Add Blog</a></li>
+							</ul>
+						</li>
 						<li ng-class="{active: isActive('/Forum')}"><a href="#/Forum">Forum</a></li>
 						<li ng-class="{active: isActive('/Jobs')}"><a href="#/Jobs">Jobs</a></li>
+						<li ng-class="{active: isActive('/SearchUsers')}"><a href="#/SearchUsers">Search Users</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 							<li ng-class="{active: isActive('/Register')}" ng-hide="loggedInUser.userId"><a href="#/Register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>

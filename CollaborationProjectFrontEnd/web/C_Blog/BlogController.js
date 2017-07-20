@@ -176,7 +176,7 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 				function(response){
 					this.blogComment = response;
 					if(blogComment.errorCode == "404"){
-						console.log(this.blogComment.errorMessage);
+						console.error(this.blogComment.errorMessage);
 						$rootScope.errorMessage = this.blogComment.errorMessage;
 					} else {
 						console.log(this.blogComment.errorMessage);
@@ -187,7 +187,65 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 				}
 		)
 		
-	} 
+	};
+	
+	this.addBlog = function(blog, myForm){
+		console.log("Starting of addBlog() in BlogController");
+		
+		BlogService.addBlog(blog)
+		.then(
+				function(response) {
+					this.blog = response;
+					$rootScope.blog = response;
+					if(this.blog.errorCode == "404"){
+						$rootScope.errorMessage = this.blog.errorMessage;
+						console.error(this.blog.errorMessage);
+					} else {
+						$rootScope.successMessage = this.blog.errorMessage;
+						console.log(this.blog.errorMessage);
+						$scope.resetForm(myForm);
+						
+					}
+				}
+		)
+	};
+	
+	this.editBlog = function(blog){
+		if($rootScope.blog == blog){
+			$rootScope.blog={};
+		} else{
+			$rootScope.blog = blog;
+		}
+		//$location.path("/EditBlog");
+	};
+	
+	$rootScope.updateBlog = function(blog, myForm){
+		console.log("Starting of updateBlog() in BlogController");
+		
+		BlogService.updateBlog(blog)
+		.then(
+				function(response) {
+					//console.log(response);
+					this.blog = response;
+					$rootScope.blog = response;
+					if(this.blog.errorCode == "404"){
+						$rootScope.errorMessage = this.blog.errorMessage;
+						console.error(this.blog.errorMessage);
+					} else {
+						$rootScope.successMessage = this.blog.errorMessage;
+						console.log(this.blog.errorMessage);
+						$scope.resetForm(myForm);
+						$location.path("/Blog");
+						$rootScope.blog={};
+						$route.reload();
+						
+						
+					}
+				}
+		)
+	};
+	
+	
 
 	this.userClickedAddBlogComment = function(blogId){
 		if($scope.blogId1 == blogId){
@@ -211,6 +269,25 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 			$scope.buttonMessage = "Hide Comments";
 		}
 		$scope.showBlogComments = !$scope.showBlogComments;
+	}
+	
+	
+	$scope.resetForm = function(myForm){
+		console.log("Starting reserForm method");
+		this.blog = {
+				errorMessage: '',
+		        errorCode: '',
+		        blogId: '',
+		        likes: '',
+		        userId: '',
+		        blogName: '',
+		        blogContent: '',
+		        remarks: '',
+		        status: '',
+		        createDate: ''
+		}
+		myForm.$setPristine();
+		myForm.$setUntouched();
 	}
 
 });

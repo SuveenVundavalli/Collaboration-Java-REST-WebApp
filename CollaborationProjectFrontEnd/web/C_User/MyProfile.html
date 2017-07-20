@@ -5,7 +5,7 @@
 		<br />
 		<br />
 		<div ng-if="isActive('/MyProfile')">
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<img class="img-responsive" check-image ng-src="{{'resources/ProfilePics/'+loggedInUser.userId}}" alt="Profile Pic" />
 				<br />
 				
@@ -14,6 +14,28 @@
 					<input type="submit" value="Upload">
 				</form>
 			</div>
+			<div class="col-sm-9">
+				<table class="table table-striped">
+					<tr>
+						<td><b>First Name</b></td>
+						<td>: {{loggedInUser.firstname}}</td>
+					</tr>
+					<tr>
+						<td><b>Last Name</b></td>
+						<td>: {{loggedInUser.lastname}}</td>
+					</tr>
+					<tr>
+						<td><b>User Id</b></td>
+						<td>: {{loggedInUser.userId}}</td>
+					</tr>
+					<tr>
+						<td><b>Email</b></td>
+						<td>: {{loggedInUser.email}}</td>
+					</tr>
+					
+				</table>
+			</div>
+			
 		</div>
 	</div>	
 </div>

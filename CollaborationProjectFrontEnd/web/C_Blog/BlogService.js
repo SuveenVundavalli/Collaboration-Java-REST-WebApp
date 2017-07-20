@@ -81,6 +81,37 @@ myApp.service("BlogService", function($http, $q) {
 						console.error("Error while adding blog comment");
 					}
 			);
+		},
+		
+		//addBlog
+		addBlog : function(blog){
+			console.log("Starting of method save blog in BlogService");
+			
+			return $http.post(BackendUrl+"/insertBlog", blog)
+			.then(
+					function(response){
+						return response.data;
+					},
+					function(errResponse){
+						console.log("Error while inserting blog!");
+					}
+			)
+			
+		},
+		//updateBlog
+		updateBlog : function(blog){
+			console.log("Starting of method update blog in BlogService");
+			//console.log(blog);
+			return $http.put(BackendUrl+"/updateBlog/"+blog.blogId, blog)
+			.then(
+					function(response){
+						return response.data;
+					},
+					function(errResponse){
+						console.log("Error while updating blog!");
+					}
+			)
+			
 		}
 		
 		

@@ -133,6 +133,19 @@ myApp.service("JobService", function($http, $q) {
 						console.log("Error while applying for job");
 					}
 			)
+		},
+		
+		getMyAppliedJobs : function(){
+			console.log("Starting of getMyAppliedJobs() in JobService");
+			
+			return $http.get(BackendUrl+"/getMyAppliedJobs")
+			.then(
+					function(response) {
+						return response.data;
+					}, function(errResponse) {
+						console.log("Error while getMyAppliedJobs");
+					}
+			)
 		}
 	
 		

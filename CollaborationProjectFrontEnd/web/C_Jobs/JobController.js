@@ -27,6 +27,8 @@ myApp.controller("JobController", function($scope, $http, JobService, $rootScope
 	this.jobApplications = [];
 	
 	this.jobs = [];
+	this.MyAppliedJobs = [];
+	
 	
 	this.jobStatus = "";
 	
@@ -53,6 +55,27 @@ myApp.controller("JobController", function($scope, $http, JobService, $rootScope
 	};
 	
 	this.getAllJobs();
+	//getMyAppliedJobs
+	this.getMyAppliedJobs = function(){
+		console.log("Starting of method getMyAppliedJobs");
+		
+		JobService.getMyAppliedJobs()
+		.then(
+				function(dataFromService) {
+					console.log(dataFromService);
+					this.MyAppliedJobs = dataFromService;
+					$rootScope.MyAppliedJobs = MyAppliedJobs;
+					localStorage.setItem('MyAppliedJobs', JSON.stringify(this.MyAppliedJobs));
+					//$cookieStore.put("jobs", this.jobs);
+					//$http.defaults.headers.common['Authorization'] = 'Basic ' +$rootScope.blogs;
+				}, 
+				function(errResponse) {
+					console.error("Error wile fetching jobs");
+				}
+		);
+	};
+	
+	this.getMyAppliedJobs();
 	
 	this.getAllJobApplications = function(){
 		console.log("Starting of getAllJobApplications in JobController");

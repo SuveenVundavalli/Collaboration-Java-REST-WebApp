@@ -17,27 +17,32 @@
 			</div>
 		</div>
 
-		<div ng-repeat="blog in blogs | filter: 'A' | orderBy : selectedSort">
+		<div ng-repeat="thisBlog in blogs | filter: {status : 'A'} | orderBy : selectedSort">
 			<div class="well row vertical-align bordered">
 				<div class="col-sm-12">
 					<div>
-						<div class="h3">{{blog.blogName}}</div>
+						<div class="h3">{{thisBlog.blogName}}</div>
 
 						<div class="col-md-4">
-							<div class="text-muted">Posted by: {{blog.userId}}</div>
+							<div class="text-muted">Posted by: {{thisBlog.userId}}</div>
 						</div>
 						<div class="col-md-4">
-							<div class="text-right text-muted">Posted on: {{blog.createDate | date:"medium" }}</div>
+							<div class="text-right text-muted">Posted on: {{thisBlog.createDate | date:"medium" }}</div>
 						</div>
 						<div class="col-md-4">
-							<div class="text-right text-muted">Likes: {{blog.likes}}</div>
+							<div class="text-right text-muted">Likes: {{thisBlog.likes}}</div>
 						</div>
 					</div>
 					<hr />
 					<hr />
-					<div class="text-justify">{{blog.blogContent}}</div>
+					<div class="text-justify">{{thisBlog.blogContent}}</div>
+					<div ng-if="thisBlog.userId == loggedInUser.userId"><a class="btn btn-navbar-color col-sm-offset-10 col-sm-1" ng-click="blogctrl.editBlog(thisBlog)"><span class="glyphicon glyphicon-edit"></span></a></div>
+					<div ng-if="thisBlog.userId == loggedInUser.userId"><a class="btn btn-danger col-sm-1" ng-click="blogctrl.deleteBlog(thisBlog.blogId)"><span class="glyphicon glyphicon-remove"></span></a></div>
 
 				</div>
+			</div>
+			<div ng-if="thisBlog.blogId == blog.blogId">
+				<div ng-include="'C_Blog/EditBlog.html'"></div>
 			</div>
 			<a ng-click="toggleFilter(blog.blogId)" class="btn btn-navbar-color">Comments</a>
 			<a class="btn btn-navbar-color" ng-click = "blogctrl.userClickedAddBlogComment(blog.blogId)">Add comment</a>
