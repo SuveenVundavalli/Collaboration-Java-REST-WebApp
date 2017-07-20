@@ -41,8 +41,7 @@ myApp.controller("UserController", function($scope,$http, UserService, $rootScop
 	this.userStatus = "";
 	
 	$scope.selectedSort = 'userId';
-	
-	
+		
 	//Get All Users
 	this.getAllUsers = function(){
 		console.log("Starting of getAllUsers() in UserController");

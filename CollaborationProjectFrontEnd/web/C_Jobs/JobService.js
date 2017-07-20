@@ -120,6 +120,19 @@ myApp.service("JobService", function($http, $q) {
 						console.log("Error while callForInterview job application");
 					}
 			);
+		},
+		
+		applyJob : function(jobId){
+			console.log("Starting of applyJob() in JobService");
+			
+			return $http.post(BackendUrl+"/applyJob/"+jobId)
+			.then(
+					function(response) {
+						return response.data;
+					}, function(errResponse) {
+						console.log("Error while applying for job");
+					}
+			)
 		}
 	
 		

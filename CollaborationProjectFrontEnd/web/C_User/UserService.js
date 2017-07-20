@@ -99,8 +99,7 @@ myApp.service('UserService', function($http, $q) {
 						console.log("Error occured while accepting user!")
 					}
 			);
-		}
-		
+		}		
 		
 		
 		

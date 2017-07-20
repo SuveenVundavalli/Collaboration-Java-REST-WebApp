@@ -1,0 +1,32 @@
+<div ng-controller="navController">
+	<div ng-controller="UserController as userctrl">
+		<div class="container">
+			<div class="navbar navbar-default">
+					<ul class="nav navbar-nav nav-tabs nav-justified">
+					<li ng-class="{active: isActive('/MyProfile')}"><a href="#/">Manage My Profile</a></li>
+					<li ng-class="{active: isActive('/ManageNewForums') || isActive('/ManageUpdatedForums') || isActive('/ManageRejectedForums')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#/ManageForums">Manage My Blogs<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#/ManageForums">Manage My Blogs</a></li>
+							<li><a href="#/CreateNewForum">Create new forum</a></li>
+						</ul>
+					</li>
+					<li ng-class="{active: isActive('/CreateNewJob') || isActive('/ManageOpenJobs') || isActive('/ManageClosedJobs') || isActive('/ManageJobApplications')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage My Jobs<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#/CreateNewJob">Manage My Jobs</a></li>
+							<li><a href="#/ManageOpenJobs">Manage open jobs</a></li>
+							<li><a href="#/ManageClosedJobs">Manage closed jobs</a></li>
+							<li><a href="#/ManageJobApplications">Manage job applications</a></li>
+						</ul>
+					</li>
+					<li ng-class="{active: isActive('/ManageNewUsers') || isActive('/ManageExistingUsers') || isActive('/ManageRejectedUsers') || isActive('/CreateNewUsers')}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage My Friends<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#/ManageNewUsers">Manage new users</a></li>
+							<li><a href="#/ManageExistingUsers">Manage existing users</a></li>
+							<li><a href="#/ManageRejectedUsers">View rejected users</a></li>
+							<li><a href="#/CreateNewUsers">Create new users</a></li>
+						</ul>
+					</li>
+				</div>
+		</div>
+	</div>
+</div>

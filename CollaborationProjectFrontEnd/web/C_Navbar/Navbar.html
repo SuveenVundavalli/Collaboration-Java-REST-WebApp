@@ -19,7 +19,8 @@
 							<li ng-class="{active: isActive('/Register')}" ng-hide="loggedInUser.userId"><a href="#/Register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
 							<li ng-class="{active: isActive('/Login')}" ng-hide="loggedInUser.userId"><a href="#/Login"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
 
-							<li ng-class="{active: isActive('/Logout')}" ng-show="loggedInUser.userId"><a ng-click="userctrl.signOut()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+							<li ng-class="{active: isActive('/MyProfile')}" ng-show="loggedInUser.userId"><a href = "#/MyProfile"><img class="img-rounded img-responsive profile-img" check-image ng-src="{{'resources/ProfilePics/'+loggedInUser.userId}}"/> My Profile</a></li>
+							<li ng-class="{active: isActive('/Logout')}" ng-show="loggedInUser.userId"><a ng-click="userctrl.signOut()"  href="#/"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
 					</ul>
 				</div>
 			</div>

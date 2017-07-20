@@ -216,6 +216,26 @@ myApp.controller("JobController", function($scope, $http, JobService, $rootScope
 		)		
 	}
 	
+	this.applyJob = function(jobId){
+		console.log("Starting of applyJob() in JobController");
+		
+		JobService.applyJob(jobId)
+		.then(
+				function(response){
+					this.jobApplication = response;
+					$rootScope.jobApplications = response;
+					if(this.jobApplication.errorCode == '404'){
+						$rootScope.errorMessage = this.jobApplication.errorMessage;
+						console.log(this.jobApplication.errorMessage);
+					} else {
+						$rootScope.successMessage = this.jobApplication.errorMessage;
+						console.log(this.jobApplication.errorMessage);
+						$route.reload();
+					}
+				}
+		)
+	}
+	
 	
 	
 	$rootScope.updateJob = function(job, insertjob){

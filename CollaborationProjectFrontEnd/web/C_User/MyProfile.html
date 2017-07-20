@@ -1,0 +1,19 @@
+<div ng-controller="UserController as userctrl">
+	<div ng-controller="navController">
+		<div ng-include="'C_Navbar/CommonNavBar.html'"></div>
+		<br />
+		<br />
+		<br />
+		<div ng-if="isActive('/MyProfile')">
+			<div class="col-sm-4">
+				<img class="img-responsive" check-image ng-src="{{'resources/ProfilePics/'+loggedInUser.userId}}" alt="Profile Pic" />
+				<br />
+				
+				<form method="POST" enctype="multipart/form-data" action="http://localhost:8080/CollaborationProjectBackEnd/Upload">
+					Upload New Image :<input type="file" name="uploadedFile"><br /> 
+					<input type="submit" value="Upload">
+				</form>
+			</div>
+		</div>
+	</div>	
+</div>

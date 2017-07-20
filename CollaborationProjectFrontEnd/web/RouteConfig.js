@@ -26,8 +26,13 @@ myApp.config(function($routeProvider) {
 	})
 	.when("/Jobs", {
 		templateUrl : "C_Jobs/Jobs.html",
-		controller : "JobsController"
+		controller : "JobController"
 	})
+	.when("/MyProfile", {
+		templateUrl : "C_User/MyProfile.html",
+		controller : "UserController"
+	})
+	
 	//Admin
 	.when("/ManageNewBlogs", {
 		templateUrl : "C_Blog/Admin_ManageBlogs.html",
