@@ -44,13 +44,13 @@
 			<div ng-if="thisBlog.blogId == blog.blogId">
 				<div ng-include="'C_Blog/EditBlog.html'"></div>
 			</div>
-			<a ng-click="toggleFilter(blog.blogId)" class="btn btn-navbar-color">Comments</a>
-			<a class="btn btn-navbar-color" ng-click = "blogctrl.userClickedAddBlogComment(blog.blogId)">Add comment</a>
+			<a ng-click="toggleFilter(thisBlog.blogId)" class="btn btn-navbar-color">Comments</a>
+			<a class="btn btn-navbar-color" ng-click = "blogctrl.userClickedAddBlogComment(thisBlog.blogId)">Add comment</a>
 			<br />
 			<br />
 
-			<div ng-if="blogId == blog.blogId ">
-				<div ng-repeat="blogComment in blogComments | filter:{blogId : blog.blogId}">
+			<div ng-if="blogId == thisBlog.blogId ">
+				<div ng-repeat="blogComment in blogComments | filter:{blogId : thisBlog.blogId}">
 					<div class="col-sm-12 container well">
 						<div class="col-sm-6 text-muted">{{blogComment.username}}</div>
 						<div class="com-sm-6 text-muted text-right">{{blogComment.commentDate | date:'medium'}}</div>
@@ -59,11 +59,11 @@
 					</div>
 				</div>
 			</div>
-			<div ng-if="blogId1 == blog.blogId">
+			<div ng-if="blogId1 == thisBlog.blogId">
 				<h2>Add comment</h2>
 				<div class="container">
 					<div class="well">
-						<form name="myForm" ng-submit="blogctrl.saveBlogComment(blogComment, blog.blogId)">
+						<form name="myForm" ng-submit="blogctrl.saveBlogComment(blogComment, thisBlog.blogId)">
 							<div class="form-group">
 								<label for="bComment">Comment:</label> 
 								<textarea type="text" placeholder="Enter Comment" class="form-control" name="bComment" id="bComment" ng-model="blogComment.blogComment" ng-minlength="5" ng-maxlength="255" required></textarea> 
