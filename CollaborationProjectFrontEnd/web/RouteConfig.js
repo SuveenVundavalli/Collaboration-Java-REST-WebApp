@@ -60,6 +60,14 @@ myApp.config(function($routeProvider) {
 		templateUrl : "C_Friend/SentRequests.html",
 		controller : "FriendController"
 	})
+	.when("/Chat", {
+		templateUrl : "C_Chat/Chat.html",
+		controller : "ChatController"
+	})
+	.when("/MyJobApplications", {
+		templateUrl : "C_Jobs/MyJobApplications.html",
+		controller : "JobController"
+	})
 	
 	//Admin
 	.when("/ManageNewBlogs", {
@@ -96,10 +104,6 @@ myApp.config(function($routeProvider) {
 	})
 	.when("/ManageJobApplications", {
 		templateUrl : "C_Jobs/Admin_ManageJobApplications.html",
-		controller : "JobController"
-	})
-	.when("/MyJobApplications", {
-		templateUrl : "C_Jobs/MyJobApplications.html",
 		controller : "JobController"
 	})
 	.when("/ManageNewUsers", {
