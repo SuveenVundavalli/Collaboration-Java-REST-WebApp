@@ -51,7 +51,7 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 		.then(
 				function(dataFromService){
 					this.blogs = dataFromService;
-					$rootScope.blogs = dataFromService;
+					$rootScope.blogs = dataFromService;					
 					localStorage.setItem('blogs', JSON.stringify(this.blogs));
 					
 				},
@@ -60,6 +60,8 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 				}
 		);
 	};
+	console.log($rootScope.blogs);
+
 	
 	this.getAllBlogs();
 	//getAllBlogComments
@@ -196,7 +198,7 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 		.then(
 				function(response) {
 					this.blog = response;
-					$rootScope.blog = response;
+					//$rootScope.blog = response;
 					if(this.blog.errorCode == "404"){
 						$rootScope.errorMessage = this.blog.errorMessage;
 						console.error(this.blog.errorMessage);
@@ -204,6 +206,7 @@ myApp.controller("BlogController", function($scope, $http, BlogService, $rootSco
 						$rootScope.successMessage = this.blog.errorMessage;
 						console.log(this.blog.errorMessage);
 						$scope.resetForm(myForm);
+						$route.reload();
 						
 					}
 				}
