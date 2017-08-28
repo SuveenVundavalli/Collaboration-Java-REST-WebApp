@@ -41,7 +41,7 @@ public class FileUploadController {
 			System.out.println(getFileUpload.getFiledata());
 			byte[] imageFile = getFileUpload.getFiledata();
 			try {
-				String path = "/Users/Suveen/Documents/java/workspace/SLT/CollaborationProject/CollaborationProjectFrontEnd/web/resources/ProfilePics/"+loggedInUserId;
+				String path = "/Users/suveen/Documents/EclipseWorkspace/CollaborationProject/CollaborationProjectFrontEnd/web/resources/ProfilePics/"+loggedInUserId;
 				File file = new File(path);
 				FileOutputStream fos = new FileOutputStream(file);
          		fos.write(imageFile); // write the array of bytes in username file.
